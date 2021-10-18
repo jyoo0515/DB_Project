@@ -1,4 +1,1 @@
-# User Api boilerplate with Express + React
-
-- DB Dialect: MySQL
-- No ORM used
+# 시공〮간 복합 랑데부 기반 실시간 메시징 시스템
