@@ -16,7 +16,9 @@ let sql = `
     userId varchar(50) not null unique,
     name varchar(50) not null,
     role varchar(50) not null,
-    password text not null,
+    password varchar(70) not null,
+    statusMessage text not null,
+    location varchar(50) not null,
     createdAt Date not null,
     updatedAt Date not null
   );

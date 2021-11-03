@@ -2,16 +2,22 @@ const bcrypt = require("bcrypt");
 const db = require("../config/db");
 
 class User {
-  constructor(userId, name, role, password) {
+  constructor(userId, name, role, password, statusMessage, location) {
     this.userId = userId;
     this.name = name;
     this.role = role;
     this.password = password;
+    this.statusMessage = statusMessage;
+    this.location = location;
   }
 
   static async userIdUnique(userId) {
-    const [user, _] = await this.findOneById(userId);
-    if (user[0]) return false;
+    try {
+      const user = await this.findOneById(userId);
+      if (user) return false;
+    } catch (err) {
+      return true;
+    }
     return true;
   }
 
@@ -30,6 +36,8 @@ class User {
         name,
         role,
         password,
+        statusMessage,
+        location,
         createdAt,
         updatedAt
       )
@@ -38,6 +46,8 @@ class User {
         '${this.name}',
         '${this.role}',
         '${hashedPassword}',
+        '${this.statusMessage}',
+        '${this.location}',
         '${createdAt}',
         '${createdAt}'
       );
@@ -61,10 +71,20 @@ class User {
   }
 
   static async deleteById(userId) {
-    let sql = `DELETE FROM users WHERE userId = '${userId}';`;
-
-    return db.execute(sql);
+    const user = await this.findOneById(userId);
+    if (!user) {
+      return false;
+    } else {
+      let sql = `DELETE FROM users WHERE userId = '${userId}';`;
+      db.execute(sql);
+      return true;
+    }
   }
+
+  static destruct = (user) => {
+    const { password, ...userDTO } = user;
+    return userDTO;
+  };
 
   static validatePassword(password, hashedPassword) {
     return bcrypt.compareSync(password, hashedPassword);
