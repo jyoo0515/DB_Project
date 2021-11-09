@@ -24,6 +24,18 @@ $ npm install
 }
 ```
 
+### Configure .env file
+
+```
+NODE_ENV=development
+PORT=5000
+DB_USER=
+DB_PASSWORD=
+DB_DATABASE=
+DB_HOST=
+ACCESS_TOKEN_SECRET={random string}
+```
+
 ### Run app
 
 ```bash
