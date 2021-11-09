@@ -36,6 +36,15 @@ DB_HOST=127.0.0.1
 ACCESS_TOKEN_SECRET={random string}
 ```
 
+#### Tip: generate random string
+
+```bash
+# Start node console
+$ node
+# Use crypto library to accquire random bytes and convert it to a string
+$ require("crypto").randomBytes(48).toString('hex')
+```
+
 ### Run the app
 
 ```bash
