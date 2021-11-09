@@ -32,11 +32,11 @@ PORT=5000
 DB_USER=
 DB_PASSWORD=
 DB_DATABASE=
-DB_HOST=
+DB_HOST=127.0.0.1
 ACCESS_TOKEN_SECRET={random string}
 ```
 
-### Run app
+### Run the app
 
 ```bash
 $ npm run dev
