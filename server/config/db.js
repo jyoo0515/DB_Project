@@ -11,10 +11,9 @@ const pool = mysql.createPool({
 });
 
 // Create Table if does not exist
-let sql = `
+let usersSql = `
   CREATE TABLE IF NOT EXISTS users(
-    id int primary key auto_increment,
-    userId varchar(50) not null unique,
+    userId varchar(50) not null unique primary key,
     name varchar(50) not null,
     role varchar(50) not null,
     password varchar(70) not null,
@@ -25,9 +24,27 @@ let sql = `
   );
 `;
 
-pool.execute(sql, (err) => {
+let messagesSql = `
+  CREATE TABLE IF NOT EXISTS messages(
+    id int primary key auto_increment,
+    fromId varchar(50) not null,
+    toId varchar(50) not null,
+    content text not null,
+    createdAt timestamp not null default current_timestamp,
+    expiresAt timestamp default null,
+    foreign key (fromId) references users(userId),
+    foreign key (toId) references users(userId)
+  );
+`;
+
+pool.execute(usersSql, (err) => {
   if (err) throw err;
-  console.log("Database Connected");
+  console.log("Users table confirmed");
+});
+
+pool.execute(messagesSql, (err) => {
+  if (err) throw err;
+  console.log("Messages table confirmed");
 });
 
 module.exports = pool.promise();

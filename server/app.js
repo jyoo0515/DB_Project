@@ -12,6 +12,7 @@ app.use(cookieParser());
 app.use(cors());
 
 app.use("/api/users", require("./routes/users"));
+app.use("/api/chat", require("./routes/chats"));
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
