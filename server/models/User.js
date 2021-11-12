@@ -22,12 +22,6 @@ class User {
   }
 
   async create() {
-    const date = new Date();
-    const yyyy = date.getFullYear();
-    const mm = date.getMonth() + 1;
-    const dd = date.getDate();
-
-    const createdAt = `${yyyy}-${mm}-${dd}`;
     const hashedPassword = await this.hashPassword(this.password);
 
     let sql = `
@@ -37,9 +31,7 @@ class User {
         role,
         password,
         statusMessage,
-        location,
-        createdAt,
-        updatedAt
+        location
       )
       VALUES(
         '${this.userId}',
@@ -47,9 +39,7 @@ class User {
         '${this.role}',
         '${hashedPassword}',
         '${this.statusMessage}',
-        '${this.location}',
-        '${createdAt}',
-        '${createdAt}'
+        '${this.location}'
       );
     `;
 

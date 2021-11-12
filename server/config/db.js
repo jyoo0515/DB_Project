@@ -7,6 +7,7 @@ const pool = mysql.createPool({
   user: env.DB_USER,
   database: env.DB_DATABASE,
   password: env.DB_PASSWORD,
+  dateStrings: "date", // For date formatting
 });
 
 // Create Table if does not exist
@@ -19,8 +20,8 @@ let sql = `
     password varchar(70) not null,
     statusMessage text not null,
     location varchar(50) not null,
-    createdAt Date not null,
-    updatedAt Date not null
+    createdAt timestamp not null default current_timestamp,
+    updatedAt timestamp not null default current_timestamp on update current_timestamp
   );
 `;
 
