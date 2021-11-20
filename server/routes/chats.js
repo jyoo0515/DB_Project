@@ -3,6 +3,6 @@ const router = express.Router();
 const messagesController = require("../controllers/messagesController");
 const auth = require("../middleware/auth");
 
-router.route("/").get(messagesController.getAll).post(messagesController.create);
+router.route("/").all(auth.verifyToken).get(messagesController.getAll).post(messagesController.create);
 
 module.exports = router;
