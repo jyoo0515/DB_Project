@@ -10,7 +10,7 @@ const pool = mysql.createPool({
   dateStrings: "date", // For date formatting
 });
 
-// Create Table if does not exist
+// Create tables if they don't exist
 let usersSql = `
   CREATE TABLE IF NOT EXISTS users(
     userId varchar(50) not null unique primary key,
@@ -21,6 +21,16 @@ let usersSql = `
     location varchar(50) not null,
     createdAt timestamp not null default current_timestamp,
     updatedAt timestamp not null default current_timestamp on update current_timestamp
+  );
+`;
+
+let chatRoomSql = `
+  CREATE TABLE IF NOT EXISTS chatRoom(
+    userOne varchar(50) not null,
+    userTwo varchar(50) not null,
+    primary key (userOne, userTwo),
+    foreign key (userOne) references users(userId),
+    foreign key (userTwo) references users(userId)
   );
 `;
 
@@ -40,6 +50,11 @@ let messagesSql = `
 pool.execute(usersSql, (err) => {
   if (err) throw err;
   console.log("Users table confirmed");
+});
+
+pool.execute(chatRoomSql, (err) => {
+  if (err) throw err;
+  console.log("ChatRooms table confirmed");
 });
 
 pool.execute(messagesSql, (err) => {
