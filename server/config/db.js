@@ -17,9 +17,9 @@ let usersSql = `
     name varchar(20) not null,
     role varchar(2) not null check (role in ('일반', '학생', '강사', '기업')),
     password varchar(70) not null,
-    statusMessage varchar(20) not null,
-    state boolean not null,
-    location varchar(4) not null check (location in ('공학관', '백양관', '학생회관', '신촌역'))
+    statusMessage varchar(20) default null,
+    state boolean not null default 1,
+    location varchar(4) not null default '공학관' check (location in ('공학관', '백양관', '학생회관', '신촌역'))
   );
 `;
 
@@ -39,7 +39,7 @@ let friendSql = `
 // updatedAt timestamp not null default current_timestamp on update current_timestamp
 
 let chatRoomSql = `
-  CREATE TABLE IF NOT EXISTS chatRoom(
+  CREATE TABLE IF NOT EXISTS chatRooms(
     id int primary key auto_increment,
     firstId varchar(20) not null,
     secondId varchar(20) not null,
@@ -53,18 +53,15 @@ let chatRoomSql = `
 let messagesSql = `
   CREATE TABLE IF NOT EXISTS messages(
     id int primary key auto_increment,
-    fromId varchar(50) not null,
-    toId varchar(50) not null,
+    fromId varchar(20) not null,
+    toId varchar(20) not null,
+    readStatus boolean not null default 0,
     chatRoomId int not null,
     content text not null,
     createdAt timestamp not null default current_timestamp,
     expiresAt timestamp default null,
     constraint message_not_equal check (fromId <> toId),
-    foreign key (fromId) references users(userId)
-      on delete cascade,
-    foreign key (toId) references users(userId)
-      on delete cascade,
-    foreign key (chatRoomId) references chatRoom(id)
+    foreign key (chatRoomId) references chatRooms(id)
       on delete cascade
   );
 `;
