@@ -11,7 +11,7 @@ const pool = mysql.createPool({
 });
 
 // Create tables if they don't exist
-let usersSql = `
+const usersSql = `
   CREATE TABLE IF NOT EXISTS users(
     userId varchar(20) not null unique primary key,
     name varchar(20) not null,
@@ -23,7 +23,7 @@ let usersSql = `
   );
 `;
 
-let friendSql = `
+const friendSql = `
   CREATE TABLE IF NOT EXISTS friends_with(
     firstId varchar(20) not null,
     secondId varchar(20) not null,
@@ -38,7 +38,7 @@ let friendSql = `
 // createdAt timestamp not null default current_timestamp,
 // updatedAt timestamp not null default current_timestamp on update current_timestamp
 
-let chatRoomSql = `
+const chatRoomSql = `
   CREATE TABLE IF NOT EXISTS chatRooms(
     id int primary key auto_increment,
     firstId varchar(20) not null,
@@ -50,7 +50,7 @@ let chatRoomSql = `
   );
 `;
 
-let messagesSql = `
+const messagesSql = `
   CREATE TABLE IF NOT EXISTS messages(
     id int primary key auto_increment,
     fromId varchar(20) not null,
@@ -64,6 +64,13 @@ let messagesSql = `
     foreign key (chatRoomId) references chatRooms(id)
       on delete cascade
   );
+`;
+
+const procSql = `
+    CREATE PROCEDURE statusUpdate (IN messageId int)
+    BEGIN
+    UPDATE messages SET readStatus = 1 WHERE id = messageId;
+    END;
 `;
 
 pool.execute(usersSql, (err) => {
@@ -84,6 +91,11 @@ pool.execute(friendSql, (err) => {
 pool.execute(messagesSql, (err) => {
   if (err) throw err;
   console.log("Messages table confirmed");
+});
+
+pool.query(procSql, (err) => {
+  if (err) throw err;
+  console.log("Procedures confirmed");
 });
 
 module.exports = pool.promise();
