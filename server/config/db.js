@@ -3,6 +3,7 @@ const mysql = require("mysql2");
 const env = process.env;
 
 const pool = mysql.createPool({
+  multipleStatements: true,
   host: env.DB_HOST,
   user: env.DB_USER,
   database: env.DB_DATABASE,
@@ -67,6 +68,7 @@ const messagesSql = `
 `;
 
 const procSql = `
+    DROP PROCEDURE IF EXISTS statusUpdate;
     CREATE PROCEDURE statusUpdate (IN messageId int)
     BEGIN
     UPDATE messages SET readStatus = 1 WHERE id = messageId;
