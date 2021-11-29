@@ -5,4 +5,6 @@ const auth = require("../middleware/auth");
 
 router.route("/").all(auth.verifyToken).get(friendsController.getAll).post(friendsController.addFriend);
 
+router.route("/:friendId").all(auth.verifyToken).delete(friendsController.deleteFriend);
+
 module.exports = router;

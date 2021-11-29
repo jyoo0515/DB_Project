@@ -22,3 +22,16 @@ exports.addFriend = async (req, res) => {
     return res.status(500).json({ success: false, message: "Something went wrong" });
   }
 };
+
+exports.deleteFriend = async (req, res) => {
+  const userId = req.user.userId;
+  const friendId = req.params.friendId;
+
+  try {
+    await Friend.deleteById(userId, friendId);
+    return res.json({ success: true, message: "Successfully removed friend" });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ success: false, message: "Something went wrong" });
+  }
+};
