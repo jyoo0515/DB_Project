@@ -80,29 +80,15 @@ const procSql = `
     END;
 `;
 
-pool.execute(usersSql, (err) => {
+pool.getConnection((err, conn) => {
   if (err) throw err;
-  console.log("Users table confirmed");
-});
-
-pool.execute(chatRoomSql, (err) => {
-  if (err) throw err;
-  console.log("ChatRooms table confirmed");
-});
-
-pool.execute(friendSql, (err) => {
-  if (err) throw err;
-  console.log("Friends table confirmed");
-});
-
-pool.execute(messagesSql, (err) => {
-  if (err) throw err;
-  console.log("Messages table confirmed");
-});
-
-pool.query(procSql, (err) => {
-  if (err) throw err;
-  console.log("Procedures confirmed");
+  conn.execute(usersSql);
+  conn.execute(friendSql);
+  conn.execute(chatRoomSql);
+  conn.execute(messagesSql);
+  conn.query(procSql);
+  console.log("Database Initialization Complete");
+  conn.release();
 });
 
 module.exports = pool.promise();
