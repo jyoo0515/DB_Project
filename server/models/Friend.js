@@ -14,8 +14,18 @@ class Friend {
     return friendsList;
   }
 
-  static async addFriend(firstId, secondId) {
-    const sql = `INSERT INTO friends_with(firstId, secondId) VALUES('${firstId}', '${secondId}');`;
+  static async checkIfExists(userId, friendId) {
+    const sql = `SELECT * FROM friends_with WHERE firstId = '${userId}' AND secondId = '${friendId}';`;
+    try {
+      const [friendIdRow, _] = await db.execute(sql);
+      if (friendIdRow[0]) return true;
+    } catch (err) {
+      return false;
+    }
+  }
+
+  static async addFriend(userId, friendId) {
+    const sql = `INSERT INTO friends_with(firstId, secondId) VALUES('${userId}', '${friendId}');`;
     await db.execute(sql);
   }
 
