@@ -1,7 +1,5 @@
 const User = require("../models/User");
 const auth = require("../middleware/auth");
-const { userIdUnique } = require("../models/User");
-const db = require("../config/db");
 
 exports.getAll = async (req, res) => {
   try {
@@ -34,10 +32,7 @@ exports.me = async (req, res) => {
   const userId = req.user.userId;
   try {
     const user = await User.findOneById(userId);
-    return res.json({
-      name: user.name,
-      role: user.role,
-    });
+    return res.json(User.destruct(user));
   } catch (err) {
     console.log(err);
     return res.status(500).json({ message: "Something went wrong" });
@@ -59,12 +54,12 @@ exports.search = async (req, res) => {
 };
 
 exports.register = async (req, res) => {
-  const { userId, name, role, password, statusMessage, location } = req.body;
+  const { userId, name, role, password, location } = req.body;
 
   const unique = await User.userIdUnique(userId);
   if (unique) {
     try {
-      const user = new User(userId, name, role, password, statusMessage, location);
+      const user = new User(userId, name, role, password, null, location);
       await user.create();
       const userDTO = User.destruct(user);
       return res.json(userDTO);
