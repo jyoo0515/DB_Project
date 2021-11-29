@@ -7,12 +7,9 @@ router.route("/").get(usersController.getAll);
 
 router.route("/me").all(auth.verifyToken).get(usersController.me);
 
-router.route("/logout").get(usersController.logout);
+router.route("/logout").all(auth.verifyToken).get(usersController.logout);
 
-router
-  .route("/:userId")
-  .get(usersController.getOne)
-  .delete(usersController.delete);
+router.route("/:userId").get(usersController.search).delete(usersController.delete);
 
 router.route("/register").post(usersController.register);
 
