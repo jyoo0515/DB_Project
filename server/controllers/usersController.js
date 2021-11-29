@@ -1,5 +1,7 @@
 const User = require("../models/User");
 const auth = require("../middleware/auth");
+const { userIdUnique } = require("../models/User");
+const db = require("../config/db");
 
 exports.getAll = async (req, res) => {
   try {
@@ -14,19 +16,19 @@ exports.getAll = async (req, res) => {
   }
 };
 
-exports.getOne = async (req, res) => {
-  const userId = req.params.userId;
-  try {
-    const user = await User.findOneById(userId);
-    if (!user) return res.status(400).json({ message: "User not found" });
-    const userDTO = User.destruct(user);
+// exports.getOne = async (req, res) => {
+//   const userId = req.params.userId;
+//   try {
+//     const user = await User.findOneById(userId);
+//     if (!user) return res.status(400).json({ message: "User not found" });
+//     const userDTO = User.destruct(user);
 
-    return res.json(userDTO);
-  } catch (err) {
-    console.log(err);
-    return res.status(500).json({ error: "Something went wrong" });
-  }
-};
+//     return res.json(userDTO);
+//   } catch (err) {
+//     console.log(err);
+//     return res.status(500).json({ message: "Something went wrong" });
+//   }
+// };
 
 exports.me = async (req, res) => {
   const userId = req.user.userId;
@@ -38,7 +40,21 @@ exports.me = async (req, res) => {
     });
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ error: "Something went wrong" });
+    return res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
+exports.search = async (req, res) => {
+  const searchId = req.params.userId;
+  try {
+    const users = await User.searchUsers(searchId);
+    let userDTOs = [];
+    users.forEach((user) => userDTOs.push(User.destruct(user)));
+
+    return res.json({ users: userDTOs });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ message: "Something went wrong" });
   }
 };
 
@@ -48,20 +64,13 @@ exports.register = async (req, res) => {
   const unique = await User.userIdUnique(userId);
   if (unique) {
     try {
-      const user = new User(
-        userId,
-        name,
-        role,
-        password,
-        statusMessage,
-        location
-      );
+      const user = new User(userId, name, role, password, statusMessage, location);
       await user.create();
       const userDTO = User.destruct(user);
       return res.json(userDTO);
     } catch (err) {
       console.log(err);
-      return res.status(500).json({ error: "Something went wrong" });
+      return res.status(500).json({ message: "Something went wrong" });
     }
   } else {
     return res.status(400).json({ message: "ID already exists" });
@@ -77,6 +86,7 @@ exports.login = async (req, res) => {
       const match = User.validatePassword(password, user.password);
       if (match) {
         const token = auth.generateToken(user);
+        await User.changeState(userId, 1);
         return res
           .cookie("access_token", token, {
             expires: new Date(new Date().getTime() + 1 * 60 * 60000),
@@ -85,23 +95,25 @@ exports.login = async (req, res) => {
           })
           .json({ loginSuccess: true, userId: userId });
       } else {
-        return res
-          .status(400)
-          .json({ loginSuccess: false, message: "Incorrect password" });
+        return res.status(400).json({ loginSuccess: false, message: "Incorrect password" });
       }
     } else {
       return res.status(400).json({ message: `User with ${userId} not found` });
     }
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ error: "Something went wrong" });
+    return res.status(500).json({ message: "Something went wrong" });
   }
 };
 
-exports.logout = (req, res) => {
-  return res
-    .cookie("access_token", "")
-    .json({ message: "Successfully logged out" });
+exports.logout = async (req, res) => {
+  const userId = req.user.userId;
+  try {
+    await User.changeState(userId, 0);
+    return res.cookie("access_token", "").json({ message: "Successfully logged out" });
+  } catch (err) {
+    return res.status(500).json({ message: "Something went wrong" });
+  }
 };
 
 exports.delete = async (req, res) => {
@@ -116,6 +128,6 @@ exports.delete = async (req, res) => {
     }
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ error: "Something went wrong" });
+    return res.status(500).json({ message: "Something went wrong" });
   }
 };
