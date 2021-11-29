@@ -104,10 +104,19 @@ export const LoginPage = () => {
         <div class="login_box">
           <div class="login_logo">PRETALK</div>
           <div class="login_bar"></div>
-          <form class="login_form" method="post">
-            <input type="text" placeholder="ID" class="login_inpbox" required></input>
-            <input type="password" placeholder="PASSWORD" class="login_inpbox" required></input>
-            <button class="login_button">LOG IN</button>
+          <form class="login_form" method="post" onSubmit={handleSubmit}>
+            <input type="text" placeholder="ID" class="login_inpbox" id="userId" name="userId" required></input>
+            <input
+              type="password"
+              placeholder="PASSWORD"
+              class="login_inpbox"
+              name="password"
+              id="password"
+              required
+            ></input>
+            <button class="login_button" type="submit">
+              LOG IN
+            </button>
             <button class="login_button">SIGN UP</button>
           </form>
         </div>
