@@ -4,6 +4,7 @@ import { LandingPage } from "./LandingPage/LandingPage";
 import { LoginPage } from "./LoginPage/LoginPage";
 import { RegisterPage } from "./RegisterPage/RegisterPage";
 import { NavBar } from "./NavBar/NavBar";
+import { ChatList } from "./ChatList/ChatList";
 
 export const App = () => {
   return (
@@ -13,6 +14,7 @@ export const App = () => {
         <Route exact path="/" component={LandingPage} />
         <Route exact path="/register" component={RegisterPage} />
         <Route exact path="/login" component={LoginPage} />
+        <Route exact path="/chatlist" component={ChatList} />
       </Switch>
     </div>
   );
