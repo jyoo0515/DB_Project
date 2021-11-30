@@ -1,0 +1,37 @@
+.container {
+  padding: 20px 50px 20px 50px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.titlebox {
+  top: 139px;
+  left: 500px;
+  width: 472px;
+  height: 165px;
+}
+.title {
+  text-align: left;
+  font-size: 50px;
+  /* font: normal normal bold 144px/165px Gmarket Sans TTF; */
+  letter-spacing: 0px;
+  color: #000000;
+  opacity: 1;
+}
+.friend {
+  justify-content: space-between;
+  text-align: center;
+  display: flex;
+  padding: 20px;
+  margin: 20px;
+  border: 3px solid black;
+  border-radius: 0px;
+}
+.friends {
+  padding: 30px;
+}
+.ButtonStyle {
+  padding: 10px;
+  background-color: inherit;
+  border-radius: 5px;
+}
