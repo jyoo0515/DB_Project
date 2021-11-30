@@ -16,7 +16,7 @@ export const App = () => {
         <Route exact path="/register" component={RegisterPage} />
         <Route exact path="/login" component={LoginPage} />
         <Route exact path="/chatlist" component={ChatList} />
-        <Route exact path="/nearp" component={NearbyPeople} />
+        <Route exact path="/nearby/people" component={NearbyPeople} />
       </Switch>
     </div>
   );
