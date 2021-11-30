@@ -16,12 +16,7 @@ import axios from "axios";
 
 function Copyright(props) {
   return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
+    <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {"Copyright © "}
       <Link color="inherit" href="https://mui.com/">
         Your Website
@@ -54,6 +49,7 @@ export const RegisterPage = () => {
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
+        {/*
         <CssBaseline />
         <Box
           sx={{
@@ -134,6 +130,26 @@ export const RegisterPage = () => {
           </Box>
         </Box>
         <Copyright sx={{ mt: 5 }} />
+                */}
+        <div class="login_box">
+          <div class="login_logo">PRETALK</div>
+          <div class="login_bar"></div>
+          <form class="login_form" method="post" onSubmit={handleSubmit}>
+            <input type="text" placeholder="ID" class="login_inpbox" id="userId" name="userId" required></input>
+            <input
+              type="password"
+              placeholder="PASSWORD"
+              class="login_inpbox"
+              name="password"
+              id="password"
+              required
+            ></input>
+            <button class="login_button" type="submit">
+              LOG IN
+            </button>
+            <button class="login_button">SIGN UP</button>
+          </form>
+        </div>
       </Container>
     </ThemeProvider>
   );
