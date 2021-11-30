@@ -31,8 +31,6 @@ export const LoginPage = () => {
     apiClient.post("/users/login", payload).then((res) => console.log(res.data));
   };
 
-  const handlelink = (event) => {};
-
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -90,25 +88,25 @@ export const LoginPage = () => {
             </Grid>
           </Box>
         </Box> */}
-        <div class="login_box">
-          <div class="login_logo">PRETALK</div>
-          <div class="login_bar"></div>
-          <form class="login_form" method="post" onSubmit={handleSubmit}>
-            <input type="text" placeholder="ID" class="login_inpbox" id="userId" name="userId" required></input>
+        <div className="login_box">
+          <div className="login_logo">PRETALK</div>
+          <div className="login_bar"></div>
+          <form className="login_form" method="post" onSubmit={handleSubmit}>
+            <input type="text" placeholder="ID" className="login_inpbox" id="userId" name="userId" required></input>
             <input
               type="password"
               placeholder="PASSWORD"
-              class="login_inpbox"
+              className="login_inpbox"
               name="password"
               id="password"
               required
             ></input>
-            <button class="login_button" type="submit">
+            <button className="login_button" type="submit">
               LOG IN
             </button>
           </form>
           <Link to="../register">
-            <button class="login_button">SIGN UP</button>
+            <button className="login_button">SIGN UP</button>
           </Link>
         </div>
       </Container>

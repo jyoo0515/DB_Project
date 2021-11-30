@@ -45,6 +45,22 @@
   opacity: 0.74;
 }
 
+.login_txt {
+  width: 686px;
+  height: 97px;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  border: 7px solid #858585;
+  border-radius: 40px;
+  opacity: 1;
+  float: right;
+
+  text-align: right;
+  font: normal normal bold 40px/46px Gmarket Sans TTF;
+  letter-spacing: 0px;
+  color: black;
+  opacity: 0.74;
+}
+
 .login_button {
   width: 180px;
   margin-left: 100px;

@@ -5,7 +5,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
+// import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -13,6 +13,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const theme = createTheme();
 
@@ -22,9 +23,10 @@ export const RegisterPage = () => {
     const data = new FormData(event.currentTarget);
     // // eslint-disable-next-line no-console
     const payload = {
-      name: data.get("name"),
-      email: data.get("email"),
+      userId: data.get("userId"),
       password: data.get("password"),
+      name: data.get("name"),
+      role: data.get("role"),
     };
     // console.log(payload);
     axios
@@ -33,109 +35,56 @@ export const RegisterPage = () => {
       .catch((err) => console.log(err));
   };
 
+  const chk_pw = (event) => {};
+
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
-        {/*
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign up
-          </Typography>
-          <Box
-            component="form"
-            noValidate
-            onSubmit={handleSubmit}
-            sx={{ mt: 3 }}
-          >
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="userId"
-                  label="ID"
-                  name="usweId"
-                  autoComplete="id"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="name"
-                  label="Name"
-                  name="name"
-                  autoComplete="name"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="new-password"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={
-                    <Checkbox value="allowExtraEmails" color="primary" />
-                  }
-                  label="I want to receive inspiration, marketing promotions and updates via email."
-                />
-              </Grid>
-            </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign Up
-            </Button>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link href="/login" variant="body2">
-                  Already have an account? Sign in
-                </Link>
-              </Grid>
-            </Grid>
-          </Box>
-        </Box>
-        <Copyright sx={{ mt: 5 }} />
-                */}
-        <div class="login_box">
-          <div class="login_logo">SIGN UP</div>
-          <div class="login_bar"></div>
-          <form class="login_form" method="post" onSubmit={handleSubmit}>
-            <input type="text" placeholder="ID" class="login_inpbox" id="userId" name="userId" required></input>
+        <div className="login_box">
+          <div className="login_logo">SIGN UP</div>
+          <div className="login_bar"></div>
+          <form className="login_form" method="post" onSubmit={handleSubmit}>
+            <input type="text" placeholder="ID" className="login_inpbox" id="userId" name="userId" required></input>
             <input
               type="password"
               placeholder="PASSWORD"
-              class="login_inpbox"
+              className="login_inpbox"
               name="password"
               id="password"
+              onChange={chk_pw}
               required
             ></input>
-            <button class="login_button" type="submit">
-              LOG IN
+            <input
+              type="password"
+              placeholder="CONFIRM PASSWORD"
+              className="login_inpbox"
+              name="password_chk"
+              id="password_chk"
+              onChange={chk_pw}
+              required
+            ></input>
+            <div className="login_txt">Please Input PW</div>
+            <select className="login_inpbox">
+              <option className="login_inpbox" value="">
+                일반
+              </option>
+              <option className="login_inpbox" value="1">
+                학생
+              </option>
+              <option className="login_inpbox" value="2">
+                강사
+              </option>
+              <option className="login_inpbox" value="3">
+                기업
+              </option>
+            </select>
+            <button className="login_button" type="submit">
+              CREATE
             </button>
-            <button class="login_button">SIGN UP</button>
           </form>
+          <Link to="../login">
+            <button className="login_button">SIGN IN</button>
+          </Link>
         </div>
       </Container>
     </ThemeProvider>
