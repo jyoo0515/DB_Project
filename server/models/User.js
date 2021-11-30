@@ -24,7 +24,7 @@ class User {
   async create() {
     const hashedPassword = await this.hashPassword(this.password);
 
-    let sql = `
+    const sql = `
       INSERT INTO users(
         userId,
         name,
@@ -47,14 +47,14 @@ class User {
   }
 
   static async findAll() {
-    let sql = "SELECT * FROM users;";
+    const sql = "SELECT * FROM users;";
     const [userRows, _] = await db.execute(sql);
 
     return userRows;
   }
 
   static async findOneById(userId) {
-    let sql = `SELECT * FROM users WHERE userId = '${userId}' LIMIT 1;`;
+    const sql = `SELECT * FROM users WHERE userId = '${userId}' LIMIT 1;`;
     const [userRow, _] = await db.execute(sql);
 
     return userRow[0];
@@ -65,10 +65,21 @@ class User {
     if (!user) {
       return false;
     } else {
-      let sql = `DELETE FROM users WHERE userId = '${userId}';`;
-      db.execute(sql);
+      const sql = `DELETE FROM users WHERE userId = '${userId}';`;
+      await db.execute(sql);
       return true;
     }
+  }
+
+  static async searchUsers(userId) {
+    const sql = `SELECT * FROM users WHERE userId LIKE '%${userId}%';`;
+    const [userRow, _] = await db.execute(sql);
+    return userRow;
+  }
+
+  static async changeState(userId, state) {
+    const sql = `CALL userStatusUpdate('${userId}', ${state});`;
+    await db.execute(sql);
   }
 
   static destruct = (user) => {

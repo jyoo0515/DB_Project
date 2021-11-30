@@ -19,7 +19,7 @@ const usersSql = `
     role varchar(2) not null check (role in ('일반', '학생', '강사', '기업')),
     password varchar(70) not null,
     statusMessage varchar(20) default null,
-    state boolean not null default 1,
+    state boolean not null default 0,
     location varchar(4) not null default '공학관' check (location in ('공학관', '백양관', '학생회관', '신촌역'))
   );
 `;
@@ -68,36 +68,27 @@ const messagesSql = `
 `;
 
 const procSql = `
-    DROP PROCEDURE IF EXISTS statusUpdate;
-    CREATE PROCEDURE statusUpdate (IN messageId int)
+    DROP PROCEDURE IF EXISTS messageStatusUpdate;
+    DROP PROCEDURE IF EXISTS userStatusUpdate;
+    CREATE PROCEDURE messageStatusUpdate (IN messageId int)
     BEGIN
     UPDATE messages SET readStatus = 1 WHERE id = messageId;
     END;
+    CREATE PROCEDURE userStatusUpdate (IN id varchar(20), IN status int)
+    BEGIN
+    UPDATE users SET state = status WHERE userId = id;
+    END;
 `;
 
-pool.execute(usersSql, (err) => {
+pool.getConnection((err, conn) => {
   if (err) throw err;
-  console.log("Users table confirmed");
-});
-
-pool.execute(chatRoomSql, (err) => {
-  if (err) throw err;
-  console.log("ChatRooms table confirmed");
-});
-
-pool.execute(friendSql, (err) => {
-  if (err) throw err;
-  console.log("Friends table confirmed");
-});
-
-pool.execute(messagesSql, (err) => {
-  if (err) throw err;
-  console.log("Messages table confirmed");
-});
-
-pool.query(procSql, (err) => {
-  if (err) throw err;
-  console.log("Procedures confirmed");
+  conn.execute(usersSql);
+  conn.execute(friendSql);
+  conn.execute(chatRoomSql);
+  conn.execute(messagesSql);
+  conn.query(procSql);
+  console.log("Database Initialization Complete");
+  conn.release();
 });
 
 module.exports = pool.promise();

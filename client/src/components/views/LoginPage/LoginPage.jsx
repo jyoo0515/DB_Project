@@ -12,8 +12,9 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import axios from "axios";
 import apiClient from "../../utils/axios";
+
+import "./logincss.css";
 
 function Copyright(props) {
   return (
@@ -46,7 +47,7 @@ export const LoginPage = () => {
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
-        <CssBaseline />
+        {/* <CssBaseline />
         <Box
           sx={{
             marginTop: 8,
@@ -99,8 +100,26 @@ export const LoginPage = () => {
               </Grid>
             </Grid>
           </Box>
-        </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
+        </Box> */}
+        <div class="login_box">
+          <div class="login_logo">PRETALK</div>
+          <div class="login_bar"></div>
+          <form class="login_form" method="post" onSubmit={handleSubmit}>
+            <input type="text" placeholder="ID" class="login_inpbox" id="userId" name="userId" required></input>
+            <input
+              type="password"
+              placeholder="PASSWORD"
+              class="login_inpbox"
+              name="password"
+              id="password"
+              required
+            ></input>
+            <button class="login_button" type="submit">
+              LOG IN
+            </button>
+            <button class="login_button">SIGN UP</button>
+          </form>
+        </div>
       </Container>
     </ThemeProvider>
   );
