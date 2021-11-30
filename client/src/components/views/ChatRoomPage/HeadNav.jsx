@@ -6,22 +6,49 @@ const HeadImg = styled.button`
   background-color: transparent;
   margin: 0 auto;
   font-size: 3rem;
-  &#ReturnToChatList {
+  overflow: hidden;
+  &#returnToChatList {
     grid-area: icon1;
   }
-  &#ChangeFriendState {
+  &#changeFriendState {
     grid-area: icon2;
+  }
+`;
+
+const Img = styled.img`
+  &#leftArrow {
+    content: url("../../../../leftArrow.png");
+    height: 50%;
+    width: 100%;
+    margin: 0 auto;
+  }
+  &#friendDelete {
+    content: url("../../../../friendDelete.png");
+    height: 50%;
+    width: 100%;
+    margin: 0 auto;
+  }
+  &#friendAdd {
+    content: url("../../../../friendAdd.png");
+    height: 50%;
+    width: 100%;
+    margin: 0 auto;
   }
 `;
 
 const HeadName = styled.div`
   grid-area: name1;
-  text-align: center;
-  font-size: 3rem;
+  margin: 0 auto;
+  padding-top: 1vh;
+  font-size: 6vh;
 `;
 
 export const HeadNav = () => {
   const [isFriend, setIsFriend] = useState(true);
+
+  const returnToPrevPage = () => {
+    console.log("return");
+  };
 
   const changeFriendState = (e) => {
     setIsFriend(!isFriend);
@@ -29,10 +56,12 @@ export const HeadNav = () => {
 
   return (
     <>
-      <HeadImg id="ReturnToChatList">←</HeadImg>
+      <HeadImg id="returnToChatList" onClick={returnToPrevPage}>
+        <Img id="leftArrow" />
+      </HeadImg>
       <HeadName>권동욱</HeadName>
-      <HeadImg id="ChangeFriendState" onClick={changeFriendState}>
-        {isFriend ? "🗑️" : "➕"}
+      <HeadImg id="changeFriendState" onClick={changeFriendState}>
+        <Img id={isFriend ? "friendDelete" : "friendAdd"} />
       </HeadImg>
     </>
   );
