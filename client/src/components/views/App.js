@@ -11,7 +11,7 @@ export const App = () => {
       <NavBar />
       <Switch>
         <Route exact path="/" component={LandingPage} />
-        <Route exact path="/register" component={RegisterPage} />
+        <Route exact path="/register" component= {RegisterPage} />
         <Route exact path="/login" component={LoginPage} />
       </Switch>
     </div>
