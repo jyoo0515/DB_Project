@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import "./FriendSearch.css";
 
-export const FriendSearch = () => {
+export const FriendSearchPage = () => {
   const [value, setValue] = useState("");
   const [disabled, setDisabled] = useState(false);
   const onChange = useCallback((e) => {

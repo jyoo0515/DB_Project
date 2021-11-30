@@ -19,7 +19,7 @@
   opacity: 1;
 }
 .friend {
-  justify-content: flex-end;
+  justify-content: space-between;
   text-align: center;
   display: flex;
   padding: 20px;
@@ -30,7 +30,6 @@
 .friends {
   padding: 30px;
 }
-
 .ButtonStyle {
   padding: 10px;
   background-color: inherit;
