@@ -14,19 +14,6 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
 
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
-
 const theme = createTheme();
 
 export const RegisterPage = () => {
@@ -132,7 +119,7 @@ export const RegisterPage = () => {
         <Copyright sx={{ mt: 5 }} />
                 */}
         <div class="login_box">
-          <div class="login_logo">PRETALK</div>
+          <div class="login_logo">SIGN UP</div>
           <div class="login_bar"></div>
           <form class="login_form" method="post" onSubmit={handleSubmit}>
             <input type="text" placeholder="ID" class="login_inpbox" id="userId" name="userId" required></input>

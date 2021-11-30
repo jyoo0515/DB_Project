@@ -5,7 +5,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
+//import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -13,21 +13,9 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import apiClient from "../../utils/axios";
+import { Link } from "react-router-dom";
 
 import "./logincss.css";
-
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
 
 const theme = createTheme();
 
@@ -40,9 +28,10 @@ export const LoginPage = () => {
       userId: data.get("userId"),
       password: data.get("password"),
     };
-
     apiClient.post("/users/login", payload).then((res) => console.log(res.data));
   };
+
+  const handlelink = (event) => {};
 
   return (
     <ThemeProvider theme={theme}>
@@ -117,8 +106,10 @@ export const LoginPage = () => {
             <button class="login_button" type="submit">
               LOG IN
             </button>
-            <button class="login_button">SIGN UP</button>
           </form>
+          <Link to="../register">
+            <button class="login_button">SIGN UP</button>
+          </Link>
         </div>
       </Container>
     </ThemeProvider>
