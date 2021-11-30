@@ -1,0 +1,73 @@
+.login_box {
+  clear: both;
+  margin: 30px auto 0;
+  width: 1080px;
+}
+
+.login_box * {
+  margin-left: 500px;
+  margin-bottom: 40px;
+}
+
+.login_logo {
+  height: 150px;
+  width: 1080px;
+  text-align: right;
+  font: normal normal bold 130px/150px Gmarket Sans TTF;
+  letter-spacing: 0px;
+  color: #000000;
+  opacity: 1;
+  float: right;
+}
+
+.login_bar {
+  width: 250px;
+  height: 22px;
+  margin-bottom: 100px;
+  background: #000000 0% 0% no-repeat padding-box;
+  opacity: 1;
+  float: right;
+}
+
+.login_inpbox {
+  width: 686px;
+  height: 97px;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  border: 7px solid #858585;
+  border-radius: 40px;
+  opacity: 1;
+  float: right;
+
+  text-align: right;
+  font: normal normal bold 40px/46px Gmarket Sans TTF;
+  letter-spacing: 0px;
+  color: black;
+  opacity: 0.74;
+}
+
+.login_txt {
+  margin-bottom: 0;
+  width: 800px;
+  height: 97px;
+  float: right;
+  text-align: right;
+  font: normal normal bold 30px/36px Gmarket Sans TTF;
+  letter-spacing: 0px;
+  color: black;
+  border-style: none;
+}
+
+.login_button {
+  width: 180px;
+  margin-left: 100px;
+  height: 72px;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  border: 5px solid #858585;
+  border-radius: 40px;
+  opacity: 1;
+  float: right;
+  text-align: auto;
+  font: normal normal bold 30px/35px Gmarket Sans TTF;
+  letter-spacing: 0px;
+  color: #858585;
+}
