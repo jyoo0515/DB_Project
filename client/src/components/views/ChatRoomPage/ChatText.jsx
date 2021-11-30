@@ -1,47 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 
-const Chat = styled.div`
-  grid-area: chat1;
-  margin: 0 auto;
-  padding: 1vh 0;
-  width: 100%;
-  overflow-y: scroll;
-  &::-webkit-scrollbar {
-    display: none;
-  }
-`;
-
-const Msg = styled.div`
-  display: inline-block;
-  vertical-align: bottom;
-  margin: 1vh 1vw;
-  border: 2px solid black;
-  border-radius: 2em;
-  padding: 1vh 1.5vw;
-  max-width: 70vw;
-  overflow-wrap: break-word;
-  &.other {
-  }
-  &.me {
-    background-color: black;
-    color: white;
-  }
-  font-size: 1.2rem;
-`;
-
-const Time = styled.div`
-  display: inline-block;
-  font-size: 0.8rem;
-  margin: 0 auto;
-  padding-bottom: 0.7rem;
-  &.other {
-  }
-  &.me {
-    color: black;
-  }
-`;
-
 export const ChatText = () => {
   const date = "2022-01-04";
   const time = "00:00";
@@ -165,3 +124,44 @@ export const ChatText = () => {
     </>
   );
 };
+
+const Chat = styled.div`
+  grid-area: chat1;
+  margin: 0 auto;
+  padding: 1vh 0;
+  width: 100%;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
+const Msg = styled.div`
+  display: inline-block;
+  vertical-align: bottom;
+  margin: 1vh 1vw;
+  border: 2px solid black;
+  border-radius: 2em;
+  padding: 1vh 1.5vw;
+  max-width: 70vw;
+  overflow-wrap: break-word;
+  &.other {
+  }
+  &.me {
+    background-color: black;
+    color: white;
+  }
+  font-size: 1.2rem;
+`;
+
+const Time = styled.div`
+  display: inline-block;
+  font-size: 0.8rem;
+  margin: 0 auto;
+  padding-bottom: 0.7rem;
+  &.other {
+  }
+  &.me {
+    color: black;
+  }
+`;

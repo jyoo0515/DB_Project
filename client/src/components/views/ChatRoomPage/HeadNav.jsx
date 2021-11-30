@@ -1,48 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-const HeadImg = styled.button`
-  border: none;
-  background-color: transparent;
-  margin: 0 auto;
-  font-size: 3rem;
-  overflow: hidden;
-  &#returnToChatList {
-    grid-area: icon1;
-  }
-  &#changeFriendState {
-    grid-area: icon2;
-  }
-`;
-
-const Img = styled.img`
-  &#leftArrow {
-    content: url("../../../../leftArrow.png");
-    height: 50%;
-    width: 100%;
-    margin: 0 auto;
-  }
-  &#friendDelete {
-    content: url("../../../../friendDelete.png");
-    height: 50%;
-    width: 100%;
-    margin: 0 auto;
-  }
-  &#friendAdd {
-    content: url("../../../../friendAdd.png");
-    height: 50%;
-    width: 100%;
-    margin: 0 auto;
-  }
-`;
-
-const HeadName = styled.div`
-  grid-area: name1;
-  margin: 0 auto;
-  padding-top: 1vh;
-  font-size: 6vh;
-`;
-
 export const HeadNav = () => {
   const [isFriend, setIsFriend] = useState(true);
 
@@ -66,3 +24,40 @@ export const HeadNav = () => {
     </>
   );
 };
+
+const HeadImg = styled.button`
+  border: none;
+  background-color: transparent;
+  margin: 0 auto;
+  overflow: hidden;
+  &#returnToChatList {
+    grid-area: icon1;
+  }
+  &#changeFriendState {
+    grid-area: icon2;
+  }
+`;
+
+const Img = styled.img`
+  margin: 0 auto;
+  width: 100%;
+  &#leftArrow {
+    content: url("../../../../leftArrow.png");
+    height: 50%;
+  }
+  &#friendDelete {
+    content: url("../../../../friendDelete.png");
+    height: 50%;
+  }
+  &#friendAdd {
+    content: url("../../../../friendAdd.png");
+    height: 50%;
+  }
+`;
+
+const HeadName = styled.div`
+  grid-area: name1;
+  margin: 0 auto;
+  padding-top: 1.5vh;
+  font-size: 6vh;
+`;
