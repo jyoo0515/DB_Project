@@ -14,10 +14,21 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import ReactDOM from "react-dom";
+
+import "./registcss.css";
+import { imageListItemClasses } from "@mui/material";
 
 const theme = createTheme();
 
 export const RegisterPage = () => {
+  let state = {
+    password: "",
+    confirmPassword: "",
+  };
+
+  let PWmess = "Please Input PW";
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -35,7 +46,43 @@ export const RegisterPage = () => {
       .catch((err) => console.log(err));
   };
 
-  const chk_pw = (event) => {};
+  const chk_pw = (event) => {
+    event.preventDefault();
+    const data = event.target.value;
+    state.password = data;
+    PWme();
+  };
+
+  const chk_pw_cf = (event) => {
+    event.preventDefault();
+    const data = event.target.value;
+    state.confirmPassword = data;
+    PWme();
+  };
+
+  function PWme() {
+    let element = "";
+    if (state.confirmPassword === state.password && state.confirmPassword == "") {
+      element = (
+        <div id="PWmessage" className="GOOD">
+          Please Input PW
+        </div>
+      );
+    } else if (state.confirmPassword === state.password) {
+      element = (
+        <div id="PWmessage" className="GOOD">
+          Valid!
+        </div>
+      );
+    } else {
+      element = (
+        <div id="PWmessage" className="BAD">
+          Invalid!
+        </div>
+      );
+    }
+    ReactDOM.render(element, document.getElementById("PWmessage"));
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -60,11 +107,14 @@ export const RegisterPage = () => {
               className="login_inpbox"
               name="password_chk"
               id="password_chk"
-              onChange={chk_pw}
+              onChange={chk_pw_cf}
               required
             ></input>
-            <div className="login_txt">Please Input PW</div>
-            <select className="login_inpbox">
+            {/* <div className="login_txt">Please Input PW</div> */}
+            <div id="PWmessage" className="login_txt">
+              Please Input PW
+            </div>
+            <select className="login_inpbox" name="role" id="role">
               <option className="login_inpbox" value="">
                 일반
               </option>
