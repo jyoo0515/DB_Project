@@ -1,27 +1,13 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
-
-const HeadImg = styled.button`
-  border: none;
-  background-color: transparent;
-  margin: 0 auto;
-  font-size: 3rem;
-  &#ReturnToChatList {
-    grid-area: icon1;
-  }
-  &#ChangeFriendState {
-    grid-area: icon2;
-  }
-`;
-
-const HeadName = styled.div`
-  grid-area: name1;
-  text-align: center;
-  font-size: 3rem;
-`;
 
 export const HeadNav = () => {
   const [isFriend, setIsFriend] = useState(true);
+
+  const returnToPrevPage = () => {
+    console.log("return");
+  };
 
   const changeFriendState = (e) => {
     setIsFriend(!isFriend);
@@ -29,11 +15,52 @@ export const HeadNav = () => {
 
   return (
     <>
-      <HeadImg id="ReturnToChatList">←</HeadImg>
+      <HeadImg id="returnToChatList" onClick={returnToPrevPage}>
+        <Link to="/chats">
+          <Img id="leftArrow" />
+        </Link>
+      </HeadImg>
       <HeadName>권동욱</HeadName>
-      <HeadImg id="ChangeFriendState" onClick={changeFriendState}>
-        {isFriend ? "🗑️" : "➕"}
+      <HeadImg id="changeFriendState" onClick={changeFriendState}>
+        <Img id={isFriend ? "friendDelete" : "friendAdd"} />
       </HeadImg>
     </>
   );
 };
+
+const HeadImg = styled.button`
+  border: none;
+  background-color: transparent;
+  margin: 0 auto;
+  overflow: hidden;
+  &#returnToChatList {
+    grid-area: icon1;
+  }
+  &#changeFriendState {
+    grid-area: icon2;
+  }
+`;
+
+const Img = styled.img`
+  margin: 0 auto;
+  width: 100%;
+  &#leftArrow {
+    content: url("../../../../leftArrow.png");
+    height: 50%;
+  }
+  &#friendDelete {
+    content: url("../../../../friendDelete.png");
+    height: 50%;
+  }
+  &#friendAdd {
+    content: url("../../../../friendAdd.png");
+    height: 50%;
+  }
+`;
+
+const HeadName = styled.div`
+  grid-area: name1;
+  margin: 0 auto;
+  padding-top: 1.5vh;
+  font-size: 6vh;
+`;

@@ -1,5 +1,42 @@
 import React, { useState } from "react";
+import { PopUp } from "./PopUp";
 import styled from "styled-components";
+
+export const FootNav = () => {
+  const [msg, setMsg] = useState("");
+  const [rdv, setRdv] = useState("");
+
+  const onChange = (e) => {
+    setMsg(e.target.value);
+  };
+
+  const onClickNormal = () => {
+    console.log("submit");
+    setMsg("");
+  };
+
+  const onClickRendezvous = () => {
+    setRdv(!rdv);
+  };
+
+  const setSubmit = (isSubmit) => {
+    setRdv(isSubmit);
+    setMsg("");
+  };
+
+  return (
+    <>
+      <Input value={msg} onChange={onChange} />
+      <Btn id="normal" onClick={onClickNormal}>
+        NORMAL
+      </Btn>
+      <Btn id="rendezvous" onClick={onClickRendezvous}>
+        RENDEZVOUS
+      </Btn>
+      {rdv ? <PopUp setSubmit={setSubmit} /> : ""}
+    </>
+  );
+};
 
 const Input = styled.textarea`
   grid-area: text1;
@@ -27,6 +64,7 @@ const Input = styled.textarea`
     margin: 1vh 3vw 2vh 3vw;
     border-radius: 5em;
   }
+  font-size: 1.2rem;
 `;
 
 const Btn = styled.button`
@@ -38,38 +76,16 @@ const Btn = styled.button`
   &:active {
     border-style: outset;
   }
-  &#Normal {
+  &#normal {
     grid-area: butn1;
     margin: 2vh 3vw 1vh 3vw;
     border-radius: 5em;
   }
-  &#Rendevous {
+  &#rendezvous {
     grid-aera: butn2;
     margin: 1vh 3vw 2vh 3vw;
     border-radius: 5em;
   }
+  font-size: 1.5rem;
+  font-weight: bold;
 `;
-
-export const FootNav = () => {
-  const [msg, setMsg] = useState("");
-
-  const onChange = (e) => {
-    setMsg(e.target.value);
-  };
-
-  const onClick = () => {
-    console.log("Hi");
-  };
-
-  return (
-    <>
-      <Input value={msg} onChange={onChange} />
-      <Btn id="Normal" onClick={onClick}>
-        NORMAL
-      </Btn>
-      <Btn id="Rendevous" onClick={onClick}>
-        RENDEVOUS
-      </Btn>
-    </>
-  );
-};

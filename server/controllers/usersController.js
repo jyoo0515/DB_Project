@@ -28,6 +28,12 @@ exports.getAll = async (req, res) => {
 //   }
 // };
 
+exports.checkUnique = async (req, res) => {
+  const userId = req.params.userId;
+  const unique = await User.userIdUnique(userId);
+  return res.json({ unique: unique });
+};
+
 exports.me = async (req, res) => {
   const userId = req.user.userId;
   try {
@@ -123,6 +129,25 @@ exports.delete = async (req, res) => {
     }
   } catch (err) {
     console.log(err);
+    return res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
+exports.update = async (req, res) => {
+  const userId = req.user.userId;
+  const { statusMessage, location } = req.body;
+  try {
+    if (statusMessage != null) {
+      await User.updateStatusMessage(userId, statusMessage);
+      return res.json({ message: "Status message updated" });
+    }
+
+    if (location != null) {
+      await User.updateLocation(userId, location);
+      return res.json({ message: "Location updated" });
+    }
+    return res.status(400).json({ message: "Bad request" });
+  } catch (err) {
     return res.status(500).json({ message: "Something went wrong" });
   }
 };
