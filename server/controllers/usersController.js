@@ -28,6 +28,12 @@ exports.getAll = async (req, res) => {
 //   }
 // };
 
+exports.checkUnique = async (req, res) => {
+  const userId = req.params.userId;
+  const unique = await User.userIdUnique(userId);
+  return res.json({ unique: unique });
+};
+
 exports.me = async (req, res) => {
   const userId = req.user.userId;
   try {
