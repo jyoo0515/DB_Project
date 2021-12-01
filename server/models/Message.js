@@ -48,8 +48,8 @@ class Message {
     return db.execute(sql);
   }
 
-  static async findAll() {
-    let sql = "SELECT * FROM messages;";
+  static async findAll(chatRoomId) {
+    const sql = `SELECT * FROM messages WHERE chatRoomId='${chatRoomId}';`;
     const [messageRows, _] = await db.execute(sql);
 
     return messageRows;
