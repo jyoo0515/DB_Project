@@ -5,32 +5,17 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
+//import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import axios from "axios";
+import apiClient from "../../utils/axios";
+import { Link } from "react-router-dom";
 
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
+import "./logincss.css";
 
 const theme = createTheme();
 
@@ -43,16 +28,13 @@ export const LoginPage = () => {
       userId: data.get("userId"),
       password: data.get("password"),
     };
-
-    axios
-      .post("http://localhost:5000/api/users/login", payload)
-      .then((res) => console.log(res.data));
+    apiClient.post("/users/login", payload).then((res) => console.log(res.data));
   };
 
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
-        <CssBaseline />
+        {/* <CssBaseline />
         <Box
           sx={{
             marginTop: 8,
@@ -67,12 +49,7 @@ export const LoginPage = () => {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            noValidate
-            sx={{ mt: 1 }}
-          >
+          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
@@ -93,16 +70,8 @@ export const LoginPage = () => {
               id="password"
               autoComplete="current-password"
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
+            <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" />
+            <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
               Sign In
             </Button>
             <Grid container>
@@ -118,8 +87,28 @@ export const LoginPage = () => {
               </Grid>
             </Grid>
           </Box>
-        </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
+        </Box> */}
+        <div className="login_box">
+          <div className="login_logo">PRETALK</div>
+          <div className="login_bar"></div>
+          <form className="login_form" method="post" onSubmit={handleSubmit}>
+            <input type="text" placeholder="ID" className="login_inpbox" id="userId" name="userId" required></input>
+            <input
+              type="password"
+              placeholder="PASSWORD"
+              className="login_inpbox"
+              name="password"
+              id="password"
+              required
+            ></input>
+            <button className="login_button" type="submit">
+              LOG IN
+            </button>
+          </form>
+          <Link to="../register">
+            <button className="login_button">SIGN UP</button>
+          </Link>
+        </div>
       </Container>
     </ThemeProvider>
   );
