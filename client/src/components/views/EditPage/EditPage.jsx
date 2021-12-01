@@ -9,8 +9,8 @@ export const EditPage = () => {
   axios.get("http://localhost:5000/api/users/me");
 
   return (
-    <div className="wholeBody">
-      <div>
+    <div>
+      <div className="content">
         <div className="edit"> EDIT </div>
         <div className="blackLine1"></div>
         <form className="formstyle">
