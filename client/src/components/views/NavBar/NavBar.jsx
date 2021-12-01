@@ -1,16 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { LoginPage } from "../LoginPage/LoginPage";
-import { ChatList } from "../ChatList/ChatList";
-import { NearbyPeople } from "../NearbyPeople/NearbyPeople";
 
 export const NavBar = () => {
   return (
     <>
       <Footer>
         <Btn id="linkingToMyFriends">
-          <Link to="/login">
+          <Link to="/friendlist">
             <Img id="linkingToMyFriends" />
           </Link>
         </Btn>
