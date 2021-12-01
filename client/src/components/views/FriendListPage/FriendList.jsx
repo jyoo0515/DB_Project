@@ -1,8 +1,8 @@
 import { useCallback, useState } from "react";
-import "./FriendSearch.css";
+import "./FriendList.css";
 import { Link } from "react-router-dom";
 
-export const FriendSearchPage = () => {
+export const FriendListPage = () => {
   const [value, setValue] = useState("");
   const [disabled, setDisabled] = useState(false);
   const onChange = useCallback((e) => {
@@ -27,10 +27,10 @@ export const FriendSearchPage = () => {
       <div className="container">
         <div>
           <button className="ButtonStyle">
-            <Link to="/friendlist">go back</Link>
+            <Link to="/">go to main</Link>
           </button>
         </div>
-        <div style={{ fontSize: "40px", fontWeight: "bold" }}>SEARCH</div>
+        <div style={{ fontSize: "40px", fontWeight: "bold" }}>MY FRIENDS</div>
         <div></div>
       </div>
       <hr style={{ height: "5px", backgroundColor: "black" }}></hr>
