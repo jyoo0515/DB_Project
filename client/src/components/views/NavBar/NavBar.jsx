@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { LoginPage } from "../LoginPage/LoginPage";
 import { ChatList } from "../ChatList/ChatList";
@@ -25,9 +25,6 @@ export const NavBar = () => {
           </Link>
         </Btn>
       </Footer>
-      <Route exact path="/login" component={LoginPage} />
-      <Route exact path="/chatlist" component={ChatList} />
-      <Route exact path="/nearby/people" component={NearbyPeople} />
     </>
   );
 };
