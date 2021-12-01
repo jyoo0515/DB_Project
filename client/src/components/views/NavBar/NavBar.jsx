@@ -64,6 +64,7 @@ const Img = styled.img`
   margin: 0 auto;
   width: 70%;
   height: 70%;
+  filter: invert(100%);
   &#linkingToMyFriends {
     content: url("../../../../linkingToMyFriends.png");
   }
