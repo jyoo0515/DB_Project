@@ -4,6 +4,16 @@ import { HeadNav } from "./HeadNav";
 import { ChatText } from "./ChatText";
 import { FootNav } from "./FootNav";
 
+export const ChatRoomPage = () => {
+  return (
+    <ChatRoom>
+      <HeadNav />
+      <ChatText />
+      <FootNav />
+    </ChatRoom>
+  );
+};
+
 const ChatRoom = styled.div`
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -20,13 +30,3 @@ const ChatRoom = styled.div`
     "text1 text1 text1 text1 butn2";
   height: 100vh;
 `;
-
-export const ChatRoomPage = () => {
-  return (
-    <ChatRoom>
-      <HeadNav />
-      <ChatText />
-      <FootNav />
-    </ChatRoom>
-  );
-};

@@ -2,6 +2,40 @@ import React, { useState } from "react";
 import { PopUp } from "./PopUp";
 import styled from "styled-components";
 
+export const FootNav = () => {
+  const [msg, setMsg] = useState("");
+  const [rdv, setRdv] = useState("");
+
+  const onChange = (e) => {
+    setMsg(e.target.value);
+  };
+
+  const onClickNormal = () => {
+    console.log("submit");
+  };
+
+  const onClickRendezvous = () => {
+    setRdv(!rdv);
+  };
+
+  const setSubmit = (isSubmit) => {
+    setRdv(isSubmit);
+  };
+
+  return (
+    <>
+      <Input value={msg} onChange={onChange} />
+      <Btn id="normal" onClick={onClickNormal}>
+        NORMAL
+      </Btn>
+      <Btn id="rendezvous" onClick={onClickRendezvous}>
+        RENDEZVOUS
+      </Btn>
+      {rdv ? <PopUp setSubmit={setSubmit} /> : ""}
+    </>
+  );
+};
+
 const Input = styled.textarea`
   grid-area: text1;
   margin: 2vh 1vw;
@@ -52,37 +86,3 @@ const Btn = styled.button`
   }
   font-weight: bold;
 `;
-
-export const FootNav = () => {
-  const [msg, setMsg] = useState("");
-  const [rdv, setRdv] = useState("");
-
-  const onChange = (e) => {
-    setMsg(e.target.value);
-  };
-
-  const onClickNormal = () => {
-    console.log("submit");
-  };
-
-  const onClickRendezvous = () => {
-    setRdv(!rdv);
-  };
-
-  const setSubmit = (isSubmit) => {
-    setRdv(isSubmit);
-  };
-
-  return (
-    <>
-      <Input value={msg} onChange={onChange} />
-      <Btn id="normal" onClick={onClickNormal}>
-        NORMAL
-      </Btn>
-      <Btn id="rendezvous" onClick={onClickRendezvous}>
-        RENDEZVOUS
-      </Btn>
-      {rdv ? <PopUp setSubmit={setSubmit} /> : ""}
-    </>
-  );
-};

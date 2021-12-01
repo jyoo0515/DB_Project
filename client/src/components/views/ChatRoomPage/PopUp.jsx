@@ -1,67 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-const Back = styled.div`
-  position: absolute;
-  width: 100vw;
-  height: 100vh;
-  z-index: 1;
-  background-color: gray;
-  opacity: 50%;
-  margin: 0 auto;
-`;
-
-const Main = styled.div`
-  position: absolute;
-  top: 35vh;
-  left: 35vw;
-  width: 30vw;
-  height: 30vh;
-  z-index: 2;
-  background-color: white;
-  margin: 0 auto;
-  border: 1px solid white;
-  border-radius: 2em;
-`;
-
-const MinBtn = styled.button`
-  position: relative;
-  top: 4vh;
-  width: 5vw;
-  height: 10vh;
-  margin: 0 1.25vw;
-  border: 3px solid darkgray;
-  border-radius: 2em;
-  background-color: white;
-  font-size: 1vw;
-  overflow-wrap: break-word;
-  &:hover {
-    border-color: black;
-    background-color: black;
-    color: white;
-  }
-  &#submit {
-    margin: 2.5vh 2.5vw 3.5vh 2.5vw;
-    width: 25vw;
-    font-size: 2.5vw;
-  }
-  &.click {
-    border-color: black;
-    background-color: black;
-    color: white;
-  }
-`;
-
-const MinuteInput = styled.input`
-  position: absolute;
-  z-index: 3;
-  top: -7vh;
-  left: 10vw;
-  width: 10vw;
-  height: 5vh;
-  font-size: 3vh;
-`;
-
 export const PopUp = ({ setSubmit }) => {
   const [isClick, setIsClick] = useState([false, false, false, false]);
   const [min, setMin] = useState("");
@@ -138,3 +77,64 @@ export const PopUp = ({ setSubmit }) => {
     </>
   );
 };
+
+const Back = styled.div`
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  background-color: gray;
+  opacity: 50%;
+  margin: 0 auto;
+`;
+
+const Main = styled.div`
+  position: absolute;
+  top: 35vh;
+  left: 35vw;
+  width: 30vw;
+  height: 30vh;
+  z-index: 2;
+  background-color: white;
+  margin: 0 auto;
+  border: 1px solid white;
+  border-radius: 2em;
+`;
+
+const MinBtn = styled.button`
+  position: relative;
+  top: 4vh;
+  width: 5vw;
+  height: 10vh;
+  margin: 0 1.25vw;
+  border: 3px solid darkgray;
+  border-radius: 2em;
+  background-color: white;
+  font-size: 1vw;
+  overflow-wrap: break-word;
+  &:hover {
+    border-color: black;
+    background-color: black;
+    color: white;
+  }
+  &#submit {
+    margin: 2.5vh 2.5vw 3.5vh 2.5vw;
+    width: 25vw;
+    font-size: 2.5vw;
+  }
+  &.click {
+    border-color: black;
+    background-color: black;
+    color: white;
+  }
+`;
+
+const MinuteInput = styled.input`
+  position: absolute;
+  z-index: 3;
+  top: -7vh;
+  left: 10vw;
+  width: 10vw;
+  height: 5vh;
+  font-size: 3vh;
+`;
