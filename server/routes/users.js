@@ -5,7 +5,7 @@ const auth = require("../middleware/auth");
 
 // router.route("/").get(usersController.getAll);
 
-router.route("/me").all(auth.verifyToken).get(usersController.me);
+router.route("/me").all(auth.verifyToken).get(usersController.me).patch(usersController.update);
 
 router.route("/logout").all(auth.verifyToken).get(usersController.logout);
 
