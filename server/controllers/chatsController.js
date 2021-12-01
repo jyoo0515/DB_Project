@@ -2,9 +2,10 @@ const ChatRoom = require("../models/ChatRoom");
 const Message = require("../models/Message");
 
 exports.getChats = async (req, res) => {
+  const userId = req.user.userId;
   try {
-    const messages = await Message.findAll();
-    return res.json({ messages });
+    const chatList = await ChatRoom.findAll(userId);
+    return res.json(chatList);
   } catch (err) {
     console.log(err);
     return res.status(500).json({ message: "Something went wrong" });

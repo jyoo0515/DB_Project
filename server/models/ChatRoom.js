@@ -8,6 +8,16 @@ class ChatRoom {
     this.secondId = idList[1];
   }
 
+  static async findAll(userId) {
+    const sql = `
+      SELECT secondId AS friendId, chatRoomId, lastOnline FROM chatRoomsView WHERE firstId='${userId}'
+      UNION
+      SELECT firstId AS friendId, chatRoomId, lastOnline FROM chatRoomsView WHERE secondId='${userId}';
+      `;
+    const [chatRooms, _] = await db.execute(sql);
+    return chatRooms;
+  }
+
   async findOne() {
     const sql = `SELECT * FROM chatRooms WHERE firstId='${this.firstId}' AND secondId='${this.secondId}' LIMIT 1;`;
     const [chatRoom, _] = await db.execute(sql);
@@ -27,10 +37,6 @@ class ChatRoom {
     `;
     await db.execute(sql);
     return await this.findOne();
-  }
-
-  static async findAll() {
-    const sql = `SELECT * FROM chatRooms`;
   }
 }
 
