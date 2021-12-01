@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const HeadNav = () => {
@@ -15,7 +16,9 @@ export const HeadNav = () => {
   return (
     <>
       <HeadImg id="returnToChatList" onClick={returnToPrevPage}>
-        <Img id="leftArrow" />
+        <Link to="/chats">
+          <Img id="leftArrow" />
+        </Link>
       </HeadImg>
       <HeadName>권동욱</HeadName>
       <HeadImg id="changeFriendState" onClick={changeFriendState}>
