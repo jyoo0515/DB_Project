@@ -6,12 +6,9 @@ import { LoginPage } from "./LoginPage/LoginPage";
 import { RegisterPage } from "./RegisterPage/RegisterPage";
 import { ChatList } from "./ChatList/ChatList";
 import { NearbyPeople } from "./NearbyPeople/NearbyPeople";
-<<<<<<< HEAD
-import { EditPage } from "./EditPage/EditPage";
-=======
 import { FriendSearchPage } from "./FriendSearchPage/FriendSearch";
 import { FriendListPage } from "./FriendListPage/FriendList";
->>>>>>> b964876eac36197ad7cfda1fa3df13181d99805f
+import { EditPage } from "./EditPage/EditPage";
 
 export const App = () => {
   return (
