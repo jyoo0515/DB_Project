@@ -49,7 +49,7 @@ class Message {
   }
 
   static async findAll() {
-    let sql = "SELECT * FROM messages;";
+    const sql = "SELECT * FROM messages;";
     const [messageRows, _] = await db.execute(sql);
 
     return messageRows;
