@@ -1,19 +1,31 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { LoginPage } from "../LoginPage/LoginPage";
+import { ChatList } from "../ChatList/ChatList";
+import { NearbyPeople } from "../NearbyPeople/NearbyPeople";
 
 export const NavBar = () => {
   return (
-    <Footer>
-      <Btn id="linkingToMyFriends">
-        <Img id="linkingToMyFriends" />
-      </Btn>
-      <Btn id="linkingToChatList">
-        <Img id="linkingToChatList" />
-      </Btn>
-      <Btn id="linkingToNearBy">
-        <Img id="linkingToNearBy" />
-      </Btn>
-    </Footer>
+    <>
+      <Footer>
+        <Btn id="linkingToMyFriends">
+          <Link to="/login">
+            <Img id="linkingToMyFriends" />
+          </Link>
+        </Btn>
+        <Btn id="linkingToChatList">
+          <Link to="/chatlist">
+            <Img id="linkingToChatList" />
+          </Link>
+        </Btn>
+        <Btn id="linkingToNearby">
+          <Link to="/nearby/people">
+            <Img id="linkingToNearby" />
+          </Link>
+        </Btn>
+      </Footer>
+    </>
   );
 };
 
@@ -26,7 +38,7 @@ const Footer = styled.footer`
   background-color: gray;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  grid-template-areas: "myFriends . chatList . nearBy";
+  grid-template-areas: "myFriends . chatList . nearby";
 `;
 
 const Btn = styled.button`
@@ -40,24 +52,23 @@ const Btn = styled.button`
   &#linkingToChatList {
     grid-area: chatList;
   }
-  &#linkingToNearBy {
-    grid-area: nearBy;
+  &#linkingToNearby {
+    grid-area: nearby;
   }
 `;
 
 const Img = styled.img`
   margin: 0 auto;
-  width: 100%;
+  width: 70%;
+  height: 70%;
+  filter: invert(100%);
   &#linkingToMyFriends {
     content: url("../../../../linkingToMyFriends.png");
-    height: 60%;
   }
   &#linkingToChatList {
     content: url("../../../../linkingToChatList.png");
-    height: 60%;
   }
-  &#linkingToNearBy {
+  &#linkingToNearby {
     content: url("../../../../linkingToNearBy.png");
-    height: 60%;
   }
 `;
