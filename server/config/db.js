@@ -67,6 +67,13 @@ const messagesSql = `
   );
 `;
 
+const viewSql = `
+  CREATE or REPLACE VIEW chatRoomsView AS
+  SELECT c.firstId AS firstId, c.secondId AS secondId, m.chatRoomId as chatRoomId, max(m.createdAt) AS lastOnline
+  FROM  chatRooms AS c, messages AS m
+  GROUP BY m.chatRoomId;
+`;
+
 const procSql = `
     DROP PROCEDURE IF EXISTS messageStatusUpdate;
     DROP PROCEDURE IF EXISTS userStatusUpdate;
@@ -86,6 +93,7 @@ pool.getConnection((err, conn) => {
   conn.execute(friendSql);
   conn.execute(chatRoomSql);
   conn.execute(messagesSql);
+  conn.query(viewSql);
   conn.query(procSql);
   console.log("Database Initialization Complete");
   conn.release();
