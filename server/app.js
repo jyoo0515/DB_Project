@@ -19,7 +19,7 @@ app.use(
 );
 
 app.use("/api/users", require("./routes/users"));
-app.use("/api/chat", require("./routes/chats"));
+app.use("/api/chats", require("./routes/chats"));
 app.use("/api/friends", require("./routes/friends"));
 
 if (process.env.NODE_ENV === "production") {
