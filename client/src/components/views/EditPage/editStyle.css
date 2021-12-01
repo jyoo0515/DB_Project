@@ -19,6 +19,15 @@
   opacity: 1;
 }
 
+.blackLine2 {
+  margin-top: 10px;
+  margin-left: 15%;
+  width: 400px;
+  height: 25px;
+  background: #000000 0% 0% no-repeat padding-box;
+  opacity: 1;
+}
+
 .word {
   margin-top: 40px;
   font: normal normal medium 73px/84px Gmarket Sans TTF;
@@ -36,6 +45,13 @@
   padding-right: 3%;
   text-align: right;
   font-size: 40px;
+}
+
+.logoutButton {
+  margin-top: 30px;
+  margin-left: 15%;
+  font: normal normal medium 73px/84px Gmarket Sans TTF;
+  font-size: 50px;
 }
 
 .formstyle {
@@ -60,4 +76,8 @@ div::-webkit-scrollbar {
 
 .location {
   text-align: center;
+}
+
+.content {
+  margin-bottom: 10%;
 }
