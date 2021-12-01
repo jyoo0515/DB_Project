@@ -82,6 +82,16 @@ class User {
     await db.execute(sql);
   }
 
+  static async updateStatusMessage(userId, statusMessage) {
+    const sql = `UPDATE users SET statusMessage = '${statusMessage}' WHERE userId = '${userId}';`;
+    await db.execute(sql);
+  }
+
+  static async updateLocation(userId, location) {
+    const sql = `UPDATE users SET location = '${location}' WHERE userId = '${userId}';`;
+    await db.execute(sql);
+  }
+
   static destruct = (user) => {
     const { password, ...userDTO } = user;
     return userDTO;
