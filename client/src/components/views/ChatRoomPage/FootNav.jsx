@@ -12,6 +12,7 @@ export const FootNav = () => {
 
   const onClickNormal = () => {
     console.log("submit");
+    setMsg("");
   };
 
   const onClickRendezvous = () => {
@@ -20,6 +21,7 @@ export const FootNav = () => {
 
   const setSubmit = (isSubmit) => {
     setRdv(isSubmit);
+    setMsg("");
   };
 
   return (
@@ -84,5 +86,6 @@ const Btn = styled.button`
     margin: 1vh 3vw 2vh 3vw;
     border-radius: 5em;
   }
+  font-size: 1.5rem;
   font-weight: bold;
 `;
