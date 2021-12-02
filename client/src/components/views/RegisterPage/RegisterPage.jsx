@@ -36,6 +36,7 @@ export const RegisterPage = () => {
       password: data.get("password"),
       name: data.get("name"),
       role: data.get("role"),
+      location: "공학관",
     };
     apiClient.post("/users/register", payload).then((res) => console.log(res.data));
   };
@@ -70,18 +71,14 @@ export const RegisterPage = () => {
     event.preventDefault();
     const ID_input = Id_now.current.value;
     const regexp = /^[A-Za-z0-9]{1,20}$/;
+    const isdup = apiClient.get("/users/unique/" + ID_input);
     if (!regexp.test(ID_input)) {
       alert("아이디 형식이 올바르지 않습니다!\n20자 이내 특수문자 금지");
+    } else if (isdup.data === false) {
+      alert("이미 사용중인 아이디 입니다!");
     } else {
       alert("사용 가능한 아이디 입니다!");
       Id_now.current.readOnly = "true";
-    }
-    {
-      /*
-     asfdjjsahfjksdanhjfksdhjfka
-     여기서 아이디 중복확인 
-     sql 이랑 연동
-    */
     }
   };
 
