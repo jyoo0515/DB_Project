@@ -17,6 +17,7 @@ import ReactDOM from "react-dom";
 import { useRef } from "react";
 import "./registcss.css";
 import apiClient from "../../utils/axios";
+import { Alert } from "@mui/material";
 
 const theme = createTheme();
 
@@ -38,7 +39,13 @@ export const RegisterPage = () => {
       role: data.get("role"),
       location: "공학관",
     };
-    apiClient.post("/users/register", payload).then((res) => console.log(res.data));
+    if (Id_now.current.readOnly === false) {
+      alert("아이디 중복확인 버튼을 눌러주세요!");
+    } else if (state.confirmPassword != state.password) {
+      alert("비밀번호를 다시 확인해주세요");
+    } else {
+      apiClient.post("/users/register", payload).then((res) => console.log(res.data));
+    }
   };
 
   const chk_pw = (event) => {
