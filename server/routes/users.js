@@ -7,6 +7,8 @@ router.route("/unique/:userId").get(usersController.checkUnique);
 
 router.route("/me").all(auth.verifyToken).get(usersController.me).patch(usersController.update);
 
+router.route("/nearby").all(auth.verifyToken).get(usersController.nearby);
+
 router.route("/logout").all(auth.verifyToken).get(usersController.logout);
 
 router.route("/register").post(usersController.register);

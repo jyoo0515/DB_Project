@@ -151,3 +151,15 @@ exports.update = async (req, res) => {
     return res.status(500).json({ message: "Something went wrong" });
   }
 };
+
+exports.nearby = async (req, res) => {
+  const userId = req.user.userId;
+  try {
+    let userDtos = [];
+    const users = await User.nearbyUsers(userId);
+    users.forEach((user) => userDtos.push(User.destruct(user)));
+    return res.json(userDtos);
+  } catch (err) {
+    return res.status(500).json({ message: "Something went wrong" });
+  }
+};
