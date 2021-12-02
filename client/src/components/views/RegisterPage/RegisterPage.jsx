@@ -70,10 +70,11 @@ export const RegisterPage = () => {
 
   const ID_inval = (event) => {
     event.preventDefault();
-    const ID_input = Id_now.current.value;
     const regexp = /^[A-Za-z0-9]{1,20}$/;
     if (!regexp.test(ID_input)) {
-      alert("이메일 형식이 올바르지 않습니다!\n20자 이내 특수문자 금지");
+      alert("아이디 형식이 올바르지 않습니다!\n20자 이내 특수문자 금지");
+    } else {
+      alert("사용 가능한 아이디 입니다!");
     }
     {
       /*
