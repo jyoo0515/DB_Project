@@ -16,6 +16,7 @@ import { Link } from "react-router-dom";
 import ReactDOM from "react-dom";
 import { useRef } from "react";
 import "./registcss.css";
+import apiClient from "../../utils/axios";
 
 const theme = createTheme();
 
@@ -36,10 +37,7 @@ export const RegisterPage = () => {
       name: data.get("name"),
       role: data.get("role"),
     };
-    axios
-      .post("http://localhost:5000/api/users/register", payload)
-      .then((res) => console.log(res.data))
-      .catch((err) => console.log(err));
+    apiClient.post("/users/register", payload).then((res) => console.log(res.data));
   };
 
   const chk_pw = (event) => {
@@ -73,7 +71,10 @@ export const RegisterPage = () => {
     const ID_input = Id_now.current.value;
     const regexp = /^[A-Za-z0-9]{1,20}$/;
     if (!regexp.test(ID_input)) {
-      alert("이메일 형식이 올바르지 않습니다!\n20자 이내 특수문자 금지");
+      alert("아이디 형식이 올바르지 않습니다!\n20자 이내 특수문자 금지");
+    } else {
+      alert("사용 가능한 아이디 입니다!");
+      Id_now.current.readOnly = "true";
     }
     {
       /*
@@ -124,6 +125,7 @@ export const RegisterPage = () => {
             <div id="PWmessage" className="login_txt">
               Please Input PW
             </div>
+            <input type="text" placeholder="이름" className="login_inpbox" id="name" name="name" required></input>
             <select className="login_inpbox" name="role" id="role">
               <option className="login_inpbox" value="">
                 일반
