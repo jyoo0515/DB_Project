@@ -127,6 +127,7 @@ export const RegisterPage = () => {
             <div id="PWmessage" className="login_txt">
               Please Input PW
             </div>
+            <input type="text" placeholder="이름" className="login_inpbox" id="name" name="name" required></input>
             <select className="login_inpbox" name="role" id="role">
               <option className="login_inpbox" value="">
                 일반
