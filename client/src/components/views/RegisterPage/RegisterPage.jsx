@@ -16,6 +16,7 @@ import { Link } from "react-router-dom";
 import ReactDOM from "react-dom";
 import { useRef } from "react";
 import "./registcss.css";
+import apiClient from "../../utils/axios";
 
 const theme = createTheme();
 
@@ -36,10 +37,7 @@ export const RegisterPage = () => {
       name: data.get("name"),
       role: data.get("role"),
     };
-    axios
-      .post("http://localhost:5000/api/users/register", payload)
-      .then((res) => console.log(res.data))
-      .catch((err) => console.log(err));
+    apiClient.post("/users/register", payload).then((res) => console.log(res.data));
   };
 
   const chk_pw = (event) => {
