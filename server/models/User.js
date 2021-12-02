@@ -77,6 +77,12 @@ class User {
     return userRow;
   }
 
+  static async nearbyUsers(userId) {
+    const sql = `SELECT * FROM users WHERE location=(SELECT location FROM users WHERE userId='${userId}');`;
+    const [userRow, _] = await db.execute(sql);
+    return userRow;
+  }
+
   static async changeState(userId, state) {
     const sql = `CALL userStatusUpdate('${userId}', ${state});`;
     await db.execute(sql);
