@@ -1,26 +1,16 @@
 import * as React from "react";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import ReactDOM from "react-dom";
 import { useRef } from "react";
 import "./registcss.css";
 import apiClient from "../../utils/axios";
+//import Router from "next/router";
 
 const theme = createTheme();
 
-export const RegisterPage = () => {
+export const RegisterPage = (history) => {
   let state = {
     password: "",
     confirmPassword: "",
@@ -36,8 +26,17 @@ export const RegisterPage = () => {
       password: data.get("password"),
       name: data.get("name"),
       role: data.get("role"),
+      location: "공학관",
     };
-    apiClient.post("/users/register", payload).then((res) => console.log(res.data));
+    if (Id_now.current.readOnly === false) {
+      alert("아이디 중복확인 버튼을 눌러주세요!");
+    } else if (state.confirmPassword !== state.password) {
+      alert("비밀번호를 다시 확인해주세요");
+    } else {
+      apiClient.post("/users/register", payload).then((res) => console.log(res.data));
+      alert("회원가입 완료!");
+      document.location.href = "/login";
+    }
   };
 
   const chk_pw = (event) => {
@@ -70,19 +69,18 @@ export const RegisterPage = () => {
     event.preventDefault();
     const ID_input = Id_now.current.value;
     const regexp = /^[A-Za-z0-9]{1,20}$/;
-    if (!regexp.test(ID_input)) {
-      alert("아이디 형식이 올바르지 않습니다!\n20자 이내 특수문자 금지");
-    } else {
-      alert("사용 가능한 아이디 입니다!");
-      Id_now.current.readOnly = "true";
-    }
-    {
-      /*
-     asfdjjsahfjksdanhjfksdhjfka
-     여기서 아이디 중복확인 
-     sql 이랑 연동
-    */
-    }
+    apiClient.get("/users/unique/" + ID_input).then(function (res) {
+      if (!regexp.test(ID_input)) {
+        alert("아이디 형식이 올바르지 않습니다!\n20자 이내 특수문자 금지");
+      } else if (res.data.unique === false) {
+        console.log(res.data);
+        alert("이미 사용중인 아이디 입니다!");
+      } else {
+        console.log(res);
+        alert("사용 가능한 아이디 입니다!");
+        Id_now.current.readOnly = "true";
+      }
+    });
   };
 
   return (
@@ -127,16 +125,16 @@ export const RegisterPage = () => {
             </div>
             <input type="text" placeholder="이름" className="login_inpbox" id="name" name="name" required></input>
             <select className="login_inpbox" name="role" id="role">
-              <option className="login_inpbox" value="">
+              <option className="login_inpbox" value="일반">
                 일반
               </option>
-              <option className="login_inpbox" value="1">
+              <option className="login_inpbox" value="학생">
                 학생
               </option>
-              <option className="login_inpbox" value="2">
+              <option className="login_inpbox" value="강사">
                 강사
               </option>
-              <option className="login_inpbox" value="3">
+              <option className="login_inpbox" value="기업">
                 기업
               </option>
             </select>

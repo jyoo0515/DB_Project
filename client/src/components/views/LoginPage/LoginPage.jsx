@@ -1,15 +1,4 @@
 import * as React from "react";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-//import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import apiClient from "../../utils/axios";
@@ -28,7 +17,13 @@ export const LoginPage = () => {
       userId: data.get("userId"),
       password: data.get("password"),
     };
-    apiClient.post("/users/login", payload).then((res) => console.log(res.data));
+    const islogin = apiClient.post("/users/login", payload).then((res) => console.log(res.data));
+    if (islogin.loginSuccess === false) {
+      alert("아이디를 다시 확인해 보세요");
+    } else {
+      alert("로그인 성공!");
+      document.location.href = "/friendlist";
+    }
   };
 
   return (
