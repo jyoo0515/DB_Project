@@ -30,7 +30,7 @@ export const RegisterPage = (history) => {
     };
     if (Id_now.current.readOnly === false) {
       alert("아이디 중복확인 버튼을 눌러주세요!");
-    } else if (state.confirmPassword != state.password) {
+    } else if (state.confirmPassword !== state.password) {
       alert("비밀번호를 다시 확인해주세요");
     } else {
       apiClient.post("/users/register", payload).then((res) => console.log(res.data));

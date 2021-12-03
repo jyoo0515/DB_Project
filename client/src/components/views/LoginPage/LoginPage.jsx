@@ -17,7 +17,15 @@ export const LoginPage = () => {
       userId: data.get("userId"),
       password: data.get("password"),
     };
-    apiClient.post("/users/login", payload).then((res) => console.log(res.data));
+    const islogin = apiClient.post("/users/login", payload).then((res) => console.log(res.data));
+    /*
+    if (islogin.data.loginSuccess == false) {
+      alert("아이디를 다시 확인해 보세요");
+    } else {
+      alert("로그인 성공!");
+      document.location.href("/friendlist");
+    }
+    */
   };
 
   return (
