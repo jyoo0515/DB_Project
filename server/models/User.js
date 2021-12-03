@@ -77,8 +77,24 @@ class User {
     return userRow;
   }
 
+  static async nearbyUsers(userId) {
+    const sql = `SELECT * FROM users WHERE location=(SELECT location FROM users WHERE userId='${userId}');`;
+    const [userRow, _] = await db.execute(sql);
+    return userRow;
+  }
+
   static async changeState(userId, state) {
     const sql = `CALL userStatusUpdate('${userId}', ${state});`;
+    await db.execute(sql);
+  }
+
+  static async updateStatusMessage(userId, statusMessage) {
+    const sql = `UPDATE users SET statusMessage = '${statusMessage}' WHERE userId = '${userId}';`;
+    await db.execute(sql);
+  }
+
+  static async updateLocation(userId, location) {
+    const sql = `UPDATE users SET location = '${location}' WHERE userId = '${userId}';`;
     await db.execute(sql);
   }
 

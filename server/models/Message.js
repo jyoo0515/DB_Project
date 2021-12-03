@@ -6,29 +6,21 @@ class Message {
     this.toId = toId;
     this.chatRoomId = chatRoomId;
     this.content = content;
-    this.timeLimit = timeLimit;
+    if (timeLimit === undefined || timeLimit == null) {
+      this.expiresAt = null;
+    } else {
+      const today = new Date();
+      today.setTime(today.getTime() + timeLimit * 60 * 1000);
+      const date = today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + String(today.getDate()).padStart(2, "0");
+      const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+      const dateTime = date + " " + time;
+      this.expiresAt = dateTime;
+    }
   }
 
   async create() {
     let sql;
-    if (!this.timeLimit == null) {
-      sql = `
-        INSERT INTO messages(
-          fromId,
-          toId,
-          chatRoomId,
-          content,
-          expiresAt
-        )
-        VALUES(
-          '${this.fromId}',
-          '${this.toId}',
-          '${this.chatRoomId}',
-          '${this.content}',
-          TIMESTAMPADD(MINUTE, ${this.timeLimit}, CURRENT_TIMESTAMP)
-        );
-      `;
-    } else {
+    if (this.expiresAt == null) {
       sql = `
         INSERT INTO messages(
           fromId,
@@ -43,13 +35,30 @@ class Message {
           '${this.content}'
         );
       `;
+    } else {
+      sql = `
+        INSERT INTO messages(
+          fromId,
+          toId,
+          chatRoomId,
+          content,
+          expiresAt
+        )
+        VALUES(
+          '${this.fromId}',
+          '${this.toId}',
+          '${this.chatRoomId}',
+          '${this.content}',
+          '${this.expiresAt}'
+        );
+      `;
     }
 
     return db.execute(sql);
   }
 
-  static async findAll() {
-    let sql = "SELECT * FROM messages;";
+  static async findAll(chatRoomId) {
+    const sql = `SELECT * FROM messages WHERE chatRoomId='${chatRoomId}' ORDER BY createdAt;`;
     const [messageRows, _] = await db.execute(sql);
 
     return messageRows;
