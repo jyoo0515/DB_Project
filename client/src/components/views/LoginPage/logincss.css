@@ -1,11 +1,11 @@
 .login_box {
   clear: both;
-  margin: 30px auto 0;
-  width: 60vw;
+  margin: 3vw auto 0;
+  width: 50vw;
 }
 
 .login_box * {
-  margin-left: 30vw;
+  margin-left: 20vw;
   margin-bottom: 2vh;
 }
 
