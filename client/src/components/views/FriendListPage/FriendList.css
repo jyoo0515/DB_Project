@@ -33,3 +33,14 @@
   background-color: inherit;
   border-radius: 5px;
 }
+.LinkStyle {
+  text-decoration: none;
+  color: inherit;
+}
+:focus,
+:hover,
+:visited,
+:link,
+:active {
+  text-decoration: none;
+}
