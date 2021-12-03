@@ -21,7 +21,7 @@ export const LoginPage = () => {
       if (res.data.loginSuccess === true) {
         document.location.href = "/friends";
       } else {
-        alert("아이디 또는 비밀번호가 틀렸습니다");
+        alert("아이디를 다시 확인해 보세요");
       }
     });
   };
