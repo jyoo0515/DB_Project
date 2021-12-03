@@ -6,10 +6,11 @@ import ReactDOM from "react-dom";
 import { useRef } from "react";
 import "./registcss.css";
 import apiClient from "../../utils/axios";
+//import Router from "next/router";
 
 const theme = createTheme();
 
-export const RegisterPage = () => {
+export const RegisterPage = (history) => {
   let state = {
     password: "",
     confirmPassword: "",
@@ -33,6 +34,8 @@ export const RegisterPage = () => {
       alert("비밀번호를 다시 확인해주세요");
     } else {
       apiClient.post("/users/register", payload).then((res) => console.log(res.data));
+      alert("회원가입 완료!");
+      document.location.href = "/login";
     }
   };
 
