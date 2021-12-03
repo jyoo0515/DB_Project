@@ -2,12 +2,13 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const path = require("path");
+const socket = require("./socket");
 require("dotenv").config();
 const PORT = process.env.PORT || 5000;
 
 const app = express();
 const server = require("http").createServer(app);
-const io = require("socket.io")(server);
+socket(require("socket.io")(server));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -30,20 +31,9 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-//Event on connection
-io.on("connection", (socket) => {
-  socket.emit("usercount", io.engine.clientsCount);
-
-  socket.on("message", (msg) => {
-    console.log("Message received: " + msg);
-
-    io.emit("message", msg);
-  });
-});
-
-app.get("/", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "test.html"));
-});
+// app.post("/api/chats/1", (req, res) => {
+//   res.sendFile(path.resolve(__dirname, "test.html"));
+// });
 
 server.listen(PORT, async () => {
   console.log(`Server running on PORT ${PORT}`);

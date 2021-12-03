@@ -2,13 +2,9 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 const generateToken = (user) => {
-  const token = jwt.sign(
-    { userId: user.userId },
-    process.env.ACCESS_TOKEN_SECRET,
-    {
-      expiresIn: "1h",
-    }
-  );
+  const token = jwt.sign({ userId: user.userId }, process.env.ACCESS_TOKEN_SECRET, {
+    expiresIn: "1h",
+  });
   return token;
 };
 
@@ -25,5 +21,9 @@ const verifyToken = (req, res, next) => {
   });
 };
 
-const auth = { generateToken, verifyToken };
+const verify = (token) => {
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+};
+
+const auth = { generateToken, verifyToken, verify };
 module.exports = auth;
