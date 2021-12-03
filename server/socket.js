@@ -36,31 +36,31 @@ module.exports = (io) => {
   io.on("connection", (socket) => {
     const { userId, name } = getIdAndName(socket);
 
-    // if (userId) {
-    //   findSocketById(io, userId).map((socket) => socket.disconnet());
-    //   socket.user_id = userId;
-    //   socket.name = name;
-    //   socket.join("online");
-    //   updateOnlineList(io, "online");
-    //   console.log(`${userId} joined online`);
-    // } else {
-    //   socket.disconnet();
-    // }
+    if (userId) {
+      findSocketById(io, userId).map((socket) => socket.disconnect());
+      socket.user_id = userId;
+      socket.name = name;
+      socket.join("online");
+      updateOnlineList(io, "online");
+      console.log(`${userId} joined online`);
+    } else {
+      socket.disconnect();
+    }
 
-    // socket.on("message", (msg) => {
-    //   const { fromId, toId, content, timeLimit } = msg;
-    //   const targetSockets = findSocketById(io, toId);
-    //   const message = new Message(fromId, toId, null, content, timeLimit);
+    socket.on("message", (msg) => {
+      const { fromId, toId, content, timeLimit } = msg;
+      const targetSockets = findSocketById(io, toId);
+      const message = new Message(fromId, toId, null, content, timeLimit);
 
-    //   io.emit("message", msg);
-    // });
+      io.emit("message", msg);
+    });
 
-    // socket.on("disconnect", () => {
-    //   if (socket.user_id) {
-    //     socket.leave("online");
-    //     updateOnlineList(io, "online");
-    //     console.log(`${socket.user_id} left online`);
-    //   }
-    // });
+    socket.on("disconnect", () => {
+      if (socket.user_id) {
+        socket.leave("online");
+        updateOnlineList(io, "online");
+        console.log(`${socket.user_id} left online`);
+      }
+    });
   });
 };
