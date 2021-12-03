@@ -14,8 +14,8 @@ export const App = () => {
     <div>
       <Switch>
         <Route exact path="/chatroom" component={ChatRoomPage} />
-        <Route exact path="/friendsearch" component={FriendSearchPage} />
-        <Route exact path="/friendlist" component={FriendListPage} />
+        <Route exact path="/search" component={FriendSearchPage} />
+        <Route exact path="/friends" component={FriendListPage} />
         <Route exact path="/" component={LandingPage} />
         <Route exact path="/register" component={RegisterPage} />
         <Route exact path="/login" component={LoginPage} />
