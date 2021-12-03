@@ -15,7 +15,13 @@ class ChatRoom {
       SELECT firstId AS friendId, chatRoomId, lastOnline FROM chatRoomsView WHERE secondId='${userId}';
       `;
     const [chatRooms, _] = await db.execute(sql);
-    return chatRooms;
+    const chatRoomDto = [];
+    for (const chatRoom of chatRooms) {
+      const sql = `SELECT name, role, state FROM users WHERE userId='${chatRoom.friendId}';`;
+      const [userRow, _] = await db.execute(sql);
+      chatRoomDto.push({ ...chatRoom, ...userRow[0] });
+    }
+    return chatRoomDto;
   }
 
   async findOne() {
