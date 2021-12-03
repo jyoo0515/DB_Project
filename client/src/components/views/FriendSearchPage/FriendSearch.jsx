@@ -27,7 +27,9 @@ export const FriendSearchPage = () => {
       <div className="container">
         <div>
           <button className="ButtonStyle">
-            <Link to="/friendlist">go back</Link>
+            <Link to="/friends" className="LinkStyle">
+              go back
+            </Link>
           </button>
         </div>
         <div style={{ fontSize: "40px", fontWeight: "bold" }}>SEARCH</div>
