@@ -35,7 +35,7 @@ export const RegisterPage = (history) => {
     } else {
       apiClient.post("/users/register", payload).then((res) => console.log(res.data));
       alert("회원가입 완료!");
-      document.location.href = "/login";
+      //document.location.href = "/login";
     }
   };
 
@@ -122,16 +122,16 @@ export const RegisterPage = (history) => {
             </div>
             <input type="text" placeholder="이름" className="login_inpbox" id="name" name="name" required></input>
             <select className="login_inpbox" name="role" id="role">
-              <option className="login_inpbox" value="">
+              <option className="login_inpbox" value="일반">
                 일반
               </option>
-              <option className="login_inpbox" value="1">
+              <option className="login_inpbox" value="학생">
                 학생
               </option>
-              <option className="login_inpbox" value="2">
+              <option className="login_inpbox" value="강사">
                 강사
               </option>
-              <option className="login_inpbox" value="3">
+              <option className="login_inpbox" value="기업">
                 기업
               </option>
             </select>
