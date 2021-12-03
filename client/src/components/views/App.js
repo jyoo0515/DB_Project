@@ -15,13 +15,13 @@ export const App = () => {
   return (
     <div>
       <Switch>
-        <Route exact path="/chatroom" component={ChatRoomPage} />
+        <Route exact path="/chats/:roomId" component={ChatRoomPage} />
         <Route exact path="/search" component={FriendSearchPage} />
         <Route exact path="/friends" component={FriendListPage} />
         <Route exact path="/" component={LandingPage} />
         <Route exact path="/register" component={RegisterPage} />
         <Route exact path="/login" component={LoginPage} />
-        <Route exact path="/chatlist" component={ChatList} />
+        <Route exact path="/chats" component={ChatList} />
         <Route exact path="/nearby/people" component={NearbyPeople} />
         <Route exact path="/edit" component={EditPage} />
         <Route exct path="/socket" component={Socket} />
