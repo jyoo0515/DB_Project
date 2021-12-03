@@ -1,10 +1,12 @@
 .login_box {
   clear: both;
+  margin: 30px auto 0;
   width: 60vw;
 }
 
 .login_box * {
-  margin-bottom: 5vh;
+  margin-left: 30vw;
+  margin-bottom: 2vh;
 }
 
 .login_logo {
@@ -27,7 +29,7 @@
 
 .login_inpbox {
   width: 34vw;
-  height: 13vh;
+  height: 10vh;
   background: #ffffff 0% 0% no-repeat padding-box;
   border: 7px solid #858585;
   border-radius: 40px;
@@ -40,9 +42,7 @@
 }
 
 .login_txt {
-  margin-bottom: 0;
   width: 33vw;
-  height: 13vh;
   float: right;
   text-align: right;
   font: normal normal bold 30px/36px Gmarket Sans TTF;
@@ -53,8 +53,8 @@
 
 .login_button {
   width: 10vw;
-  margin-left: 6vw;
-  height: 9vh;
+  margin-left: 5vw;
+  height: 8vh;
   background: #ffffff 0% 0% no-repeat padding-box;
   border: 5px solid #858585;
   border-radius: 3vw;
