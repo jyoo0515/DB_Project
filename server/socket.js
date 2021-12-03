@@ -37,14 +37,15 @@ module.exports = (io) => {
     const { userId, name } = getIdAndName(socket);
 
     if (userId) {
-      findSocketById(io, userId).map((socket) => socket.disconnect());
+      // findSocketById(io, userId).map((socket) => socket.disconnect());
       socket.user_id = userId;
       socket.name = name;
       socket.join("online");
       updateOnlineList(io, "online");
       console.log(`${userId} joined online`);
     } else {
-      socket.disconnect();
+      // socket.disconnect();
+      console.log("Socket error");
     }
 
     socket.on("message", (msg) => {
