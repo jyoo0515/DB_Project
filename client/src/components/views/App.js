@@ -24,7 +24,7 @@ export const App = () => {
         <Route exact path="/chats" component={ChatList} />
         <Route exact path="/nearby/people" component={NearbyPeople} />
         <Route exact path="/edit" component={EditPage} />
-        <Route exct path="/socket" component={Socket} />
+        <Route exct path="/socket/:roomId" component={Socket} />
       </Switch>
     </div>
   );

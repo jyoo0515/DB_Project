@@ -8,21 +8,9 @@ const getIdAndName = (socket) =>
     auth.verify(cookie.parse(socket.handshake.headers["cookie"]).access_token)) ||
   {};
 
-const updateOnlineList = (io, roomName) => {
-  const roomPeople = io.sockets.adapter.rooms.get(roomName)
-    ? Array.from(io.sockets.adapter.rooms.get(roomName)).map((socket_id) => ({
-        id: io.sockets.sockets.get(socket_id).user_id,
-        name: io.sockets.sockets.get(socket_id).name,
-      }))
-    : [];
-
-  // notification(알림) to people
-  io.to(roomName).emit("UPDATE_ONLINE_USERS", roomPeople);
-};
-
 const findSocketById = (io, id) => {
   const sockets = [];
-  for (let socket of io.sockets.sockets.values()) {
+  for (const socket of io.sockets.sockets.values()) {
     if (socket.user_id === id) {
       sockets.push(socket);
     }
@@ -32,36 +20,27 @@ const findSocketById = (io, id) => {
 };
 
 module.exports = (io) => {
-  //Event on connection
   io.on("connection", (socket) => {
     const { userId, name } = getIdAndName(socket);
+    io.sockets.userId = userId;
 
-    if (userId) {
-      // findSocketById(io, userId).map((socket) => socket.disconnect());
-      socket.user_id = userId;
-      socket.name = name;
-      socket.join("online");
-      updateOnlineList(io, "online");
-      console.log(`${userId} joined online`);
-    } else {
-      // socket.disconnect();
-      console.log("Socket error");
-    }
+    socket.on("enter_room", async (roomId) => {
+      socket.join(roomId);
+      console.log(`User ${socket.id} joined room ${roomId}`);
+      const messages = await Message.findAll(roomId);
+      io.to(roomId).emit("load", messages);
+    });
 
-    socket.on("message", (msg) => {
-      const { fromId, toId, content, timeLimit } = msg;
-      const targetSockets = findSocketById(io, toId);
-      const message = new Message(fromId, toId, null, content, timeLimit);
+    socket.on("send_message", (data) => {
+      // const message = new Message(fromId, toId, null, content, timeLimit);
+      socket.to(data.roomId).emit("receive_message", data);
+      console.log(message);
 
       io.emit("message", msg);
     });
 
     socket.on("disconnect", () => {
-      if (socket.user_id) {
-        socket.leave("online");
-        updateOnlineList(io, "online");
-        console.log(`${socket.user_id} left online`);
-      }
+      socket.disconnect();
     });
   });
 };
