@@ -9,6 +9,7 @@ import { NearbyPeople } from "./NearbyPeople/NearbyPeople";
 import { FriendSearchPage } from "./FriendSearchPage/FriendSearch";
 import { FriendListPage } from "./FriendListPage/FriendList";
 import { EditPage } from "./EditPage/EditPage";
+import { Socket } from "./Socket/Socket";
 
 export const App = () => {
   return (
@@ -23,6 +24,7 @@ export const App = () => {
         <Route exact path="/chats" component={ChatList} />
         <Route exact path="/nearby/people" component={NearbyPeople} />
         <Route exact path="/edit" component={EditPage} />
+        <Route exct path="/socket" component={Socket} />
       </Switch>
     </div>
   );

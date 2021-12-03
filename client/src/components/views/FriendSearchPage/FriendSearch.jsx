@@ -36,23 +36,22 @@ export const FriendSearchPage = () => {
         <div></div>
       </div>
       <hr style={{ height: "5px", backgroundColor: "black" }}></hr>
-      <div>
-        <form className="container" onSubmit={handleSubmit}>
-          <div></div>
-          <div>
+      <div style={{ margin: "20px 50px 10px 50px" }}>
+        <form onSubmit={handleSubmit}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <input
-              className="form"
+              style={{ width: "75%", height: "4vh" }}
               name="friendinput"
               type="friendinput"
-              placeholder="input test"
+              placeholder="ID를 입력하세요"
               value={value}
               onChange={onChange}
             />
-          </div>
-          <div>
-            <button type="submit" className="ButtonStyle" disabled={disabled}>
-              search
-            </button>
+            <div>
+              <button style={{ overflowWrap: "break-word" }} type="submit" className="ButtonStyle" disabled={disabled}>
+                search
+              </button>
+            </div>
           </div>
         </form>
       </div>
@@ -74,9 +73,9 @@ export const FriendSearchPage = () => {
 
 function Friend() {
   return (
-    <div class="friend">
+    <div className="friend">
       <div>학생</div>
-      <div>상태메시지</div>
+      <div style={{ maxWidth: "80vh", padding: "15px" }}>안녕하세요 저는 임채림입니다 카톡하지말아주세요</div>
       <button className="ButtonStyle">친구 삭제</button>
     </div>
   );
