@@ -7,17 +7,17 @@ export const NavBar = () => {
     <>
       <Footer>
         <Btn id="linkingToMyFriends">
-          <Link to="/friendlist">
+          <Link to="/friends">
             <Img id="linkingToMyFriends" />
           </Link>
         </Btn>
         <Btn id="linkingToChatList">
-          <Link to="/chatlist">
+          <Link to="/chats">
             <Img id="linkingToChatList" />
           </Link>
         </Btn>
         <Btn id="linkingToNearby">
-          <Link to="/nearby/people">
+          <Link to="/nearby">
             <Img id="linkingToNearby" />
           </Link>
         </Btn>
