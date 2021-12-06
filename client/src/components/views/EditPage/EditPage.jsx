@@ -1,12 +1,14 @@
-import React from "react";
-import { NavBar } from "../NavBar/NavBar";
-
+import React, { useState, useEffect } from "react";
+import apiClient from "../../utils/axios";
 import "./editStyle.css";
-import axios from "axios";
-import { accordionSummaryClasses } from "@mui/material";
+import { palette } from "@mui/system";
 
 export const EditPage = () => {
-  axios.get("http://localhost:5000/api/users/me");
+  const [myData, setMyData] = useState({});
+  useEffect(() => {
+    apiClient.get("/users/me").then((res) => setMyData(res.data));
+    console.log(myData);
+  }, []);
 
   return (
     <div>
@@ -39,13 +41,16 @@ export const EditPage = () => {
               EDIT
             </button>
           </div>
-          <div className="editButton">CANCEL</div>
+          <div className="editButton">
+            <input type="reset" value="Reset">
+              CANCEL
+            </input>
+          </div>
         </form>
         <div className="blackLine2"></div>
         <div className="logoutButton">LOG OUT</div>
         <div className="logoutButton">DELETE ACCOUNT</div>
       </div>
-      <NavBar></NavBar>
     </div>
   );
 };
