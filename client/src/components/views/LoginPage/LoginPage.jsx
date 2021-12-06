@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import apiClient from "../../utils/axios";
@@ -9,21 +9,34 @@ import "./logincss.css";
 const theme = createTheme();
 
 export const LoginPage = () => {
+  const [userId, setUserId] = useState("");
+  const [password, setPassword] = useState("");
+
+  const onUserIdChange = (e) => {
+    setUserId(e.target.value);
+  };
+  const onPasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
     const payload = {
-      userId: data.get("userId"),
-      password: data.get("password"),
+      userId,
+      password,
     };
-    apiClient.post("/users/login", payload).then((res) => {
-      if (res.data.loginSuccess === true) {
-        document.location.href = "/friends";
-      } else {
-        alert("아이디를 다시 확인해 보세요");
-      }
-    });
+    apiClient
+      .post("/users/login", payload)
+      .then((res) => {
+        if (res.data.loginSuccess === true) {
+          document.location.href = "/friends";
+        }
+      })
+      .catch((err) => {
+        alert("아이디나 비밀번호를 다시 확인하세요");
+        setUserId("");
+        setPassword("");
+      });
   };
 
   return (
@@ -33,15 +46,22 @@ export const LoginPage = () => {
           <div className="login_logo">PRETALK</div>
           <div className="login_bar"></div>
           <form className="login_form" method="post" onSubmit={handleSubmit}>
-            <input type="text" placeholder="ID" className="login_inpbox" id="userId" name="userId" required></input>
+            <input
+              type="text"
+              placeholder="ID"
+              className="login_inpbox"
+              onChange={onUserIdChange}
+              value={userId}
+              required
+            />
             <input
               type="password"
               placeholder="PASSWORD"
               className="login_inpbox"
-              name="password"
-              id="password"
+              onChange={onPasswordChange}
+              value={password}
               required
-            ></input>
+            />
             <button className="login_button" type="submit">
               LOG IN
             </button>

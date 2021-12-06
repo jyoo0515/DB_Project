@@ -1,5 +1,6 @@
 const cookie = require("cookie");
 const auth = require("./middleware/auth");
+const Message = require("./models/Message");
 
 const getIdAndName = (socket) =>
   (socket.handshake.headers["cookie"] &&
@@ -7,45 +8,31 @@ const getIdAndName = (socket) =>
     auth.verify(cookie.parse(socket.handshake.headers["cookie"]).access_token)) ||
   {};
 
-const updateOnlineList = (io, roomName) => {
-  const roomPeople = io.sockets.adapter.rooms.get(roomName)
-    ? Array.from(io.sockets.adapter.rooms.get(roomName)).map((socket_id) => ({
-        id: io.sockets.sockets.get(socket_id).user_id,
-        name: io.sockets.sockets.get(socket_id).name,
-      }))
-    : [];
-
-  // notification(알림) to people
-  io.to(roomName).emit("UPDATE_ONLINE_USERS", roomPeople);
-};
-
-const findSocketById = (io, id) => {
-  const sockets = [];
-  for (let socket of io.sockets.sockets.values()) {
-    if (socket.user_id === id) {
-      sockets.push(socket);
-    }
-  }
-
-  return sockets;
-};
-
 module.exports = (io) => {
-  //Event on connection
   io.on("connection", (socket) => {
-    const { id, name } = getIdAndName(socket);
-    console.log(id);
-    console.log(name);
-    socket.emit("status", id);
+    const { userId, name } = getIdAndName(socket);
 
-    socket.on("message", (msg) => {
-      console.log("Message received: " + msg);
+    if (userId) {
+      io.sockets.userId = userId;
 
-      io.emit("message", msg);
-    });
+      socket.on("enter_room", async (roomId) => {
+        socket.join(roomId);
+        socket.roomId = roomId;
+        console.log(`User ${socket.id} joined room ${roomId}`);
+        const messages = await Message.findAll(roomId);
+        io.to(roomId).emit("load", messages);
+      });
 
-    socket.on("disconnect", () => {
-      io.emit("message", "A user has left the chat");
-    });
+      // socket.on("send_message", (data) => {
+      //   // const message = new Message(fromId, toId, null, content, timeLimit);
+      //   // io.to(data.roomId).emit("receive_message", data);
+      //   console.log(data);
+      // });
+
+      socket.on("disconnect", () => {
+        console.log("Disconnected");
+        socket.disconnect();
+      });
+    }
   });
 };

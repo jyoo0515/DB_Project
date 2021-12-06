@@ -5,26 +5,29 @@ import { LandingPage } from "./LandingPage/LandingPage";
 import { LoginPage } from "./LoginPage/LoginPage";
 import { RegisterPage } from "./RegisterPage/RegisterPage";
 import { ChatList } from "./ChatList/ChatList";
-import { NearbyPeople } from "./NearbyPeople/NearbyPeople";
+import { Nearby } from "./Nearby/Nearby";
 import { FriendSearchPage } from "./FriendSearchPage/FriendSearch";
 import { FriendListPage } from "./FriendListPage/FriendList";
 import { EditPage } from "./EditPage/EditPage";
 import { Socket } from "./Socket/Socket";
+import { NearbyPeople } from "./Nearby/NearbyPeople";
+import Auth from "../../hoc/auth";
 
 export const App = () => {
   return (
     <div>
       <Switch>
-        <Route exact path="/chatroom" component={ChatRoomPage} />
-        <Route exact path="/search" component={FriendSearchPage} />
-        <Route exact path="/friends" component={FriendListPage} />
-        <Route exact path="/" component={LandingPage} />
-        <Route exact path="/register" component={RegisterPage} />
-        <Route exact path="/login" component={LoginPage} />
-        <Route exact path="/chatlist" component={ChatList} />
-        <Route exact path="/nearby/people" component={NearbyPeople} />
-        <Route exact path="/edit" component={EditPage} />
-        <Route exct path="/socket" component={Socket} />
+        <Route exact path="/" component={Auth(LandingPage, null)} />
+        <Route exact path="/register" component={Auth(RegisterPage, null)} />
+        <Route exact path="/login" component={Auth(LoginPage, null)} />
+        <Route exact path="/edit" component={Auth(EditPage, true)} />
+        <Route exact path="/friends" component={Auth(FriendListPage, true)} />
+        <Route exact path="/search" component={Auth(FriendSearchPage, true)} />
+        <Route exact path="/nearby" component={Auth(Nearby, true)} />
+        <Route exact path="/nearby/people/:locId" component={Auth(NearbyPeople, true)} />
+        <Route exact path="/chats" component={Auth(ChatList, true)} />
+        <Route exact path="/chats/:roomId" component={Auth(ChatRoomPage, true)} />
+        <Route exact path="/socket/:roomId" component={Auth(Socket, true)} />
       </Switch>
     </div>
   );
