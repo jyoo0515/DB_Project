@@ -17,8 +17,8 @@ export const App = () => {
   return (
     <div>
       <Switch>
-        <Route exact path="/" component={Auth(LandingPage, null)} />
-        <Route exact path="/register" component={Auth(RegisterPage, null)} />
+        <Route exact path="/" component={Auth(LandingPage, false)} />
+        <Route exact path="/register" component={Auth(RegisterPage, false)} />
         <Route exact path="/login" component={Auth(LoginPage, null)} />
         <Route exact path="/edit" component={Auth(EditPage, true)} />
         <Route exact path="/friends" component={Auth(FriendListPage, true)} />
