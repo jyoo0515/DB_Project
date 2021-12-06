@@ -2,18 +2,37 @@ import { useCallback, useEffect, useState } from "react";
 import "./FriendSearch.css";
 import apiClient from "../../utils/axios";
 import { Link } from "react-router-dom";
+import { RESERVED_EVENTS } from "socket.io/dist/socket";
 
 export const FriendSearchPage = () => {
+  const [reRender, setRender] = useState(false);
   const [word, setWord] = useState("");
   const [disabled, setDisabled] = useState(false);
-  const [FriendArray, setFriendArray] = useState([]);
+  const [result, setResult] = useState([]);
   const [userfl, setUserfl] = useState([]);
+
+  const onClickButton = (params) => {
+    const tmp = document.getElementById(params.userId).value;
+    if (tmp == "친구 추가") {
+      apiClient.post("/friends", { friendId: params.userId }).catch((e) => {
+        console.log(e);
+      });
+    } else {
+      apiClient.delete(`/friends/${params.userId}`).catch((e) => {
+        console.log(e);
+      });
+    }
+    setRender(`${tmp} + ${params.userId}`);
+    console.log(reRender);
+  };
 
   useEffect(() => {
     apiClient.get("/friends/").then((res) => {
       setUserfl(res.data.map((item) => item.userId));
     });
-  }, [FriendArray]);
+    let tmparr = [...result];
+    setResult(tmparr);
+  }, [reRender]);
 
   const onChangeWord = (e) => {
     setWord(e.target.value);
@@ -22,7 +41,6 @@ export const FriendSearchPage = () => {
   const handleSubmit = (event) => {
     setDisabled(true);
     event.preventDefault();
-    console.log(word);
     if (word == "") {
       alert("사용자 이름을 입력하세요.");
     } else {
@@ -30,12 +48,7 @@ export const FriendSearchPage = () => {
       apiClient
         .get(`/users/${word}`)
         .then((res) => {
-          setFriendArray(
-            res.data.users.map((friend) => (
-              <Friend name={friend.name} mes={friend.statusMessage} isfriend={userfl.includes(friend.userId)} />
-            ))
-          );
-          console.log(userfl);
+          setResult([...res.data.users]);
         })
         .catch((e) => {
           console.log(e);
@@ -43,6 +56,34 @@ export const FriendSearchPage = () => {
     }
     setWord("");
     setDisabled(false);
+  };
+
+  const onChangebt = (checkid) => {
+    if (userfl.includes(checkid)) {
+      return "친구 삭제";
+    } else {
+      return "친구 추가";
+    }
+  };
+
+  const RenderResult = () => {
+    //onChangebt(user.userId)
+
+    return result.map((user) => (
+      <div className="friend">
+        <div>{user.name}</div>
+        <div style={{ maxWidth: "80vh", padding: "15px" }}>{user.statusMessage}</div>
+        <form>
+          <input
+            type="button"
+            id={user.userId}
+            className="ButtonStyle"
+            value={onChangebt(user.userId)}
+            onClick={() => onClickButton(user)}
+          />
+        </form>
+      </div>
+    ));
   };
 
   return (
@@ -78,23 +119,7 @@ export const FriendSearchPage = () => {
           </div>
         </form>
       </div>
-      <div className="SearchResult">{FriendArray.map((item) => item)}</div>
+      <div className="SearchResult">{RenderResult()}</div>
     </div>
   );
 };
-
-function Friend({ name, mes, isfriend }) {
-  const [fr, setfr] = useState(isfriend ? "친구삭제" : "친구추가");
-
-  const onChangeFr = (e) => {
-    setfr(e.target.value);
-  };
-
-  return (
-    <div className="friend">
-      <div>{name}</div>
-      <div style={{ maxWidth: "80vh", padding: "15px" }}>{mes}</div>
-      <button className="ButtonStyle">{fr}</button>
-    </div>
-  );
-}
