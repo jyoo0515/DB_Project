@@ -13,6 +13,10 @@ export const Socket = (props) => {
 
   useEffect(() => {
     socket.emit("enter_room", roomId);
+    socket.on("error", (data) => {
+      alert(data.message);
+      document.location.href = "/chats";
+    });
     socket.on("load_total", (messages) => {
       setTotal([...total, ...messages]);
     });
