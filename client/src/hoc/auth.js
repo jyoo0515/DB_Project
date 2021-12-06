@@ -24,7 +24,7 @@ export default function (SpecificComponent, loginRequired) {
           }
         })
         .catch((err) => {
-          if (isAuth) {
+          if (loginRequired) {
             props.history.push("/login");
           }
         });

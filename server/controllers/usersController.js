@@ -122,7 +122,7 @@ exports.delete = async (req, res) => {
   try {
     const result = await User.deleteById(userId);
     if (result) {
-      return res.json({ message: "Deletion successful" });
+      return res.cookie("access_token", "").json({ message: "Deletion successful" });
     } else {
       return res.status(400).json({ message: "User not found" });
     }
