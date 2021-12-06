@@ -91,3 +91,17 @@ div::-webkit-scrollbar {
 .content {
   margin-bottom: 10vh;
 }
+
+.returnToFriends {
+  position: absolute;
+  overflow: hidden;
+  margin-top: 12vh;
+  padding-left: 30%;
+  width: 22vw;
+  height: 20vh;
+}
+
+.returnImg {
+  width: 15vw;
+  height: 20vh;
+}
