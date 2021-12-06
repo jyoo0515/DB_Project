@@ -90,7 +90,7 @@ exports.login = async (req, res) => {
         await User.changeState(userId, 1);
         return res
           .cookie("access_token", token, {
-            expires: new Date(new Date().getTime() + 1 * 60 * 60000),
+            expires: new Date(new Date().getTime() + 4 * 3600 * 1000),
             httpOnly: true,
           })
           .json({ loginSuccess: true, userId: userId });
