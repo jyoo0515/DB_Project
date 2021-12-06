@@ -24,7 +24,9 @@ export default function (SpecificComponent, loginRequired) {
           }
         })
         .catch((err) => {
-          props.history.push("/login");
+          if (isAuth) {
+            props.history.push("/login");
+          }
         });
 
       // console.log(user);
