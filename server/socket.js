@@ -26,7 +26,12 @@ module.exports = (io) => {
         socket.join(roomId);
         socket.roomId = roomId;
         if (room.firstId == userId) socket.friendId = room.secondId;
-        else socket.friendId = room.firstId;
+        else if (room.secondId == userId) socket.friendId = room.firstId;
+        else {
+          socket.emit("error", { message: "Unauthorized" });
+          socket.disconnect();
+          return;
+        }
         console.log(`User ${socket.id} joined room ${roomId}`);
         const messages = await Message.findAll(socket.roomId);
         io.to(socket.roomId).emit("load_total", messages);
