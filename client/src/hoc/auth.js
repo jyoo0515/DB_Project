@@ -10,7 +10,6 @@ export default function (SpecificComponent, loginRequired) {
       apiClient
         .get("/users/me")
         .then((response) => {
-          console.log(response.data);
           user = response.data;
           isAuth = true;
 
