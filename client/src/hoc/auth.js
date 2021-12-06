@@ -10,23 +10,26 @@ export default function (SpecificComponent, loginRequired) {
       apiClient
         .get("/users/me")
         .then((response) => {
+          console.log(response.data);
           user = response.data;
           isAuth = true;
+
+          if (!isAuth) {
+            if (loginRequired) {
+              props.history.push("/login");
+            }
+          } else {
+            if (loginRequired == null) {
+              props.history.push("/friends");
+            }
+          }
         })
         .catch((err) => {
-          user = undefined;
-          isAuth = false;
+          props.history.push("/login");
         });
 
-      if (!isAuth) {
-        if (loginRequired) {
-          props.history.push("/login");
-        }
-      } else {
-        if (loginRequired == null) {
-          props.history.push("/friends");
-        }
-      }
+      // console.log(user);
+      // console.log(isAuth);
     }, []);
 
     return (
