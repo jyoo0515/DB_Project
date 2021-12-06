@@ -70,6 +70,12 @@
   font-size: 3.3rem;
 }
 
+.resetButton {
+  margin-top: 4vh;
+  font: normal normal medium 73px/84px Gmarket Sans TTF;
+  font-size: 3.3rem;
+}
+
 div {
   overflow-y: scroll;
 }
