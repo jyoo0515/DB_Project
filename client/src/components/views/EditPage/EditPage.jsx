@@ -1,12 +1,23 @@
-import React from "react";
-import { NavBar } from "../NavBar/NavBar";
-
+import React, { useState, useEffect } from "react";
+import apiClient from "../../utils/axios";
 import "./editStyle.css";
-import axios from "axios";
-import { accordionSummaryClasses } from "@mui/material";
 
 export const EditPage = () => {
-  axios.get("http://localhost:5000/api/users/me");
+  const [myData, setMyData] = useState({});
+  useEffect(() => {
+    apiClient.get("/users/me").then((res) => setMyData(res.data));
+    console.log(myData);
+  }, []);
+
+  const logOut = () => {
+    apiClient.get("/users/logout").catch((err) => console.log(err));
+    document.location.href = "/";
+  };
+
+  const deleteAccount = () => {
+    apiClient.delete("/users/me").catch((err) => console.log(err));
+    document.location.href = "/";
+  };
 
   return (
     <div>
@@ -15,7 +26,7 @@ export const EditPage = () => {
         <div className="blackLine1"></div>
         <form className="formstyle">
           <div className="word">STATUS MESSAGE</div>
-          <input className="enterBox"></input>
+          <input className="enterBox" placeholder={myData.statusMessage}></input>
           <div className="word">LOCATION</div>
           <select className="enterBox">
             <option className="location" disabled selected>
@@ -39,13 +50,20 @@ export const EditPage = () => {
               EDIT
             </button>
           </div>
-          <div className="editButton">CANCEL</div>
+          <div>
+            <button className="editButton" type="reset">
+              RESET
+            </button>
+          </div>
         </form>
         <div className="blackLine2"></div>
-        <div className="logoutButton">LOG OUT</div>
-        <div className="logoutButton">DELETE ACCOUNT</div>
+        <div className="logoutButton" onClick={logOut}>
+          LOG OUT
+        </div>
+        <div className="logoutButton" onClick={deleteAccount}>
+          DELETE ACCOUNT
+        </div>
       </div>
-      <NavBar></NavBar>
     </div>
   );
 };

@@ -31,6 +31,13 @@ class ChatRoom {
     return chatRoom[0];
   }
 
+  static async findOneById(chatRoomId) {
+    const sql = `SELECT * FROM chatRooms WHERE id='${chatRoomId}' LIMIT 1`;
+    const [chatRoom, _] = await db.execute(sql);
+
+    return chatRoom[0];
+  }
+
   async create() {
     const sql = `INSERT INTO chatRooms(
       firstId,

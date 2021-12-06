@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import io from "socket.io-client";
-import apiClient from "../../utils/axios";
 
 const socket = io("http://localhost:5000/", {
   withCredentials: true,
@@ -8,26 +7,27 @@ const socket = io("http://localhost:5000/", {
 
 export const Socket = (props) => {
   const roomId = props.match.params.roomId;
-  const friendId = "ttmyId";
 
   const [msg, setMsg] = useState("");
   const [total, setTotal] = useState([]);
 
   useEffect(() => {
     socket.emit("enter_room", roomId);
-    socket.on("load", (data) => {
-      console.log(data);
-      console.log(total);
+    socket.on("error", (data) => {
+      alert(data.message);
+      document.location.href = "/chats";
     });
-  }, []);
+    socket.on("load_total", (messages) => {
+      setTotal([...total, ...messages]);
+    });
+  }, [roomId]);
 
   useEffect(() => {
-    socket.on("receive_message", (message) => console.log(message));
+    socket.on("load_message", (message) => {
+      console.log(message);
+      setTotal([...total, message]);
+    });
   });
-
-  // useEffect(() => {
-  //   socket.on("load")
-  // })
 
   const onChangeHandle = (e) => {
     setMsg(e.target.value);
@@ -35,12 +35,29 @@ export const Socket = (props) => {
 
   const onSubmitHandle = (e) => {
     e.preventDefault();
-    socket.emit("send_message", { friendId, msg });
+    if (msg) {
+      socket.emit("send", { content: msg, timeLimit: null });
+    }
     // socket.on("receive_message", (message) => console.log(message));
     setMsg("");
   };
+
+  const renderMessage = () => {
+    return total.map((message) => (
+      <div key={message.id}>
+        <h3>
+          {message.fromId}:<span>{message.content}</span>
+        </h3>
+      </div>
+    ));
+  };
+
   return (
     <div>
+      <div>
+        <h1>Chat Log</h1>
+        {renderMessage()}
+      </div>
       <form id="msgform" onSubmit={onSubmitHandle}>
         <input id="msginput" autoComplete="off" placeholder="메세지" onChange={onChangeHandle} value={msg} />
         <button type="submit">전송</button>
