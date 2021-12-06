@@ -1,140 +1,61 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import apiClient from "../../utils/axios";
+import ScrollToBottom from "react-scroll-to-bottom";
 
-export const ChatText = ({ roomId }) => {
-  const date = "2022-01-04";
-  const time = "00:00";
-  const isRead = false;
-  const isReadPrime = true;
-  const location = "컴실";
-  const deleteTime = "23:59:59";
+export const ChatText = ({ socket, myData, roomId }) => {
+  const myId = myData.userId;
+  const myLoc = myData.location;
+  const [total, setTotal] = useState([]);
 
-  return (
-    <>
-      <Chat>
-        <div>
-          <Msg className="other">
-            1112323111111
-            <br />
-            111111111
-          </Msg>
-          <Time className="other">
-            {date}&nbsp;
-            {time}&nbsp;
-            {isRead ? "읽음" : "안 읽음"}&nbsp; (&nbsp;{location}&nbsp;{deleteTime}에 삭제됨&nbsp;)
-          </Time>
-        </div>
-        <div align="right">
+  useEffect(() => {
+    socket.emit("enter_room", roomId);
+    socket.on("error", (data) => {
+      alert(data.message);
+      document.location.href = "/chats";
+    });
+    socket.on("load_total", (messages) => {
+      setTotal([...total, ...messages]);
+    });
+  }, [roomId]);
+
+  useEffect(() => {
+    socket.on("load_message", (message) => {
+      setTotal([...total, message]);
+    });
+  });
+
+  const renderMessage = () => {
+    return total.map((message) => (
+      <div key={message.id} align={message.fromId === myId ? "right" : "left"}>
+        {message.fromId === myId ? (
           <Time className="me">
-            {date}&nbsp;
-            {time}&nbsp;
-            {isRead ? "읽음" : "안 읽음"}
+            {message.createdAt}&nbsp;{message.readStatus === 1 ? "읽음" : "안 읽음"}
+            {message.expiresAt === null ? "" : `( ${myLoc} ${message.expiresAt}에 삭제됨 )`}
           </Time>
-          <Msg className="me">111</Msg>
-        </div>
-        <div align="right">
-          <Time className="me">
-            {date}&nbsp;
-            {time}&nbsp;
-            {isReadPrime ? "읽음" : "안 읽음"}&nbsp; (&nbsp;{location}&nbsp;{deleteTime}에 삭제됨&nbsp;)
-          </Time>
-          <Msg className="me">ㅋ</Msg>
-        </div>
-        <div>
-          <Msg className="other">ㅎ</Msg>
+        ) : (
+          ""
+        )}
+        <Msg className={message.fromId === myId ? "me" : "other"}>{message.content}</Msg>
+        {message.fromId === myId ? (
+          ""
+        ) : (
           <Time className="other">
-            {date}&nbsp;
-            {time}&nbsp;
-            {isReadPrime ? "읽음" : "안 읽음"}
+            {message.createdAt}&nbsp;{message.readStatus === 1 ? "읽음" : "안 읽음"}
+            {message.expiresAt === null ? "" : `( ${myLoc} ${message.expiresAt}에 삭제됨 )`}
           </Time>
-        </div>
-        <div>
-          <Msg className="other">
-            1112323111111
-            <br />
-            111111111
-          </Msg>
-          <Time className="other">
-            {date}&nbsp;
-            {time}&nbsp;
-            {isRead ? "읽음" : "안 읽음"}&nbsp; (&nbsp;{location}&nbsp;{deleteTime}에 삭제됨&nbsp;)
-          </Time>
-        </div>
-        <div align="right">
-          <Time className="me">
-            {date}&nbsp;
-            {time}&nbsp;
-            {isRead ? "읽음" : "안 읽음"}
-          </Time>
-          <Msg className="me">111</Msg>
-        </div>
-        <div align="right">
-          <Time className="me">
-            {date}&nbsp;
-            {time}&nbsp;
-            {isReadPrime ? "읽음" : "안 읽음"}&nbsp; (&nbsp;{location}&nbsp;{deleteTime}에 삭제됨&nbsp;)
-          </Time>
-          <Msg className="me">ㅋ</Msg>
-        </div>
-        <div>
-          <Msg className="other">ㅎ</Msg>
-          <Time className="other">
-            {date}&nbsp;
-            {time}&nbsp;
-            {isReadPrime ? "읽음" : "안 읽음"}
-          </Time>
-        </div>
-        <div>
-          <Msg className="other">
-            1112323111111
-            <br />
-            111111111
-          </Msg>
-          <Time className="other">
-            {date}&nbsp;
-            {time}&nbsp;
-            {isRead ? "읽음" : "안 읽음"}&nbsp; (&nbsp;{location}&nbsp;{deleteTime}에 삭제됨&nbsp;)
-          </Time>
-        </div>
-        <div align="right">
-          <Time className="me">
-            {date}&nbsp;
-            {time}&nbsp;
-            {isRead ? "읽음" : "안 읽음"}
-          </Time>
-          <Msg className="me">111</Msg>
-        </div>
-        <div align="right">
-          <Time className="me">
-            {date}&nbsp;
-            {time}&nbsp;
-            {isReadPrime ? "읽음" : "안 읽음"}&nbsp; (&nbsp;{location}&nbsp;{deleteTime}에 삭제됨&nbsp;)
-          </Time>
-          <Msg className="me">ㅋ</Msg>
-        </div>
-        <div>
-          <Msg className="other">ㅎ</Msg>
-          <Time className="other">
-            {date}&nbsp;
-            {time}&nbsp;
-            {isReadPrime ? "읽음" : "안 읽음"}
-          </Time>
-        </div>
-      </Chat>
-    </>
-  );
+        )}
+      </div>
+    ));
+  };
+
+  return <STB>{renderMessage()}</STB>;
 };
 
-const Chat = styled.div`
+const STB = styled(ScrollToBottom)`
   grid-area: chat1;
   margin: 0 auto;
   padding: 1vh 0;
   width: 100%;
-  overflow-y: scroll;
-  &::-webkit-scrollbar {
-    display: none;
-  }
 `;
 
 const Msg = styled.div`
@@ -146,8 +67,6 @@ const Msg = styled.div`
   padding: 1vh 1.5vw;
   max-width: 70vw;
   overflow-wrap: break-word;
-  &.other {
-  }
   &.me {
     background-color: black;
     color: white;
@@ -160,8 +79,6 @@ const Time = styled.div`
   font-size: 0.8rem;
   margin: 0 auto;
   padding-bottom: 0.7rem;
-  &.other {
-  }
   &.me {
     color: black;
   }

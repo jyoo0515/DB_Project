@@ -4,27 +4,36 @@ import { HeadNav } from "./HeadNav";
 import { ChatText } from "./ChatText";
 import { FootNav } from "./FootNav";
 import apiClient from "../../utils/axios";
+import io from "socket.io-client";
 
-export const ChatRoomPage = () => {
+const socket = io("http://localhost:5000/", {
+  withCredentials: true,
+});
+
+export const ChatRoomPage = (props) => {
   const [myData, setMyData] = useState({});
-  const [otherId, setOtherId] = useState("");
+  const [otherData, setOtherData] = useState({});
 
   useEffect(() => {
-    apiClient.get("/users/me").then((res) => {
-      if (res.status !== 200) alert("apiClient.get('/users/me') ERROR");
-      else setMyData(res.data);
-    });
-    apiClient.get("/chats").then((res) => {
-      if (res.status !== 200) alert("apiClient.get('/chats') ERROR");
-      else console.log(res);
-    });
+    apiClient
+      .get("/users/me")
+      .then((res) => {
+        setMyData(res.data);
+      })
+      .catch((err) => console.log(err));
+    apiClient
+      .get("/chats")
+      .then((res) => {
+        setOtherData(res.data[0]);
+      })
+      .catch((err) => console.log(err));
   }, []);
 
   return (
     <ChatRoom>
-      <HeadNav myData={myData} otherId={otherId} />
-      <ChatText roomId={(props) => props.match.params.roomId} />
-      <FootNav roomId={(props) => props.match.params.roomId} />
+      <HeadNav otherData={otherData} />
+      <ChatText socket={socket} myData={myData} roomId={props.match.params.roomId} />
+      <FootNav socket={socket} />
     </ChatRoom>
   );
 };
