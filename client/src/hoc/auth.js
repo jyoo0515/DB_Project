@@ -24,7 +24,7 @@ export default function (SpecificComponent, loginRequired) {
         }
       } else {
         if (loginRequired == null) {
-          props.history.push("/");
+          props.history.push("/friends");
         }
       }
     }, []);
