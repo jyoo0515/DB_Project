@@ -117,7 +117,7 @@ exports.logout = async (req, res) => {
 };
 
 exports.delete = async (req, res) => {
-  const userId = req.params.userId;
+  const userId = req.user.userId;
 
   try {
     const result = await User.deleteById(userId);
