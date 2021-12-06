@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import apiClient from "../../utils/axios";
 import "./editStyle.css";
-import { palette } from "@mui/system";
 
 export const EditPage = () => {
   const [myData, setMyData] = useState({});
@@ -9,6 +8,16 @@ export const EditPage = () => {
     apiClient.get("/users/me").then((res) => setMyData(res.data));
     console.log(myData);
   }, []);
+
+  const logOut = () => {
+    apiClient.get("/users/logout").catch((err) => console.log(err));
+    document.location.href = "/";
+  };
+
+  const deleteAccount = () => {
+    apiClient.delete("/users/me").catch((err) => console.log(err));
+    document.location.href = "/";
+  };
 
   return (
     <div>
@@ -42,14 +51,16 @@ export const EditPage = () => {
             </button>
           </div>
           <div className="editButton">
-            <input type="reset" value="Reset">
-              CANCEL
-            </input>
+            <input type="reset" value="Reset" />
           </div>
         </form>
         <div className="blackLine2"></div>
-        <div className="logoutButton">LOG OUT</div>
-        <div className="logoutButton">DELETE ACCOUNT</div>
+        <div className="logoutButton" onClick={logOut}>
+          LOG OUT
+        </div>
+        <div className="logoutButton" onClick={deleteAccount}>
+          DELETE ACCOUNT
+        </div>
       </div>
     </div>
   );

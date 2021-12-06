@@ -50,6 +50,12 @@
   margin-left: 15vw;
   font: normal normal medium 73px/84px Gmarket Sans TTF;
   font-size: 3.3rem;
+  width: 30vw;
+}
+
+.logoutButton:hover {
+  background-color: black;
+  color: white;
 }
 
 .formstyle {
