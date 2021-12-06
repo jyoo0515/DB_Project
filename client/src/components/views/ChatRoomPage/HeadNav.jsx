@@ -1,25 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import apiClient from "../../utils/axios";
 
-export const HeadNav = ({ myData, otherId }) => {
+export const HeadNav = ({ otherData }) => {
   const [isFriend, setIsFriend] = useState(true);
 
+  useEffect(() => {
+    apiClient
+      .get("/friends")
+      .then((res) => {
+        const iD = res.data.find((user) => user.id === otherData.friendId);
+        if (iD === undefined) setIsFriend(false);
+        else setIsFriend(true);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
   const changeFriendState = () => {
-    setIsFriend(!isFriend);
-    if (isFriend)
+    if (!isFriend)
       apiClient
-        .post("/friends/", {
-          friendId: otherId,
+        .post("/friends", {
+          friendId: otherData.friendId,
         })
-        .then((res) => {
-          if (res.status !== 200) alert("apiClient.post('/friends/') ERROR");
-        });
-    else
-      apiClient.get(`/friends/${otherId}`).then((res) => {
-        if (res.status !== 200) alert("apiClient.get('/friends') ERROR");
-      });
+        .catch((err) => console.log(err));
+    else apiClient.delete(`/friends/${otherData.friendId}`).catch((err) => console.log(err));
+    setIsFriend(!isFriend);
   };
 
   return (
@@ -29,7 +35,7 @@ export const HeadNav = ({ myData, otherId }) => {
           <Img id="leftArrow" />
         </Link>
       </HeadImg>
-      <HeadName>{myData.name}</HeadName>
+      <HeadName>{otherData.name}</HeadName>
       <HeadImg id="changeFriendState" onClick={changeFriendState}>
         <Img id={isFriend ? "friendDelete" : "friendAdd"} />
       </HeadImg>

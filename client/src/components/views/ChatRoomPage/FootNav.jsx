@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { PopUp } from "./PopUp";
 import styled from "styled-components";
-import apiClient from "../../utils/axios";
 
-export const FootNav = ({ roomId }) => {
+export const FootNav = ({ socket }) => {
   const [msg, setMsg] = useState("");
   const [rdv, setRdv] = useState(false);
 
@@ -12,33 +11,18 @@ export const FootNav = ({ roomId }) => {
   };
 
   const onClickNormal = () => {
-    //  {
-    //    "fromId": "myid",
-    //    "toId": "amyid",
-    //    "content": msg,
-    //    "timeLimit": null
-    //  }
-    // apiClient.post("/chats", json).then((res) => console.log(res.data));
-    console.log(msg);
+    if (msg !== "") socket.emit("send", { content: msg, timeLimit: null });
     setMsg("");
   };
 
   const onClickRendezvous = () => {
     if (msg === "") return;
-
     setRdv(!rdv);
   };
 
-  const setSubmit = (isSubmit) => {
-    setRdv(!isSubmit);
-    //  {
-    //    "fromId": "myid",
-    //    "toId": "amyid",
-    //    "content": msg,
-    //    "timeLimit": <timeLimit 단위가 뭐에요?>
-    //  }
-    // apiClient.post("/chats", json).then((res) => console.log(res.data));
-    console.log(msg);
+  const setSubmit = (min) => {
+    setRdv(false);
+    if (msg !== "") socket.emit("send", { content: msg, timeLimit: min });
     setMsg("");
   };
 

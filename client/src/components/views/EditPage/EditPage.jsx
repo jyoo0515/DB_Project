@@ -6,7 +6,6 @@ export const EditPage = () => {
   const [myData, setMyData] = useState({});
   useEffect(() => {
     apiClient.get("/users/me").then((res) => setMyData(res.data));
-    console.log(myData);
   }, []);
 
   const logOut = () => {
@@ -15,7 +14,10 @@ export const EditPage = () => {
   };
 
   const deleteAccount = () => {
-    apiClient.delete("/users/me").catch((err) => console.log(err));
+    apiClient
+      .delete("/users/me")
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
     document.location.href = "/";
   };
 
@@ -25,13 +27,13 @@ export const EditPage = () => {
         <div className="edit"> EDIT </div>
         <div className="blackLine1"></div>
         <form className="formstyle">
-          <div className="word">STATUS MESSAGE</div>
-          <input className="enterBox" placeholder={myData.statusMessage}></input>
+          a<div className="word">STATUS MESSAGE</div>
+          <input
+            className="enterBox"
+            placeholder={myData.statusMessage === "null" ? "상태 메세지를 입력하세요" : myData.statusMessage}
+          ></input>
           <div className="word">LOCATION</div>
-          <select className="enterBox">
-            <option className="location" disabled selected>
-              SELECT YOUR LOCATION
-            </option>
+          <select className="enterBox" defaultValue="공학관">
             <option className="location" value="공학관">
               공학관
             </option>

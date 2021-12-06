@@ -52,6 +52,10 @@ const LandingLink = styled(Link)`
   &:active {
     text-decoration: none;
   }
+  &:hover {
+    background-color: black;
+    color: white;
+  }
 `;
 
 const LandingArticle = styled.article`
