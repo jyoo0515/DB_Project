@@ -26,7 +26,7 @@ export const EditPage = () => {
         <div className="blackLine1"></div>
         <form className="formstyle">
           <div className="word">STATUS MESSAGE</div>
-          <input className="enterBox"></input>
+          <input className="enterBox" placeholder={myData.statusMessage}></input>
           <div className="word">LOCATION</div>
           <select className="enterBox">
             <option className="location" disabled selected>
@@ -50,8 +50,10 @@ export const EditPage = () => {
               EDIT
             </button>
           </div>
-          <div className="editButton">
-            <input type="reset" value="Reset" />
+          <div>
+            <button className="editButton" type="reset">
+              RESET
+            </button>
           </div>
         </form>
         <div className="blackLine2"></div>
