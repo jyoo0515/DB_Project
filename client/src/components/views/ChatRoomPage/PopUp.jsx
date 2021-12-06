@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 export const PopUp = ({ setSubmit }) => {
   const [isClick, setIsClick] = useState([false, false, false, false]);
-  const [min, setMin] = useState("");
+  const [min, setMin] = useState(0);
 
   const onClick = (id) => {
     if (id === "3m") setIsClick([true, false, false, false]);
@@ -19,7 +19,7 @@ export const PopUp = ({ setSubmit }) => {
 
   const onlyNumber = (e) => {
     if (
-      (e.keyCode > 48 && e.keyCode < 57) ||
+      (e.keyCode > 47 && e.keyCode < 58) ||
       e.keyCode === 8 ||
       e.keyCode === 37 ||
       e.keyCode === 39 ||
@@ -30,7 +30,16 @@ export const PopUp = ({ setSubmit }) => {
   };
 
   const onSubmit = () => {
-    if (isClick[0] || isClick[1] || isClick[2] || (isClick[3] && min !== "")) setSubmit(false);
+    if (!isClick[0] && !isClick[1] && !isClick[2] && (!isClick[3] || min <= 0 || min === "")) return;
+
+    if (isClick[0]) setMin(3);
+    else if (isClick[1]) setMin(30);
+    else if (isClick[2]) setMin(60);
+    else if (isClick[3] && min > 0) setMin(min);
+    setSubmit(true);
+
+    console.log(isClick);
+    console.log(min);
   };
 
   return (
@@ -67,13 +76,13 @@ export const PopUp = ({ setSubmit }) => {
             onClick("?m");
           }}
         >
-          {min === "" ? "?" : min}min
+          {min <= 0 || min === "" ? "?" : min}min
         </MinBtn>
-        {isClick[3] ? <MinuteInput value={min} onKeyDown={onlyNumber} onChange={onChange} /> : ""}
         <MinBtn id="submit" onClick={onSubmit}>
           SEND
         </MinBtn>
       </Main>
+      {isClick[3] ? <MinuteInput value={min} onKeyDown={onlyNumber} onChange={onChange} /> : ""}
     </>
   );
 };
@@ -132,8 +141,8 @@ const MinBtn = styled.button`
 const MinuteInput = styled.input`
   position: absolute;
   z-index: 3;
-  top: -7vh;
-  left: 10vw;
+  top: 27vh;
+  left: 45vw;
   width: 10vw;
   height: 5vh;
   font-size: 3vh;

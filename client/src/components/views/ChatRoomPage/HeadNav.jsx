@@ -1,26 +1,35 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import apiClient from "../../utils/axios";
 
-export const HeadNav = () => {
+export const HeadNav = ({ myData, otherId }) => {
   const [isFriend, setIsFriend] = useState(true);
 
-  const returnToPrevPage = () => {
-    console.log("return");
-  };
-
-  const changeFriendState = (e) => {
+  const changeFriendState = () => {
     setIsFriend(!isFriend);
+    if (isFriend)
+      apiClient
+        .post("/friends/", {
+          friendId: otherId,
+        })
+        .then((res) => {
+          if (res.status !== 200) alert("apiClient.post('/friends/') ERROR");
+        });
+    else
+      apiClient.get(`/friends/${otherId}`).then((res) => {
+        if (res.status !== 200) alert("apiClient.get('/friends') ERROR");
+      });
   };
 
   return (
     <>
-      <HeadImg id="returnToChatList" onClick={returnToPrevPage}>
+      <HeadImg id="returnToChatList">
         <Link to="/chats">
           <Img id="leftArrow" />
         </Link>
       </HeadImg>
-      <HeadName>권동욱</HeadName>
+      <HeadName>{myData.name}</HeadName>
       <HeadImg id="changeFriendState" onClick={changeFriendState}>
         <Img id={isFriend ? "friendDelete" : "friendAdd"} />
       </HeadImg>

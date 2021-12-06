@@ -1,7 +1,8 @@
 import React from "react";
 import styled from "styled-components";
+import apiClient from "../../utils/axios";
 
-export const ChatText = () => {
+export const ChatText = ({ roomId }) => {
   const date = "2022-01-04";
   const time = "00:00";
   const isRead = false;

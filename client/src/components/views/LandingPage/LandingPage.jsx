@@ -78,4 +78,5 @@ const LandingFooter = styled.footer`
   color: gray;
   font-size: 1rem;
   text-align: center;
+  margin: 0 auto;
 `;
