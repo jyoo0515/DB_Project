@@ -1,10 +1,11 @@
 const db = require("../config/db");
+const ChatRoom = require("./ChatRoom");
 
 class Message {
-  constructor(fromId, toId, chatRoomId, content, timeLimit) {
+  constructor(fromId, toId, content, timeLimit) {
     this.fromId = fromId;
     this.toId = toId;
-    this.chatRoomId = chatRoomId;
+    this.chatRoomId = null;
     this.content = content;
     if (timeLimit === undefined || timeLimit == null) {
       this.expiresAt = null;
@@ -19,6 +20,15 @@ class Message {
   }
 
   async create() {
+    const room = new ChatRoom(this.fromId, this.toId);
+    const existingRoom = await room.findOne();
+    if (existingRoom === undefined) {
+      const result = await room.create();
+      this.chatRoomId = result.id;
+    } else {
+      this.chatRoomId = existingRoom.id;
+    }
+
     let sql;
     if (this.expiresAt == null) {
       sql = `
@@ -62,6 +72,13 @@ class Message {
     const [messageRows, _] = await db.execute(sql);
 
     return messageRows;
+  }
+
+  static async findOneById(messageId) {
+    const sql = `SELECT * FROM messages WHERE id='${messageId}' LIMIT 1;`;
+    const [messageRow, _] = await db.execute(sql);
+
+    return messageRow[0];
   }
 }
 

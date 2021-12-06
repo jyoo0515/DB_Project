@@ -19,19 +19,20 @@ module.exports = (io) => {
         socket.join(roomId);
         socket.roomId = roomId;
         console.log(`User ${socket.id} joined room ${roomId}`);
-        const messages = await Message.findAll(roomId);
-        io.to(roomId).emit("load", messages);
+        const messages = await Message.findAll(socket.roomId);
+        io.to(socket.roomId).emit("load_total", messages);
       });
 
-      // socket.on("send_message", (data) => {
-      //   // const message = new Message(fromId, toId, null, content, timeLimit);
-      //   // io.to(data.roomId).emit("receive_message", data);
-      //   console.log(data);
-      // });
+      socket.on("send", async (data) => {
+        const message = new Message(userId, "ttmyid", data.content, data.timeLimit);
+        const [result, _] = await message.create();
+        const createdMessage = await Message.findOneById(result.insertId);
+        io.to(socket.roomId).emit("load_message", createdMessage);
+      });
 
       socket.on("disconnect", () => {
-        console.log("Disconnected");
         socket.disconnect();
+        console.log("Disconnected");
       });
     }
   });
