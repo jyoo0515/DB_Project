@@ -1,25 +1,89 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import "./FriendSearch.css";
+import apiClient from "../../utils/axios";
 import { Link } from "react-router-dom";
+import { RESERVED_EVENTS } from "socket.io/dist/socket";
 
 export const FriendSearchPage = () => {
-  const [value, setValue] = useState("");
+  const [reRender, setRender] = useState(false);
+  const [word, setWord] = useState("");
   const [disabled, setDisabled] = useState(false);
-  const onChange = useCallback((e) => {
-    setValue(e.target.value);
-  }, []);
+  const [result, setResult] = useState([]);
+  const [userfl, setUserfl] = useState([]);
 
-  const handleSubmit = async (event) => {
+  const onClickButton = (params) => {
+    const tmp = document.getElementById(params.userId).value;
+    if (tmp == "친구 추가") {
+      apiClient.post("/friends", { friendId: params.userId }).catch((e) => {
+        console.log(e);
+      });
+    } else {
+      apiClient.delete(`/friends/${params.userId}`).catch((e) => {
+        console.log(e);
+      });
+    }
+    setRender(`${tmp} + ${params.userId}`);
+    console.log(reRender);
+  };
+
+  useEffect(() => {
+    apiClient.get("/friends/").then((res) => {
+      setUserfl(res.data.map((item) => item.userId));
+    });
+    let tmparr = [...result];
+    setResult(tmparr);
+  }, [reRender]);
+
+  const onChangeWord = (e) => {
+    setWord(e.target.value);
+  };
+
+  const handleSubmit = (event) => {
     setDisabled(true);
     event.preventDefault();
-    await new Promise((r) => setTimeout(r, 500));
-    if (value.length < 1) {
+    if (word == "") {
       alert("사용자 이름을 입력하세요.");
     } else {
-      alert(`검색: ${value}`);
+      //search
+      apiClient
+        .get(`/users/${word}`)
+        .then((res) => {
+          setResult([...res.data.users]);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     }
-    setValue("");
+    setWord("");
     setDisabled(false);
+  };
+
+  const onChangebt = (checkid) => {
+    if (userfl.includes(checkid)) {
+      return "친구 삭제";
+    } else {
+      return "친구 추가";
+    }
+  };
+
+  const RenderResult = () => {
+    //onChangebt(user.userId)
+
+    return result.map((user) => (
+      <div className="friend">
+        <div>{user.name}</div>
+        <div style={{ maxWidth: "80vh", padding: "15px" }}>{user.statusMessage}</div>
+        <form>
+          <input
+            type="button"
+            id={user.userId}
+            className="ButtonStyle"
+            value={onChangebt(user.userId)}
+            onClick={() => onClickButton(user)}
+          />
+        </form>
+      </div>
+    ));
   };
 
   return (
@@ -40,12 +104,12 @@ export const FriendSearchPage = () => {
         <form onSubmit={handleSubmit}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <input
-              style={{ width: "75%", height: "4vh" }}
-              name="friendinput"
-              type="friendinput"
+              style={{ width: "75%", height: "4vh", border: "0.5vh solid gray", padding: "0 0 0 2vh" }}
+              type="text"
               placeholder="ID를 입력하세요"
-              value={value}
-              onChange={onChange}
+              onChange={onChangeWord}
+              value={word}
+              required
             />
             <div>
               <button style={{ overflowWrap: "break-word" }} type="submit" className="ButtonStyle" disabled={disabled}>
@@ -55,28 +119,7 @@ export const FriendSearchPage = () => {
           </div>
         </form>
       </div>
-      <div className="SearchResult">
-        <Friend />
-        <Friend />
-        <Friend />
-        <Friend />
-        <Friend />
-        <Friend />
-        <Friend />
-        <Friend />
-        <Friend />
-        <Friend />
-      </div>
+      <div className="SearchResult">{RenderResult()}</div>
     </div>
   );
 };
-
-function Friend() {
-  return (
-    <div className="friend">
-      <div>학생</div>
-      <div style={{ maxWidth: "80vh", padding: "15px" }}>안녕하세요 저는 임채림입니다 카톡하지말아주세요</div>
-      <button className="ButtonStyle">친구 삭제</button>
-    </div>
-  );
-}

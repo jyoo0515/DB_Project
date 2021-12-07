@@ -77,8 +77,8 @@ class User {
     return userRow;
   }
 
-  static async nearbyUsers(userId) {
-    const sql = `SELECT * FROM users WHERE location=(SELECT location FROM users WHERE userId='${userId}');`;
+  static async nearbyUsers(location) {
+    const sql = `SELECT * FROM users WHERE location='${location}';`;
     const [userRow, _] = await db.execute(sql);
     return userRow;
   }

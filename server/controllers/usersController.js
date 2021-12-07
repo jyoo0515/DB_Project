@@ -90,7 +90,7 @@ exports.login = async (req, res) => {
         await User.changeState(userId, 1);
         return res
           .cookie("access_token", token, {
-            expires: new Date(new Date().getTime() + 1 * 60 * 60000),
+            expires: new Date(new Date().getTime() + 4 * 3600 * 1000),
             httpOnly: true,
           })
           .json({ loginSuccess: true, userId: userId });
@@ -117,12 +117,12 @@ exports.logout = async (req, res) => {
 };
 
 exports.delete = async (req, res) => {
-  const userId = req.params.userId;
+  const userId = req.user.userId;
 
   try {
     const result = await User.deleteById(userId);
     if (result) {
-      return res.json({ message: "Deletion successful" });
+      return res.cookie("access_token", "").json({ message: "Deletion successful" });
     } else {
       return res.status(400).json({ message: "User not found" });
     }
@@ -152,10 +152,12 @@ exports.update = async (req, res) => {
 };
 
 exports.nearby = async (req, res) => {
-  const userId = req.user.userId;
+  const locationList = ["공학관", "신촌역", "백양관", "학생회관"];
+  const idx = req.params.location;
+  if (idx > 3 || idx < 0) return res.status(400).json({ message: "Bad request" });
   try {
     let userDtos = [];
-    const users = await User.nearbyUsers(userId);
+    const users = await User.nearbyUsers(locationList[idx]);
     users.forEach((user) => userDtos.push(User.destruct(user)));
     return res.json(userDtos);
   } catch (err) {

@@ -1,5 +1,6 @@
 const cookie = require("cookie");
 const auth = require("./middleware/auth");
+const ChatRoom = require("./models/ChatRoom");
 const Message = require("./models/Message");
 
 const getIdAndName = (socket) =>
@@ -8,59 +9,45 @@ const getIdAndName = (socket) =>
     auth.verify(cookie.parse(socket.handshake.headers["cookie"]).access_token)) ||
   {};
 
-const updateOnlineList = (io, roomName) => {
-  const roomPeople = io.sockets.adapter.rooms.get(roomName)
-    ? Array.from(io.sockets.adapter.rooms.get(roomName)).map((socket_id) => ({
-        id: io.sockets.sockets.get(socket_id).user_id,
-        name: io.sockets.sockets.get(socket_id).name,
-      }))
-    : [];
-
-  // notification(알림) to people
-  io.to(roomName).emit("UPDATE_ONLINE_USERS", roomPeople);
-};
-
-const findSocketById = (io, id) => {
-  const sockets = [];
-  for (let socket of io.sockets.sockets.values()) {
-    if (socket.user_id === id) {
-      sockets.push(socket);
-    }
-  }
-
-  return sockets;
-};
-
 module.exports = (io) => {
-  //Event on connection
   io.on("connection", (socket) => {
     const { userId, name } = getIdAndName(socket);
 
-    // if (userId) {
-    //   findSocketById(io, userId).map((socket) => socket.disconnet());
-    //   socket.user_id = userId;
-    //   socket.name = name;
-    //   socket.join("online");
-    //   updateOnlineList(io, "online");
-    //   console.log(`${userId} joined online`);
-    // } else {
-    //   socket.disconnet();
-    // }
+    if (userId) {
+      io.sockets.userId = userId;
 
-    // socket.on("message", (msg) => {
-    //   const { fromId, toId, content, timeLimit } = msg;
-    //   const targetSockets = findSocketById(io, toId);
-    //   const message = new Message(fromId, toId, null, content, timeLimit);
+      socket.on("enter_room", async (roomId) => {
+        const room = await ChatRoom.findOneById(roomId);
+        if (room.firstId != userId && room.secondId != userId) {
+          socket.emit("error", { message: "Unauthorized" });
+          socket.disconnect();
+          return;
+        }
+        socket.join(roomId);
+        socket.roomId = roomId;
+        if (room.firstId == userId) socket.friendId = room.secondId;
+        else if (room.secondId == userId) socket.friendId = room.firstId;
+        else {
+          socket.emit("error", { message: "Unauthorized" });
+          socket.disconnect();
+          return;
+        }
+        console.log(`User ${socket.id} joined room ${roomId}`);
+        const messages = await Message.findAll(socket.roomId);
+        io.to(socket.roomId).emit("load_total", messages);
+      });
 
-    //   io.emit("message", msg);
-    // });
+      socket.on("send", async (data) => {
+        const message = new Message(userId, socket.friendId, data.content, data.timeLimit);
+        const [result, _] = await message.create();
+        const createdMessage = await Message.findOneById(result.insertId);
+        io.to(socket.roomId).emit("load_message", createdMessage);
+      });
 
-    // socket.on("disconnect", () => {
-    //   if (socket.user_id) {
-    //     socket.leave("online");
-    //     updateOnlineList(io, "online");
-    //     console.log(`${socket.user_id} left online`);
-    //   }
-    // });
+      socket.on("disconnect", () => {
+        socket.disconnect();
+        console.log("Disconnected");
+      });
+    }
   });
 };

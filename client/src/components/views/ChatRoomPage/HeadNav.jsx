@@ -1,26 +1,41 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import apiClient from "../../utils/axios";
 
-export const HeadNav = () => {
+export const HeadNav = ({ otherData }) => {
   const [isFriend, setIsFriend] = useState(true);
 
-  const returnToPrevPage = () => {
-    console.log("return");
-  };
+  useEffect(() => {
+    apiClient
+      .get("/friends")
+      .then((res) => {
+        const iD = res.data.find((user) => user.id === otherData.friendId);
+        if (iD === undefined) setIsFriend(false);
+        else setIsFriend(true);
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
-  const changeFriendState = (e) => {
+  const changeFriendState = () => {
+    if (!isFriend)
+      apiClient
+        .post("/friends", {
+          friendId: otherData.friendId,
+        })
+        .catch((err) => console.log(err));
+    else apiClient.delete(`/friends/${otherData.friendId}`).catch((err) => console.log(err));
     setIsFriend(!isFriend);
   };
 
   return (
     <>
-      <HeadImg id="returnToChatList" onClick={returnToPrevPage}>
+      <HeadImg id="returnToChatList">
         <Link to="/chats">
           <Img id="leftArrow" />
         </Link>
       </HeadImg>
-      <HeadName>권동욱</HeadName>
+      <HeadName>{otherData.name}</HeadName>
       <HeadImg id="changeFriendState" onClick={changeFriendState}>
         <Img id={isFriend ? "friendDelete" : "friendAdd"} />
       </HeadImg>

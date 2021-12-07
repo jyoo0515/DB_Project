@@ -52,6 +52,10 @@ const LandingLink = styled(Link)`
   &:active {
     text-decoration: none;
   }
+  &:hover {
+    background-color: black;
+    color: white;
+  }
 `;
 
 const LandingArticle = styled.article`
@@ -78,4 +82,5 @@ const LandingFooter = styled.footer`
   color: gray;
   font-size: 1rem;
   text-align: center;
+  margin: 0 auto;
 `;
