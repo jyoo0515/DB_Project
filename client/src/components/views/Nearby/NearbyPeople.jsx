@@ -1,5 +1,7 @@
 import React from "react";
 import "./NearbyPeople.css";
+import { useState, useEffect } from "react";
+import apiClient from "../../utils/axios";
 
 export const NearbyPeople = () => {
   return (
@@ -24,6 +26,10 @@ export const NearbyPeople = () => {
 };
 
 function Friend() {
+  const [myData, setMyData] = useState({});
+  useEffect(() => {
+    apiClient.get("/chats").then((res) => setMyData(res));
+  }, []);
   return (
     <div className="friend">
       <div>학생A(학생)</div>
