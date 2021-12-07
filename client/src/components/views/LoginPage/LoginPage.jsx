@@ -40,37 +40,33 @@ export const LoginPage = () => {
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <div className="login_box">
-          <div className="login_logo">PRETALK</div>
-          <div className="login_bar"></div>
-          <form className="login_form" method="post" onSubmit={handleSubmit}>
-            <input
-              type="text"
-              placeholder="ID"
-              className="login_inpbox"
-              onChange={onUserIdChange}
-              value={userId}
-              required
-            />
-            <input
-              type="password"
-              placeholder="PASSWORD"
-              className="login_inpbox"
-              onChange={onPasswordChange}
-              value={password}
-              required
-            />
-            <button className="login_button" type="submit">
-              LOG IN
-            </button>
-          </form>
-          <Link to="../register">
-            <button className="login_button">SIGN UP</button>
-          </Link>
-        </div>
-      </Container>
-    </ThemeProvider>
+    <div className="login_box">
+      <div className="login_logo">PRETALK</div>
+      <div className="login_bar"></div>
+      <form className="login_form" method="post" onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="ID"
+          className="login_inpbox"
+          onChange={onUserIdChange}
+          value={userId}
+          required
+        />
+        <input
+          type="password"
+          placeholder="PASSWORD"
+          className="login_inpbox"
+          onChange={onPasswordChange}
+          value={password}
+          required
+        />
+        <button className="login_button" type="submit">
+          LOG IN
+        </button>
+      </form>
+      <Link to="../register">
+        <button className="login_button">SIGN UP</button>
+      </Link>
+    </div>
   );
 };
