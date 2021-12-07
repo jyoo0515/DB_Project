@@ -6,7 +6,7 @@ export const NearbyPeople = () => {
     <div>
       <div className="container">
         <div></div>
-        <div className="title">CHAT</div>
+        <div className="title">공학관</div>
       </div>
       <hr style={{ height: "5px", backgroundColor: "black" }}></hr>
       <div className="friends">
@@ -27,12 +27,7 @@ function Friend() {
   return (
     <div className="friend">
       <div>학생A(학생)</div>
-      <div style={{ display: "flex" }}>
-        <div>채팅 메시지</div>
-        <div>
-          2021-11-30<br></br>22:54:59
-        </div>
-      </div>
+      <div>상태메시지</div>
       <button className="ButtonStyle">채팅</button>
     </div>
   );
