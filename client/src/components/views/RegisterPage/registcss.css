@@ -1,49 +1,42 @@
 .login_box {
   clear: both;
-  margin: 3vw auto 0;
-  width: 50vw;
+  margin: 1vw auto 0;
+  width: 90vw;
 }
 
 .login_box * {
-  margin-left: 20vw;
-  margin-bottom: 2vh;
+  width: 80vw;
+  margin-bottom: 20px;
+  float: right;
 }
 
 .login_logo {
-  height: 20vh;
-  width: 60vw;
+  height: 80px;
   text-align: right;
-  font: normal normal bold 130px/150px Gmarket Sans TTF;
+  font: normal normal bold 70px/80px Gmarket Sans TTF;
   letter-spacing: 0px;
   color: #000000;
-  float: right;
 }
 
 .login_bar {
-  width: 20vw;
-  height: 3vh;
-  margin-bottom: 13vh;
+  height: 20px;
+  margin-bottom: 40px;
   background: #000000 0% 0% no-repeat padding-box;
-  float: right;
 }
 
 .login_inpbox {
-  width: 34vw;
-  height: 10vh;
+  height: 60px;
   background: #ffffff 0% 0% no-repeat padding-box;
   border: 7px solid #858585;
-  border-radius: 40px;
-  float: right;
+  border-radius: 60px;
 
   text-align: right;
-  font: normal normal bold 40px/46px Gmarket Sans TTF;
+  font: normal normal bold 30px/36px Gmarket Sans TTF;
   letter-spacing: 0px;
   color: black;
 }
 
 .login_txt {
-  width: 33vw;
-  float: right;
   text-align: right;
   font: normal normal bold 30px/36px Gmarket Sans TTF;
   letter-spacing: 0px;
@@ -52,13 +45,11 @@
 }
 
 .login_button {
-  width: 10vw;
-  margin-left: 5vw;
-  height: 8vh;
+  height: 50px;
+  width: 27vw;
   background: #ffffff 0% 0% no-repeat padding-box;
   border: 5px solid #858585;
   border-radius: 3vw;
-  float: right;
   text-align: auto;
   font: normal normal bold 30px/35px Gmarket Sans TTF;
   letter-spacing: 0px;
