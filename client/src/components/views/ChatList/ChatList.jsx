@@ -34,7 +34,9 @@ function Friend() {
   for (const chats in myData.data) {
     result.push(
       <div className="friend">
-        <div>{chats.friendId}</div>
+        <div>
+          {chats.name}&#40;{chats.role}&#41;
+        </div>
         <div style={{ display: "flex" }}>
           <div>채팅 메시지</div>
           <div>{chats.lastOnline}</div>
