@@ -1,31 +1,102 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import "./FriendList.css";
 import { Link } from "react-router-dom";
 import { NavBar } from "../NavBar/NavBar";
+import apiClient from "../../utils/axios";
 
 export const FriendListPage = () => {
+  const [myinfo, setMyinfo] = useState({});
+  const [online, setOnline] = useState([]);
+  const [offline, setOffline] = useState([]);
   const [value, setValue] = useState("");
   const [disabled, setDisabled] = useState(false);
   const onChange = useCallback((e) => {
     setValue(e.target.value);
   }, []);
 
-  const handleSubmit = async (event) => {
-    setDisabled(true);
-    event.preventDefault();
-    await new Promise((r) => setTimeout(r, 500));
-    if (value.length < 1) {
-      alert("사용자 이름을 입력하세요.");
-    } else {
-      alert(`검색: ${value}`);
-    }
-    setValue("");
-    setDisabled(false);
+  useEffect(() => {
+    //get my info
+    apiClient
+      .get("/users/me")
+      .then((res) => {
+        setMyinfo(res.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+
+    //get my friends and split into two array - on/off
+    apiClient
+      .get("/friends")
+      .then((res) => {
+        let off = [];
+        let on = [];
+        res.data.forEach((user) => {
+          if (user.state === 1) {
+            on.push(user);
+          } else if (user.userId == myinfo.userId) {
+            //do notthing
+          } else off.push(user);
+        });
+        setOnline(on);
+        setOffline(off);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
+
+  const RenderMyinfo = () => {
+    return (
+      <div className="friend">
+        <div>
+          <div>{myinfo.name}</div>
+          <div style={{ height: "1vh" }}></div>
+          <div>{`현 위치: ${myinfo.location}`}</div>
+        </div>
+        <div style={{ maxWidth: "80vh", padding: "15px" }}>{myinfo.statusMessage}</div>
+        <button className="ButtonStyle">
+          <Link to="/edit">편집</Link>
+        </button>
+      </div>
+    );
+  };
+
+  const RenderOnline = () => {
+    return online.map((user) => (
+      <div className="friend">
+        <div>
+          <div>{user.name}</div>
+          <div style={{ height: "1vh" }}></div>
+          <div>{`(${user.role})`}</div>
+        </div>
+        <div style={{ maxWidth: "80vh", padding: "15px" }}>{user.statusMessage}</div>
+        <button className="ButtonStyle">
+          <Link to="/edit">채팅(온라인)</Link>
+        </button>
+      </div>
+    ));
+  };
+
+  const RenderOffline = () => {
+    return offline.map((user) => (
+      <div className="friend">
+        <div>
+          <div>{user.name}</div>
+          <div style={{ height: "1vh" }}></div>
+          <div>{`(${user.role})`}</div>
+        </div>
+        <div style={{ maxWidth: "80vh", padding: "15px" }}>{user.statusMessage}</div>
+        <button className="ButtonStyle">
+          <Link to="/edit">채팅(오프라인)</Link>
+        </button>
+      </div>
+    ));
   };
 
   return (
     <div>
-      <div className="container">
+      <div className="friendcontainer">
         <div></div>
         <div style={{ fontSize: "40px", fontWeight: "bold" }}>MY FRIENDS</div>
         <div>
@@ -34,42 +105,30 @@ export const FriendListPage = () => {
           </button>
         </div>
       </div>
+
       <hr style={{ height: "5px", backgroundColor: "black" }}></hr>
       <div style={{ padding: "10px" }}></div>
       <div className="SearchResult">
+        <div style={{ padding: "5px", textAlign: "center", fontSize: "20px" }}> 내 정보</div>
+        <hr style={{ height: "3px", backgroundColor: "gray", width: "50%" }}></hr>
+        {RenderMyinfo()}
+      </div>
+      <div style={{ padding: "10px" }}></div>
+
+      <div>
         <div style={{ padding: "5px", textAlign: "center", fontSize: "20px" }}> 접속 중인 친구 목록</div>
         <hr style={{ height: "3px", backgroundColor: "gray", width: "50%" }}></hr>
-        <Friend />
-        <Friend />
-        <Friend />
-        <Friend />
-        <Friend />
-        <Friend />
-        <Friend />
-        <Friend />
-        <Friend />
-        <Friend />
+        <div className="SearchResult">{RenderOnline()}</div>
       </div>
 
       {/* offline*/}
-      <div className="SearchResult">
-        <div style={{ padding: "5px", textAlign: "center", fontSize: "20px" }}> 미접속중인 친구 목록</div>
+      <div>
+        <div style={{ padding: "5px", textAlign: "center", fontSize: "20px" }}> 미접속 중인 친구 목록</div>
         <hr style={{ height: "3px", backgroundColor: "gray", width: "50%" }}></hr>
-        <Friend />
+        <div className="SearchResult">{RenderOffline()}</div>
+        <div style={{ padding: "5vh" }}></div>
+        <NavBar />
       </div>
-
-      <div style={{ padding: "5vh" }}></div>
-      <NavBar />
     </div>
   );
 };
-
-function Friend() {
-  return (
-    <div className="friend">
-      <div>학생</div>
-      <div style={{ maxWidth: "80vh", padding: "15px" }}>상태메시지</div>
-      <button className="ButtonStyle">친구 삭제</button>
-    </div>
-  );
-}
