@@ -30,8 +30,8 @@ export const FriendSearchPage = () => {
     apiClient.get("/friends/").then((res) => {
       setUserfl(res.data.map((item) => item.userId));
     });
-    let tmparr = [...result];
-    setResult(tmparr);
+    //let tmparr = [...result];
+    //setResult(tmparr);
   }, [reRender]);
 
   const onChangeWord = (e) => {
@@ -64,6 +64,10 @@ export const FriendSearchPage = () => {
     } else {
       return "친구 추가";
     }
+  };
+
+  const refresh = (e) => {
+    setRender("f5");
   };
 
   const RenderResult = () => {
@@ -100,25 +104,26 @@ export const FriendSearchPage = () => {
         <div></div>
       </div>
       <hr style={{ height: "5px", backgroundColor: "black" }}></hr>
-      <div style={{ margin: "20px 50px 10px 50px" }}>
-        <form onSubmit={handleSubmit}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+      <div style={{ display: "flex", justifyContent: "space-evenly", margin: "3vh" }}>
+        <form onSubmit={handleSubmit} style={{ width: "85%", display: "flex" }}>
+          <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", width: "100%" }}>
             <input
-              style={{ width: "75%", height: "4vh", border: "0.5vh solid gray", padding: "0 0 0 2vh" }}
+              style={{ width: "80%", height: "4vh", border: "0.5vh solid gray", padding: "0 0 0 2vh" }}
               type="text"
               placeholder="ID를 입력하세요"
               onChange={onChangeWord}
               value={word}
-              required
             />
-            <div>
-              <button style={{ overflowWrap: "break-word" }} type="submit" className="ButtonStyle" disabled={disabled}>
-                search
-              </button>
-            </div>
+            <button style={{ overflowWrap: "break-word" }} type="submit" className="ButtonStyle" disabled={disabled}>
+              검색
+            </button>
           </div>
         </form>
+        <button className="ButtonStyle" onClick={refresh} style={{ background: "aliceblue" }}>
+          새로고침
+        </button>
       </div>
+
       <div className="SearchResult">{RenderResult()}</div>
     </div>
   );
