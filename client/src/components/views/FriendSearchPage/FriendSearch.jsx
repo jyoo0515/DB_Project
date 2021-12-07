@@ -92,7 +92,7 @@ export const FriendSearchPage = () => {
 
   return (
     <div>
-      <div className="container">
+      <div className="friendcontainer">
         <div>
           <button className="ButtonStyle">
             <Link to="/friends" className="LinkStyle">
