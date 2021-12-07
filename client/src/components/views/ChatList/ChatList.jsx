@@ -25,14 +25,10 @@ function Friend() {
     apiClient.get("/chats").then((res) => setMyData(res));
   }, []);
   const result = [];
-  console.log(myData.status);
-  console.log(myData.data);
   if (myData.status != 200) {
     return <div>잘못된 요청입니다</div>;
   }
-  console.log(Object.keys(myData.data).length);
   if (!Object.keys(myData.data).length) {
-    console.log("no data");
     return <div>생성된 채팅방이 없습니다.</div>;
   }
   for (const chats in myData.data) {
