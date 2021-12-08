@@ -38,6 +38,12 @@ module.exports = (io) => {
         io.to(socket.roomId).emit("load_total", messages);
       });
 
+      socket.on("load", () => {
+        await Message.readAll(socket.roomId, userId);
+        const messages = await Message.findAll(socket.roomId);
+        io.to(socket.roomId).emit("load_total", messages);
+      });
+
       socket.on("send", async (data) => {
         const message = new Message(userId, socket.friendId, data.content, data.timeLimit);
         const [result, _] = await message.create();
