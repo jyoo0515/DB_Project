@@ -1,14 +1,9 @@
 import * as React from "react";
-import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Link } from "react-router-dom";
 import ReactDOM from "react-dom";
 import { useRef } from "react";
 import "./registcss.css";
 import apiClient from "../../utils/axios";
-//import Router from "next/router";
-
-const theme = createTheme();
 
 export const RegisterPage = (history) => {
   let state = {

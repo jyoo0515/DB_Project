@@ -1,12 +1,8 @@
 import React, { useState } from "react";
-import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import apiClient from "../../utils/axios";
 import { Link } from "react-router-dom";
 
 import "./logincss.css";
-
-const theme = createTheme();
 
 export const LoginPage = () => {
   const [userId, setUserId] = useState("");
