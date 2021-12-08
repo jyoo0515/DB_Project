@@ -1,6 +1,5 @@
 const User = require("../models/User");
 const ChatRoom = require("../models/ChatRoom");
-const Message = requi;
 
 exports.getChatList = async (req, res) => {
   const userId = req.user.userId;
