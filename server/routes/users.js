@@ -20,6 +20,6 @@ router.route("/login").post(usersController.login);
 
 router.route("/nearby/:location").all(auth.verifyToken).get(usersController.nearby);
 
-router.route("/:userId").all(auth.verifyToken).get(usersController.search);
+router.route("/search/:userId").all(auth.verifyToken).get(usersController.search);
 
 module.exports = router;
