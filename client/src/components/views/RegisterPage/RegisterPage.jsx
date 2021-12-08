@@ -84,69 +84,65 @@ export const RegisterPage = (history) => {
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <div className="login_box">
-          <div className="login_logo">SIGN UP</div>
-          <div className="login_bar"></div>
-          <form className="login_form" method="post" onSubmit={handleSubmit}>
-            <input
-              type="text"
-              placeholder="ID"
-              className="login_inpbox"
-              id="userId"
-              name="userId"
-              ref={Id_now}
-              required
-            ></input>
-            <button className="login_button" onClick={ID_inval}>
-              ID 중복확인
-            </button>
-            <input
-              type="password"
-              placeholder="PASSWORD"
-              className="login_inpbox"
-              name="password"
-              id="password"
-              onChange={chk_pw}
-              required
-            ></input>
-            <input
-              type="password"
-              placeholder="CONFIRM PASSWORD"
-              className="login_inpbox"
-              name="password_chk"
-              id="password_chk"
-              onChange={chk_pw_cf}
-              required
-            ></input>
-            <div id="PWmessage" className="login_txt">
-              Please Input PW
-            </div>
-            <input type="text" placeholder="이름" className="login_inpbox" id="name" name="name" required></input>
-            <select className="login_inpbox" name="role" id="role">
-              <option className="login_inpbox" value="일반">
-                일반
-              </option>
-              <option className="login_inpbox" value="학생">
-                학생
-              </option>
-              <option className="login_inpbox" value="강사">
-                강사
-              </option>
-              <option className="login_inpbox" value="기업">
-                기업
-              </option>
-            </select>
-            <button className="login_button" type="submit">
-              CREATE
-            </button>
-          </form>
-          <Link to="../login">
-            <button className="login_button">SIGN IN</button>
-          </Link>
+    <div className="login_box">
+      <div className="login_logo">SIGN UP</div>
+      <div className="login_bar"></div>
+      <form className="login_form" method="post" onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="ID"
+          className="login_inpbox"
+          id="userId"
+          name="userId"
+          ref={Id_now}
+          required
+        ></input>
+        <button className="login_button" onClick={ID_inval}>
+          ID 중복확인
+        </button>
+        <input
+          type="password"
+          placeholder="PASSWORD"
+          className="login_inpbox"
+          name="password"
+          id="password"
+          onChange={chk_pw}
+          required
+        ></input>
+        <input
+          type="password"
+          placeholder="CONFIRM PASSWORD"
+          className="login_inpbox"
+          name="password_chk"
+          id="password_chk"
+          onChange={chk_pw_cf}
+          required
+        ></input>
+        <div id="PWmessage" className="login_txt">
+          Please Input PW
         </div>
-      </Container>
-    </ThemeProvider>
+        <input type="text" placeholder="이름" className="login_inpbox" id="name" name="name" required></input>
+        <select className="login_inpbox" name="role" id="role">
+          <option className="login_inpbox" value="일반">
+            일반
+          </option>
+          <option className="login_inpbox" value="학생">
+            학생
+          </option>
+          <option className="login_inpbox" value="강사">
+            강사
+          </option>
+          <option className="login_inpbox" value="기업">
+            기업
+          </option>
+        </select>
+        <button className="login_button" type="submit">
+          CREATE
+        </button>
+      </form>
+      <Link to="../login">
+        <button className="login_button">SIGN IN</button>
+      </Link>
+    </div>
   );
 };
