@@ -78,7 +78,7 @@ export const EditPage = () => {
             placeholder={myData.statusMessage === "null" ? "상태 메세지를 입력하세요" : myData.statusMessage}
             id="editStatus"
           ></input>
-          <div className="checkText">{statusMessage.length}/20</div>
+          <div className="checkText">{statusMessage === "null" ? 0 : statusMessage.length}/20</div>
           <div className="word">LOCATION</div>
           <select className="enterBox" onChange={onLocationChange} value={location} defaultValue={myData.location}>
             <option className="location" value="공학관">
