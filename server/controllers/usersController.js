@@ -153,6 +153,7 @@ exports.update = async (req, res) => {
 };
 
 exports.nearby = async (req, res) => {
+  const userId = req.user.userId;
   const locationList = ["공학관", "백양관", "신촌역", "학생회관"];
   const idx = req.params.location;
   if (idx > 3 || idx < 0) return res.status(400).json({ message: "Bad request" });
@@ -160,7 +161,7 @@ exports.nearby = async (req, res) => {
     let userDtos = [];
     const users = await User.nearbyUsers(locationList[idx]);
     users.forEach((user) => userDtos.push(User.destruct(user)));
-    return res.json(userDtos);
+    return res.json(userDTOs.filter((user) => user.userId != userId));
   } catch (err) {
     return res.status(500).json({ message: "Something went wrong" });
   }
