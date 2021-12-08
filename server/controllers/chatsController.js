@@ -43,7 +43,8 @@ exports.getFriendInfo = async (req, res) => {
       return res.status(400).json({ message: "Bad request" });
     }
     const friend = await User.findOneById(friendId);
-    return res.json(friend);
+    const userDTO = User.destruct(friend);
+    return res.json(userDTO);
   } catch (err) {
     console.log(err);
     return res.status(500).json({ message: "Something went wrong" });
