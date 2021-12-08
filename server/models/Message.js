@@ -76,6 +76,7 @@ class Message {
   }
 
   static async findAll(chatRoomId) {
+    await db.execute("CALL deleteExpired");
     const sql = `SELECT * FROM messages WHERE chatRoomId='${chatRoomId}' ORDER BY createdAt;`;
     const [messageRows, _] = await db.execute(sql);
 

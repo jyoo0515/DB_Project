@@ -79,6 +79,7 @@ const viewSql = `
 const procSql = `
     DROP PROCEDURE IF EXISTS messageStatusUpdate;
     DROP PROCEDURE IF EXISTS userStatusUpdate;
+    DROP PROCEDURE IF EXISTS deleteExpired;
     CREATE PROCEDURE messageStatusUpdate (IN messageId int)
     BEGIN
     UPDATE messages SET readStatus = 1 WHERE id = messageId;
@@ -86,6 +87,10 @@ const procSql = `
     CREATE PROCEDURE userStatusUpdate (IN id varchar(20), IN status int)
     BEGIN
     UPDATE users SET state = status WHERE userId = id;
+    END;
+    CREATE PROCEDURE deleteExpired ()
+    BEGIN
+    DELETE FROM messages WHERE expiresAt < current_timestamp;
     END;
 `;
 
