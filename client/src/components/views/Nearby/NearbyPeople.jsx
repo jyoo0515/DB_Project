@@ -43,7 +43,7 @@ function Friend1(props) {
     const friends = myData.data[friend];
     if (friends.state == 1) continue;
     result.push(
-      <div className="friend">
+      <div className="friend" key={friends.userId}>
         <div>
           {friends.name}&#40;{friends.role}&#41;
         </div>
@@ -65,7 +65,7 @@ function Friend2(props) {
     const friends = myData.data[friend];
     if (friends.state == 0) continue;
     result.push(
-      <div className="friend">
+      <div className="friend" key={friends.userId}>
         <div>
           {friends.name}&#40;{friends.role}&#41;
         </div>

@@ -11,7 +11,7 @@ export const ChatList = () => {
         <div className="title">CHAT</div>
       </div>
       <hr style={{ height: "5px", backgroundColor: "black" }}></hr>
-      <div class="friends">
+      <div className="friends">
         <Friend />
       </div>
       <NavBar />
@@ -37,7 +37,7 @@ function Friend() {
   for (const chat in myData.data) {
     const chats = myData.data[chat];
     result.push(
-      <div className="friend">
+      <div className="friend" key={chats.chatRoomId}>
         <div>
           {chats.name}&#40;{chats.role}&#41;
         </div>
