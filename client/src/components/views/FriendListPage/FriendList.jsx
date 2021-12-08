@@ -83,8 +83,11 @@ export const FriendListPage = () => {
           <div style={{ height: "1vh" }}></div>
           <div style={{ color: "dimgray" }}>{`(${user.role})`}</div>
         </div>
-        <div style={{ maxWidth: "80vh", padding: "15px" }}>
-          {user.statusMessage === "null" ? "상태메시지가 없습니다" : user.statusMessage}
+        <div>
+          <div style={{ maxWidth: "80vh", padding: "15px" }}>
+            {user.statusMessage === "null" ? "상태메시지가 없습니다" : user.statusMessage}
+          </div>
+          <div>{`현 위치: ${user.location}`}</div>
         </div>
         <button className="ButtonStyle" onClick={() => matchRoom(user.userId)}>
           채팅
@@ -101,8 +104,11 @@ export const FriendListPage = () => {
           <div style={{ height: "1vh" }}></div>
           <div style={{ color: "dimgray" }}>{`(${user.role})`}</div>
         </div>
-        <div style={{ maxWidth: "80vh", padding: "15px" }}>
-          {user.statusMessage === "null" ? "상태메시지가 없습니다" : user.statusMessage}
+        <div>
+          <div style={{ maxWidth: "80vh", padding: "15px" }}>
+            {user.statusMessage === "null" ? "상태메시지가 없습니다" : user.statusMessage}
+          </div>
+          <div>{`현 위치: ${user.location}`}</div>
         </div>
         <button className="offlineButton" onClick={() => matchRoom(user.userId)}>
           채팅
