@@ -80,9 +80,9 @@ const procSql = `
   DROP PROCEDURE IF EXISTS messageStatusUpdate;
   DROP PROCEDURE IF EXISTS userStatusUpdate;
   DROP PROCEDURE IF EXISTS deleteExpired;
-  CREATE PROCEDURE messageStatusUpdate (IN messageId int)
+  CREATE PROCEDURE messageStatusUpdate (IN messageId int, IN userId varchar(20))
   BEGIN
-  UPDATE messages SET readStatus = 1 WHERE id = messageId;
+  UPDATE messages SET readStatus = 1 WHERE id = messageId AND userId = toId;
   END;
   CREATE PROCEDURE userStatusUpdate (IN id varchar(20), IN status int)
   BEGIN

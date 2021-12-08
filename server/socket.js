@@ -33,6 +33,7 @@ module.exports = (io) => {
           return;
         }
         console.log(`User ${socket.id} joined room ${roomId}`);
+        await Message.readAll(socket.roomId, userId);
         const messages = await Message.findAll(socket.roomId);
         io.to(socket.roomId).emit("load_total", messages);
       });
