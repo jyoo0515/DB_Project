@@ -22,9 +22,9 @@ export const ChatRoomPage = (props) => {
       })
       .catch((err) => console.log(err));
     apiClient
-      .get("/chats")
+      .get(`/chats/other/${props.match.params.roomId}`)
       .then((res) => {
-        setOtherData(res.data[0]);
+        setOtherData(res.data);
       })
       .catch((err) => console.log(err));
   }, []);
