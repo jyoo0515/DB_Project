@@ -77,21 +77,28 @@ const viewSql = `
 `;
 
 const procSql = `
-    DROP PROCEDURE IF EXISTS messageStatusUpdate;
-    DROP PROCEDURE IF EXISTS userStatusUpdate;
-    DROP PROCEDURE IF EXISTS deleteExpired;
-    CREATE PROCEDURE messageStatusUpdate (IN messageId int)
-    BEGIN
-    UPDATE messages SET readStatus = 1 WHERE id = messageId;
-    END;
-    CREATE PROCEDURE userStatusUpdate (IN id varchar(20), IN status int)
-    BEGIN
-    UPDATE users SET state = status WHERE userId = id;
-    END;
-    CREATE PROCEDURE deleteExpired ()
-    BEGIN
-    DELETE FROM messages WHERE expiresAt < current_timestamp;
-    END;
+  DROP PROCEDURE IF EXISTS messageStatusUpdate;
+  DROP PROCEDURE IF EXISTS userStatusUpdate;
+  DROP PROCEDURE IF EXISTS deleteExpired;
+  CREATE PROCEDURE messageStatusUpdate (IN messageId int)
+  BEGIN
+  UPDATE messages SET readStatus = 1 WHERE id = messageId;
+  END;
+  CREATE PROCEDURE userStatusUpdate (IN id varchar(20), IN status int)
+  BEGIN
+  UPDATE users SET state = status WHERE userId = id;
+  END;
+  CREATE PROCEDURE deleteExpired ()
+  BEGIN
+  DELETE FROM messages WHERE expiresAt < current_timestamp;
+  END;
+`;
+
+const eventSql = `
+  DROP EVENT IF EXISTS checkExpiry;
+  CREATE EVENT checkExpiry 
+    ON SCHEDULE EVERY 30 SECOND
+    DO CALL deleteExpired();
 `;
 
 pool.getConnection((err, conn) => {
@@ -102,6 +109,7 @@ pool.getConnection((err, conn) => {
   conn.execute(messagesSql);
   conn.query(viewSql);
   conn.query(procSql);
+  conn.query(eventSql);
   console.log("Database Initialization Complete");
   conn.release();
 });
