@@ -25,27 +25,30 @@ export const ChatText = ({ socket, myData, roomId }) => {
   });
 
   const renderMessage = () => {
-    return total.map((message) => (
-      <div key={message.id} align={message.fromId === myId ? "right" : "left"}>
-        {message.fromId === myId ? (
-          <Time className="me">
-            {message.createdAt}&nbsp;{message.readStatus === 1 ? "읽음" : "안 읽음"}
-            {message.expiresAt === null ? "" : `( ${myLoc} ${message.expiresAt}에 삭제됨 )`}
-          </Time>
-        ) : (
-          ""
-        )}
-        <Msg className={message.fromId === myId ? "me" : "other"}>{message.content}</Msg>
-        {message.fromId === myId ? (
-          ""
-        ) : (
-          <Time className="other">
-            {message.createdAt}&nbsp;{message.readStatus === 1 ? "읽음" : "안 읽음"}
-            {message.expiresAt === null ? "" : `( ${myLoc} ${message.expiresAt}에 삭제됨 )`}
-          </Time>
-        )}
-      </div>
-    ));
+    return total.map((message) => {
+      if (message.expiresAt !== null && message.location !== myLoc) return "";
+      return (
+        <div key={message.id} align={message.fromId === myId ? "right" : "left"}>
+          {message.fromId === myId ? (
+            <Time className="me">
+              {message.createdAt}&nbsp;{message.readStatus === 1 ? "읽음" : "안 읽음"}
+              {message.expiresAt === null ? "" : `( ${message.location} ${message.expiresAt}에 삭제됨 )`}
+            </Time>
+          ) : (
+            ""
+          )}
+          <Msg className={message.fromId === myId ? "me" : "other"}>{message.content}</Msg>
+          {message.fromId === myId ? (
+            ""
+          ) : (
+            <Time className="other">
+              {message.createdAt}&nbsp;{message.readStatus === 1 ? "읽음" : "안 읽음"}
+              {message.expiresAt === null ? "" : `( ${message.location} ${message.expiresAt}에 삭제됨 )`}
+            </Time>
+          )}
+        </div>
+      );
+    });
   };
 
   return <STB>{renderMessage()}</STB>;
