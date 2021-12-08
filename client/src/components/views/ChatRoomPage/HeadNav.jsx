@@ -3,43 +3,44 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import apiClient from "../../utils/axios";
 
-export const HeadNav = ({ otherData }) => {
-  const [isFriend, setIsFriend] = useState(true);
+export const HeadNav = ({ otherData, friendList, props }) => {
+  const [isFriend, setIsFriend] = useState(
+    friendList.find((user) => {
+      return user.userId === otherData.userId;
+    }) === undefined
+      ? false
+      : true
+  );
 
   useEffect(() => {
-    apiClient
-      .get("/friends")
-      .then((res) => {
-        const iD = res.data.find((user) => {
-          console.log(user);
-          return user.id === otherData.friendId;
-        });
-        if (iD === undefined) setIsFriend(false);
-        else setIsFriend(true);
-      })
-      .catch((err) => console.log(err));
-  }, []);
+    setIsFriend(
+      friendList.find((user) => {
+        return user.userId === otherData.userId;
+      }) === undefined
+        ? false
+        : true
+    );
+  }, [friendList]);
 
   const changeFriendState = () => {
     if (!isFriend)
       apiClient
         .post("/friends", {
-          friendId: otherData.friendId,
+          friendId: otherData.userId,
         })
         .catch((err) => console.log(err));
-    else apiClient.delete(`/friends/${otherData.friendId}`).catch((err) => console.log(err));
+    else apiClient.delete(`/friends/${otherData.userId}`).catch((err) => console.log(err));
     setIsFriend(!isFriend);
   };
 
   return (
     <>
       <HeadImg id="returnToChatList">
-        <Link to="/chats">
-          <Img id="leftArrow" src="/leftArrow.png" />
-        </Link>
+        <Img id="leftArrow" src="/leftArrow.png" onClick={() => props.history.goBack()} />
       </HeadImg>
       <HeadName>{otherData.name}</HeadName>
       <HeadImg id="changeFriendState" onClick={changeFriendState}>
+        {console.log(isFriend)}
         <Img id={isFriend ? "friendDelete" : "friendAdd"} src={isFriend ? "/friendDelete.png" : "/friendAdd.png"} />
       </HeadImg>
     </>

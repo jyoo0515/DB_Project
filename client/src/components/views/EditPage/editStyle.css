@@ -1,10 +1,8 @@
 .edit {
   margin-top: 9vh;
-  padding-left: 50vw;
-  width: 22vw;
-  height: 20vh;
+  margin-right: 28vw;
   text-align: right;
-  font: normal normal bold 8rem/12rem Gmarket Sans TTF;
+  font: normal normal bold 8rem Gmarket Sans TTF;
   letter-spacing: 0rem;
   color: #000000;
   opacity: 1;
