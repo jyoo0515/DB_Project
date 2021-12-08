@@ -52,7 +52,7 @@ export const FriendListPage = () => {
         <div>
           <div>{myinfo.name}</div>
           <div style={{ height: "1vh" }}></div>
-          <div>{`현 위치: ${myinfo.location}`}</div>
+          <div style={{ color: "dimgray" }}>{myinfo.location}</div>
         </div>
         <div style={{ maxWidth: "80vh", padding: "15px" }}>{myinfo.statusMessage}</div>
         <button className="ButtonStyle">
@@ -68,11 +68,11 @@ export const FriendListPage = () => {
         <div>
           <div>{user.name}</div>
           <div style={{ height: "1vh" }}></div>
-          <div>{`(${user.role})`}</div>
+          <div style={{ color: "dimgray" }}>{`(${user.role})`}</div>
         </div>
         <div style={{ maxWidth: "80vh", padding: "15px" }}>{user.statusMessage}</div>
         <button className="ButtonStyle">
-          <Link to="/edit">채팅(온라인)</Link>
+          <Link to="/edit">채팅</Link>
         </button>
       </div>
     ));
@@ -84,11 +84,11 @@ export const FriendListPage = () => {
         <div>
           <div>{user.name}</div>
           <div style={{ height: "1vh" }}></div>
-          <div>{`(${user.role})`}</div>
+          <div style={{ color: "dimgray" }}>{`(${user.role})`}</div>
         </div>
         <div style={{ maxWidth: "80vh", padding: "15px" }}>{user.statusMessage}</div>
-        <button className="ButtonStyle">
-          <Link to="/edit">채팅(오프라인)</Link>
+        <button className="offlineButton">
+          <Link to="/edit">채팅</Link>
         </button>
       </div>
     ));
