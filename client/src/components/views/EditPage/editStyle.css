@@ -70,12 +70,6 @@
   font-size: 3.3rem;
 }
 
-.resetButton {
-  margin-top: 4vh;
-  font: normal normal medium 73px/84px Gmarket Sans TTF;
-  font-size: 3.3rem;
-}
-
 div {
   overflow-y: scroll;
 }
@@ -90,4 +84,17 @@ div::-webkit-scrollbar {
 
 .content {
   margin-bottom: 10vh;
+}
+
+.leftArr {
+  position: absolute;
+  top: 10vh;
+  width: 8vw;
+  left: 25vw;
+}
+
+.checkText {
+  margin-top: 2vh;
+  margin-right: 3vw;
+  font-size: 2rem;
 }
