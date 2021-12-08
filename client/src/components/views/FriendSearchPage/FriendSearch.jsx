@@ -10,6 +10,7 @@ export const FriendSearchPage = () => {
   const [disabled, setDisabled] = useState(false);
   const [result, setResult] = useState([]);
   const [userfl, setUserfl] = useState([]);
+  const [myId, setMyId] = useState("");
 
   const onClickButton = (params) => {
     const tmp = document.getElementById(params.userId).value;
@@ -22,6 +23,7 @@ export const FriendSearchPage = () => {
         console.log(e);
       });
     }
+    alert(`<${params.name}> ${tmp} 완료!`);
     setRender(`${tmp} + ${params.userId}`);
     console.log(reRender);
   };
@@ -33,6 +35,12 @@ export const FriendSearchPage = () => {
     //let tmparr = [...result];
     //setResult(tmparr);
   }, [reRender]);
+
+  useEffect(() => {
+    apiClient.get("users/me").then((res) => {
+      setMyId(res.data.userId);
+    });
+  }, []);
 
   const onChangeWord = (e) => {
     setWord(e.target.value);
@@ -48,11 +56,13 @@ export const FriendSearchPage = () => {
       apiClient
         .get(`/users/${word}`)
         .then((res) => {
-          setResult([...res.data.users]);
+          setResult(res.data.users.filter((element) => element.userId !== myId));
         })
         .catch((e) => {
           console.log(e);
         });
+      console.log(myId);
+      console.log(result);
     }
     setWord("");
     setDisabled(false);
@@ -119,9 +129,6 @@ export const FriendSearchPage = () => {
             </button>
           </div>
         </form>
-        <button className="ButtonStyle" onClick={refresh} style={{ background: "aliceblue" }}>
-          새로고침
-        </button>
       </div>
 
       <div className="SearchResult">{RenderResult()}</div>
