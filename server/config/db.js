@@ -8,6 +8,7 @@ const pool = mysql.createPool({
   user: env.DB_USER,
   database: env.DB_DATABASE,
   password: env.DB_PASSWORD,
+  port: env.DB_PORT || 3306,
   dateStrings: "date", // For date formatting
 });
 
