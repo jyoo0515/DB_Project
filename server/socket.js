@@ -38,7 +38,7 @@ module.exports = (io) => {
         io.to(socket.roomId).emit("load_total", messages);
       });
 
-      socket.on("load", () => {
+      socket.on("load", async () => {
         await Message.readAll(socket.roomId, userId);
         const messages = await Message.findAll(socket.roomId);
         io.to(socket.roomId).emit("load_total", messages);
