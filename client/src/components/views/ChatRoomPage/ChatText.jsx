@@ -6,6 +6,7 @@ export const ChatText = ({ socket, myData, roomId }) => {
   const myId = myData.userId;
   const myLoc = myData.location;
   const [total, setTotal] = useState([]);
+  const [bool, setBool] = useState(true);
 
   useEffect(() => {
     socket.emit("enter_room", roomId);
@@ -19,10 +20,24 @@ export const ChatText = ({ socket, myData, roomId }) => {
   }, [roomId]);
 
   useEffect(() => {
+    socket.emit("load", (messages) => {
+      setTotal([...total, ...messages]);
+    });
+  }, [bool]);
+
+  useEffect(() => {
     socket.on("load_message", (message) => {
       setTotal([...total, message]);
     });
   });
+
+  useEffect(() => {
+    renderMessage();
+  }, [total]);
+
+  setTimeout(() => {
+    setBool(!bool);
+  }, 1000);
 
   const renderMessage = () => {
     return total.map((message) => {
