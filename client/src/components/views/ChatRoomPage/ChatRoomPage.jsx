@@ -13,6 +13,7 @@ const socket = io("http://localhost:5000/", {
 export const ChatRoomPage = (props) => {
   const [myData, setMyData] = useState({});
   const [otherData, setOtherData] = useState({});
+  const [friendList, setFriendList] = useState([]);
 
   useEffect(() => {
     apiClient
@@ -27,11 +28,19 @@ export const ChatRoomPage = (props) => {
         setOtherData(res.data);
       })
       .catch((err) => console.log(err));
+    apiClient
+      .get("/friends")
+      .then((res) => {
+        setFriendList(res.data);
+      })
+      .catch((err) => console.log(err));
   }, []);
+
+  console.log(friendList);
 
   return (
     <ChatRoom>
-      <HeadNav otherData={otherData} />
+      <HeadNav otherData={otherData} friendList={friendList} props={props} />
       <ChatText socket={socket} myData={myData} roomId={props.match.params.roomId} />
       <FootNav socket={socket} />
     </ChatRoom>
