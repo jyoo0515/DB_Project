@@ -10,7 +10,10 @@ export const HeadNav = ({ otherData }) => {
     apiClient
       .get("/friends")
       .then((res) => {
-        const iD = res.data.find((user) => user.id === otherData.friendId);
+        const iD = res.data.find((user) => {
+          console.log(user);
+          return user.id === otherData.friendId;
+        });
         if (iD === undefined) setIsFriend(false);
         else setIsFriend(true);
       })
@@ -32,12 +35,12 @@ export const HeadNav = ({ otherData }) => {
     <>
       <HeadImg id="returnToChatList">
         <Link to="/chats">
-          <Img id="leftArrow" />
+          <Img id="leftArrow" src="/leftArrow.png" />
         </Link>
       </HeadImg>
       <HeadName>{otherData.name}</HeadName>
       <HeadImg id="changeFriendState" onClick={changeFriendState}>
-        <Img id={isFriend ? "friendDelete" : "friendAdd"} />
+        <Img id={isFriend ? "friendDelete" : "friendAdd"} src={isFriend ? "/friendDelete.png" : "/friendAdd.png"} />
       </HeadImg>
     </>
   );
@@ -60,15 +63,12 @@ const Img = styled.img`
   margin: 0 auto;
   width: 100%;
   &#leftArrow {
-    content: url("../../../../leftArrow.png");
     height: 50%;
   }
   &#friendDelete {
-    content: url("../../../../friendDelete.png");
     height: 50%;
   }
   &#friendAdd {
-    content: url("../../../../friendAdd.png");
     height: 50%;
   }
 `;

@@ -46,6 +46,17 @@ export const FriendListPage = () => {
       });
   }, []);
 
+  const matchRoom = (otherId) => {
+    apiClient
+      .get(`chats/${otherId}`)
+      .then((res) => {
+        document.location.href = `/chats/${res.data.chatRoomId}`;
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
   const RenderMyinfo = () => {
     return (
       <div className="friend">
@@ -63,6 +74,7 @@ export const FriendListPage = () => {
   };
 
   const RenderOnline = () => {
+    console.log(1);
     return online.map((user) => (
       <div className="friend">
         <div>
@@ -71,14 +83,15 @@ export const FriendListPage = () => {
           <div style={{ color: "dimgray" }}>{`(${user.role})`}</div>
         </div>
         <div style={{ maxWidth: "80vh", padding: "15px" }}>{user.statusMessage}</div>
-        <button className="ButtonStyle">
-          <Link to="/edit">채팅</Link>
+        <button className="ButtonStyle" onClick={() => matchRoom(user.userId)}>
+          채팅
         </button>
       </div>
     ));
   };
 
   const RenderOffline = () => {
+    console.log(2);
     return offline.map((user) => (
       <div className="friend">
         <div>
@@ -87,8 +100,8 @@ export const FriendListPage = () => {
           <div style={{ color: "dimgray" }}>{`(${user.role})`}</div>
         </div>
         <div style={{ maxWidth: "80vh", padding: "15px" }}>{user.statusMessage}</div>
-        <button className="offlineButton">
-          <Link to="/edit">채팅</Link>
+        <button className="offlineButton" onClick={() => matchRoom(user.userId)}>
+          채팅
         </button>
       </div>
     ));
