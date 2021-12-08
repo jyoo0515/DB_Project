@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { StrictEventEmitter } from "socket.io/dist/typed-events";
 import apiClient from "../../utils/axios";
 import "./editStyle.css";
 
