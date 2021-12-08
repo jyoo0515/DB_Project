@@ -153,7 +153,7 @@ exports.update = async (req, res) => {
 };
 
 exports.nearby = async (req, res) => {
-  const locationList = ["공학관", "신촌역", "백양관", "학생회관"];
+  const locationList = ["공학관", "백양관", "신촌역", "학생회관"];
   const idx = req.params.location;
   if (idx > 3 || idx < 0) return res.status(400).json({ message: "Bad request" });
   try {
