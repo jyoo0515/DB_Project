@@ -36,13 +36,17 @@ function Friend() {
   }
   for (const chat in myData.data) {
     const chats = myData.data[chat];
-    const curstyle = chats.state == 0 ? "ButtonStyle" : "offlineButton";
+    const curstyle = chats.state == 1 ? "ButtonStyle" : "offlineButton";
     result.push(
       <div className="friend" key={chats.chatRoomId}>
         <div>
-          {chats.name}&#40;{chats.role}&#41;
+          <div>{chats.name}</div>
+          <div style={{ height: "1vh" }}></div>
+          <div style={{ color: "dimgray" }}>{chats.role}</div>
         </div>
-        <div>최근 채팅 시간: {chats.lastOnline}</div>
+        <div>
+          <div>최근 채팅 시간</div> <div>{chats.lastOnline}</div>
+        </div>
         <button className={curstyle} onClick={() => onClick(chats.chatRoomId)}>
           채팅
         </button>

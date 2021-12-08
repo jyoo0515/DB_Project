@@ -23,12 +23,12 @@ export const NearbyPeople = (props) => {
       <div className="friends">
         <div className="subtitle">ONLINE</div>
         <hr style={{ height: "3px", backgroundColor: "gray", width: "50%", marginLeft: "20px" }}></hr>
-        <Friend1 props={props} />
+        <Friend2 props={props} />
       </div>
       <div className="friends">
         <div className="subtitle">OFFLINE</div>
         <hr style={{ height: "3px", backgroundColor: "gray", width: "50%", marginLeft: "20px" }}></hr>
-        <Friend2 props={props} />
+        <Friend1 props={props} />
       </div>
       <NavBar />
     </div>
@@ -47,7 +47,9 @@ function Friend1(props) {
     result.push(
       <div className="friend" key={friends.userId}>
         <div>
-          {friends.name}&#40;{friends.role}&#41;
+          <div>{friends.name}</div>
+          <div style={{ height: "1vh" }}></div>
+          <div style={{ color: "dimgray" }}>{friends.role}</div>
         </div>
         <div>{friends.statusMessage == "null" ? "상태메시지가 없습니다" : friends.statusMessage}</div>
         <GetButton id={friends.userId} />
@@ -69,7 +71,9 @@ function Friend2(props) {
     result.push(
       <div className="friend" key={friends.userId}>
         <div>
-          {friends.name}&#40;{friends.role}&#41;
+          <div>{friends.name}</div>
+          <div style={{ height: "1vh" }}></div>
+          <div style={{ color: "dimgray" }}>{friends.role}</div>
         </div>
         <div>{friends.statusMessage == "null" ? "상태메시지가 없습니다" : friends.statusMessage}</div>
         <GetButton id={friends.userId} />
