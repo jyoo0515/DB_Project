@@ -22,10 +22,12 @@ export const NearbyPeople = (props) => {
       <hr style={{ height: "5px", backgroundColor: "black" }}></hr>
       <div className="friends">
         <div className="subtitle">ONLINE</div>
+        <hr style={{ height: "3px", backgroundColor: "gray", width: "50%", marginLeft: "20px" }}></hr>
         <Friend1 props={props} />
       </div>
       <div className="friends">
         <div className="subtitle">OFFLINE</div>
+        <hr style={{ height: "3px", backgroundColor: "gray", width: "50%", marginLeft: "20px" }}></hr>
         <Friend2 props={props} />
       </div>
       <NavBar />
@@ -47,7 +49,7 @@ function Friend1(props) {
         <div>
           {friends.name}&#40;{friends.role}&#41;
         </div>
-        <div>{friends.statusMessage}</div>
+        <div>{friends.statusMessage == "null" ? "상태메시지가 없습니다" : friends.statusMessage}</div>
         <GetButton id={friends.userId} />
       </div>
     );
@@ -69,7 +71,7 @@ function Friend2(props) {
         <div>
           {friends.name}&#40;{friends.role}&#41;
         </div>
-        <div>{friends.statusMessage}</div>
+        <div>{friends.statusMessage == "null" ? "상태메시지가 없습니다" : friends.statusMessage}</div>
         <GetButton id={friends.userId} />
       </div>
     );
