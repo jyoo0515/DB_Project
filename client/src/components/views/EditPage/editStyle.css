@@ -1,11 +1,11 @@
 .edit {
   margin-top: 9vh;
-  padding-left: 50%;
+  padding-left: 50vw;
   width: 22vw;
   height: 20vh;
   text-align: right;
   font: normal normal bold 8rem/12rem Gmarket Sans TTF;
-  letter-spacing: 0px;
+  letter-spacing: 0rem;
   color: #000000;
   opacity: 1;
 }
@@ -30,8 +30,8 @@
 
 .word {
   margin-top: 4vh;
-  font: normal normal medium 73px/84px Gmarket Sans TTF;
-  font-size: 50px;
+  font: normal normal medium 4rem/6rem Gmarket Sans TTF;
+  font-size: 3rem;
 }
 
 .enterBox {
@@ -48,7 +48,7 @@
 .logoutButton {
   margin-top: 3vh;
   margin-left: 15vw;
-  font: normal normal medium 73px/84px Gmarket Sans TTF;
+  font: normal normal medium 4rem/6rem Gmarket Sans TTF;
   font-size: 3.3rem;
   width: 30vw;
 }
@@ -66,7 +66,7 @@
 
 .editButton {
   margin-top: 4vh;
-  font: normal normal medium 73px/84px Gmarket Sans TTF;
+  font: normal normal medium 4rem/6rem Gmarket Sans TTF;
   font-size: 3.3rem;
 }
 
