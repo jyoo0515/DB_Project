@@ -3,7 +3,7 @@ const User = require("./User");
 
 class Friend {
   static async findAll(userId) {
-    const friendsSql = `SELECT * FROM users WHERE userId IN(SELECT secondId FROM friends_with WHERE firstId = '${userId}');`;
+    const friendsSql = `SELECT * FROM users WHERE userId IN(SELECT secondId FROM friends_with WHERE firstId = '${userId}') ORDER BY name;`;
     const [friendsRow, _] = await db.execute(friendsSql);
     let friendsList = [];
     friendsRow.forEach((friend) => friendsList.push(User.destruct(friend)));
