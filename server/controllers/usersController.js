@@ -161,8 +161,9 @@ exports.nearby = async (req, res) => {
     let userDtos = [];
     const users = await User.nearbyUsers(locationList[idx]);
     users.forEach((user) => userDtos.push(User.destruct(user)));
-    return res.json(userDTOs.filter((user) => user.userId != userId));
+    return res.json(userDtos.filter((user) => user.userId != userId));
   } catch (err) {
+    console.log(err);
     return res.status(500).json({ message: "Something went wrong" });
   }
 };
