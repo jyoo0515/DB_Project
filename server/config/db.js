@@ -62,7 +62,7 @@ const messagesSql = `
     content text not null,
     location varchar(4) not null check (location in ('공학관', '백양관', '학생회관', '신촌역')),
     createdAt timestamp not null default current_timestamp,
-    expiresAt timestamp default null,
+    expiresAt timestamp null default null,
     constraint message_not_equal check (fromId <> toId),
     foreign key (chatRoomId) references chatRooms(id)
       on delete cascade

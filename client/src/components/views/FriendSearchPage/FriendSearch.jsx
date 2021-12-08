@@ -74,12 +74,12 @@ export const FriendSearchPage = () => {
   };
 
   const RenderResult = () => {
-    //onChangebt(user.userId)
-
     return result.map((user) => (
-      <div className="friend">
+      <div className="friend" key={user.userId}>
         <div>{user.name}</div>
-        <div style={{ maxWidth: "80vh", padding: "15px" }}>{user.statusMessage}</div>
+        <div style={{ maxWidth: "80vh", padding: "15px" }}>
+          {user.statusMessage === "null" ? "상태메시지가 없습니다" : user.statusMessage}
+        </div>
         <form>
           <input
             type="button"
