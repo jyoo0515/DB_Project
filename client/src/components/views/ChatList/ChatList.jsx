@@ -24,6 +24,9 @@ function Friend() {
   useEffect(() => {
     apiClient.get("/chats").then((res) => setMyData(res));
   }, []);
+  const onClick = (i) => {
+    document.location.href = `/chats/${i}`;
+  };
   const result = [];
   if (myData.status != 200) {
     return <div>잘못된 요청입니다</div>;
@@ -31,7 +34,8 @@ function Friend() {
   if (!Object.keys(myData.data).length) {
     return <div>생성된 채팅방이 없습니다.</div>;
   }
-  for (const chats in myData.data) {
+  for (const chat in myData.data) {
+    const chats = myData.data[chat];
     result.push(
       <div className="friend">
         <div>
@@ -41,7 +45,9 @@ function Friend() {
           <div>채팅 메시지</div>
           <div>{chats.lastOnline}</div>
         </div>
-        <button className="ButtonStyle">채팅</button>
+        <button className="ButtonStyle" onClick={() => onClick(chats.chatRoomId)}>
+          채팅
+        </button>
       </div>
     );
   }
