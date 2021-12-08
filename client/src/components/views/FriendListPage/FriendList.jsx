@@ -46,6 +46,17 @@ export const FriendListPage = () => {
       });
   }, []);
 
+  const matchRoom = (otherId) => {
+    apiClient
+      .get(`chats/${otherId}`)
+      .then((res) => {
+        document.location.href = `/chats/${res.data.chatRoomId}`;
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
   const RenderMyinfo = () => {
     return (
       <div className="friend">
@@ -54,7 +65,9 @@ export const FriendListPage = () => {
           <div style={{ height: "1vh" }}></div>
           <div style={{ color: "dimgray" }}>{myinfo.location}</div>
         </div>
-        <div style={{ maxWidth: "80vh", padding: "15px" }}>{myinfo.statusMessage}</div>
+        <div style={{ maxWidth: "80vh", padding: "15px" }}>
+          {myinfo.statusMessage === "null" ? "상태메시지가 없습니다" : myinfo.statusMessage}
+        </div>
         <button className="ButtonStyle">
           <Link to="/edit">편집</Link>
         </button>
@@ -63,6 +76,7 @@ export const FriendListPage = () => {
   };
 
   const RenderOnline = () => {
+    console.log(1);
     return online.map((user) => (
       <div className="friend">
         <div>
@@ -70,15 +84,18 @@ export const FriendListPage = () => {
           <div style={{ height: "1vh" }}></div>
           <div style={{ color: "dimgray" }}>{`(${user.role})`}</div>
         </div>
-        <div style={{ maxWidth: "80vh", padding: "15px" }}>{user.statusMessage}</div>
-        <button className="ButtonStyle">
-          <Link to="/edit">채팅</Link>
+        <div style={{ maxWidth: "80vh", padding: "15px" }}>
+          {user.statusMessage === "null" ? "상태메시지가 없습니다" : user.statusMessage}
+        </div>
+        <button className="ButtonStyle" onClick={() => matchRoom(user.userId)}>
+          채팅
         </button>
       </div>
     ));
   };
 
   const RenderOffline = () => {
+    console.log(2);
     return offline.map((user) => (
       <div className="friend">
         <div>
@@ -86,9 +103,11 @@ export const FriendListPage = () => {
           <div style={{ height: "1vh" }}></div>
           <div style={{ color: "dimgray" }}>{`(${user.role})`}</div>
         </div>
-        <div style={{ maxWidth: "80vh", padding: "15px" }}>{user.statusMessage}</div>
-        <button className="offlineButton">
-          <Link to="/edit">채팅</Link>
+        <div style={{ maxWidth: "80vh", padding: "15px" }}>
+          {user.statusMessage === "null" ? "상태메시지가 없습니다" : user.statusMessage}
+        </div>
+        <button className="offlineButton" onClick={() => matchRoom(user.userId)}>
+          채팅
         </button>
       </div>
     ));
