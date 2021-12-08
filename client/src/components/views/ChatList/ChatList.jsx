@@ -41,7 +41,7 @@ function Friend() {
         <div>
           {chats.name}&#40;{chats.role}&#41;
         </div>
-        <div>{chats.lastOnline}</div>
+        <div>최근 채팅 시간: {chats.lastOnline}</div>
         <button className="ButtonStyle" onClick={() => onClick(chats.chatRoomId)}>
           채팅
         </button>
