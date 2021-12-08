@@ -97,7 +97,7 @@ const procSql = `
 const eventSql = `
   DROP EVENT IF EXISTS checkExpiry;
   CREATE EVENT checkExpiry 
-    ON SCHEDULE EVERY 30 SECOND
+    ON SCHEDULE EVERY 1 SECOND
     DO CALL deleteExpired();
 `;
 
