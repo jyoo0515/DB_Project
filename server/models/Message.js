@@ -1,5 +1,6 @@
 const db = require("../config/db");
 const ChatRoom = require("./ChatRoom");
+const User = require("./User");
 
 class Message {
   constructor(fromId, toId, content, timeLimit) {
@@ -7,6 +8,7 @@ class Message {
     this.toId = toId;
     this.chatRoomId = null;
     this.content = content;
+    this.location = null;
     if (timeLimit === undefined || timeLimit == null) {
       this.expiresAt = null;
     } else {
@@ -21,6 +23,7 @@ class Message {
 
   async create() {
     const room = new ChatRoom(this.fromId, this.toId);
+    const sender = await User.findOneById(this.fromId);
     const existingRoom = await room.findOne();
     if (existingRoom === undefined) {
       const result = await room.create();
@@ -28,6 +31,7 @@ class Message {
     } else {
       this.chatRoomId = existingRoom.id;
     }
+    this.location = sender.location;
 
     let sql;
     if (this.expiresAt == null) {
@@ -36,13 +40,15 @@ class Message {
           fromId,
           toId,
           chatRoomId,
-          content
+          content,
+          location
         )
         VALUES(
           '${this.fromId}',
           '${this.toId}',
           '${this.chatRoomId}',
-          '${this.content}'
+          '${this.content}',
+          '${this.location}'
         );
       `;
     } else {
@@ -52,6 +58,7 @@ class Message {
           toId,
           chatRoomId,
           content,
+          location,
           expiresAt
         )
         VALUES(
@@ -59,6 +66,7 @@ class Message {
           '${this.toId}',
           '${this.chatRoomId}',
           '${this.content}',
+          '${this.location}',
           '${this.expiresAt}'
         );
       `;

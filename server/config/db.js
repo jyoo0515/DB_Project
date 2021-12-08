@@ -59,6 +59,7 @@ const messagesSql = `
     readStatus boolean not null default 0,
     chatRoomId int not null,
     content text not null,
+    location varchar(4) not null check (location in ('공학관', '백양관', '학생회관', '신촌역')),
     createdAt timestamp not null default current_timestamp,
     expiresAt timestamp default null,
     constraint message_not_equal check (fromId <> toId),
