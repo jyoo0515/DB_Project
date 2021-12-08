@@ -25,7 +25,6 @@ export const FriendSearchPage = () => {
     }
     alert(`<${params.name}> ${tmp} 완료!`);
     setRender(`${tmp} + ${params.userId}`);
-    console.log(reRender);
   };
 
   useEffect(() => {
@@ -54,15 +53,13 @@ export const FriendSearchPage = () => {
     } else {
       //search
       apiClient
-        .get(`/users/${word}`)
+        .get(`/users/search/${word}`)
         .then((res) => {
           setResult(res.data.users.filter((element) => element.userId !== myId));
         })
         .catch((e) => {
           console.log(e);
         });
-      console.log(myId);
-      console.log(result);
     }
     setWord("");
     setDisabled(false);
@@ -74,10 +71,6 @@ export const FriendSearchPage = () => {
     } else {
       return "친구 추가";
     }
-  };
-
-  const refresh = (e) => {
-    setRender("f5");
   };
 
   const RenderResult = () => {

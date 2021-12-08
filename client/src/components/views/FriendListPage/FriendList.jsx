@@ -39,12 +39,32 @@ export const FriendListPage = () => {
           } else off.push(user);
         });
         setOnline(on);
+        off.sort((a, b) => {
+          if (a.name < b.name) return 1;
+          if (a.name > b.name) return -1;
+          if (a.name === b.name) return 0;
+        });
         setOffline(off);
+        console.log(offline);
       })
       .catch((e) => {
         console.log(e);
       });
   }, []);
+
+  const getChatRoomId = (otherId) => {
+    console.log(otherId);
+    let RoomId = 0;
+    apiClient
+      .get(`/chats/${otherId}`)
+      .then((res) => {
+        RoomId = res.data.chatRoomId;
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+    return RoomId;
+  };
 
   const RenderMyinfo = () => {
     return (
@@ -72,7 +92,7 @@ export const FriendListPage = () => {
         </div>
         <div style={{ maxWidth: "80vh", padding: "15px" }}>{user.statusMessage}</div>
         <button className="ButtonStyle">
-          <Link to="/edit">채팅</Link>
+          <Link to={`/chats/${getChatRoomId(user.userId)}`}>채팅</Link>
         </button>
       </div>
     ));
