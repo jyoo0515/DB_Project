@@ -36,13 +36,14 @@ function Friend() {
   }
   for (const chat in myData.data) {
     const chats = myData.data[chat];
+    const curstyle = chats.state == 0 ? "ButtonStyle" : "offlineButton";
     result.push(
       <div className="friend" key={chats.chatRoomId}>
         <div>
           {chats.name}&#40;{chats.role}&#41;
         </div>
         <div>최근 채팅 시간: {chats.lastOnline}</div>
-        <button className="ButtonStyle" onClick={() => onClick(chats.chatRoomId)}>
+        <button className={curstyle} onClick={() => onClick(chats.chatRoomId)}>
           채팅
         </button>
       </div>
