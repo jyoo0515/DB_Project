@@ -1,5 +1,5 @@
+const User = require("../models/User");
 const ChatRoom = require("../models/ChatRoom");
-const Message = require("../models/Message");
 
 exports.getChatList = async (req, res) => {
   const userId = req.user.userId;
@@ -24,6 +24,26 @@ exports.getOrCreateRoom = async (req, res) => {
     } else {
       return res.json({ chatRoomId: existingRoom.id });
     }
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
+exports.getFriendInfo = async (req, res) => {
+  const userId = req.user.userId;
+  const roomId = req.params.chatRoomId;
+  let friendId;
+
+  try {
+    const room = await ChatRoom.findOneById(roomId);
+    if (room.firstId == userId) friendId = room.secondId;
+    else if (room.secondId == userId) friendId = room.firstId;
+    else {
+      return res.status(400).json({ message: "Bad request" });
+    }
+    const friend = await User.findOneById(friendId);
+    return res.json(friend);
   } catch (err) {
     console.log(err);
     return res.status(500).json({ message: "Something went wrong" });
