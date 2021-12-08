@@ -59,6 +59,7 @@ const messagesSql = `
     readStatus boolean not null default 0,
     chatRoomId int not null,
     content text not null,
+    location varchar(4) not null check (location in ('공학관', '백양관', '학생회관', '신촌역')),
     createdAt timestamp not null default current_timestamp,
     expiresAt timestamp default null,
     constraint message_not_equal check (fromId <> toId),
@@ -76,16 +77,28 @@ const viewSql = `
 `;
 
 const procSql = `
-    DROP PROCEDURE IF EXISTS messageStatusUpdate;
-    DROP PROCEDURE IF EXISTS userStatusUpdate;
-    CREATE PROCEDURE messageStatusUpdate (IN messageId int)
-    BEGIN
-    UPDATE messages SET readStatus = 1 WHERE id = messageId;
-    END;
-    CREATE PROCEDURE userStatusUpdate (IN id varchar(20), IN status int)
-    BEGIN
-    UPDATE users SET state = status WHERE userId = id;
-    END;
+  DROP PROCEDURE IF EXISTS messageStatusUpdate;
+  DROP PROCEDURE IF EXISTS userStatusUpdate;
+  DROP PROCEDURE IF EXISTS deleteExpired;
+  CREATE PROCEDURE messageStatusUpdate (IN messageId int)
+  BEGIN
+  UPDATE messages SET readStatus = 1 WHERE id = messageId;
+  END;
+  CREATE PROCEDURE userStatusUpdate (IN id varchar(20), IN status int)
+  BEGIN
+  UPDATE users SET state = status WHERE userId = id;
+  END;
+  CREATE PROCEDURE deleteExpired ()
+  BEGIN
+  DELETE FROM messages WHERE expiresAt < current_timestamp;
+  END;
+`;
+
+const eventSql = `
+  DROP EVENT IF EXISTS checkExpiry;
+  CREATE EVENT checkExpiry 
+    ON SCHEDULE EVERY 1 SECOND
+    DO CALL deleteExpired();
 `;
 
 pool.getConnection((err, conn) => {
@@ -96,6 +109,7 @@ pool.getConnection((err, conn) => {
   conn.execute(messagesSql);
   conn.query(viewSql);
   conn.query(procSql);
+  conn.query(eventSql);
   console.log("Database Initialization Complete");
   conn.release();
 });

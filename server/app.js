@@ -41,10 +41,6 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-app.get("/api/socket", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "test.html"));
-});
-
 server.listen(PORT, async () => {
   console.log(`Server running on PORT ${PORT}`);
 });

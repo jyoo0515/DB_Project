@@ -46,13 +46,14 @@ exports.me = async (req, res) => {
 };
 
 exports.search = async (req, res) => {
+  const userId = req.user.userId;
   const searchId = req.params.userId;
   try {
     const users = await User.searchUsers(searchId);
     let userDTOs = [];
     users.forEach((user) => userDTOs.push(User.destruct(user)));
 
-    return res.json({ users: userDTOs });
+    return res.json({ users: userDTOs.filter((user) => user.userId != userId) });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ message: "Something went wrong" });

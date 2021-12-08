@@ -47,7 +47,7 @@ class User {
   }
 
   static async findAll() {
-    const sql = "SELECT * FROM users;";
+    const sql = "SELECT * FROM users ORDER BY binary(name);";
     const [userRows, _] = await db.execute(sql);
 
     return userRows;
@@ -72,13 +72,13 @@ class User {
   }
 
   static async searchUsers(userId) {
-    const sql = `SELECT * FROM users WHERE userId LIKE '%${userId}%';`;
+    const sql = `SELECT * FROM users WHERE userId LIKE '%${userId}%' ORDER BY binary(name);`;
     const [userRow, _] = await db.execute(sql);
     return userRow;
   }
 
   static async nearbyUsers(location) {
-    const sql = `SELECT * FROM users WHERE location='${location}';`;
+    const sql = `SELECT * FROM users WHERE location='${location}' ORDER BY binary(name);`;
     const [userRow, _] = await db.execute(sql);
     return userRow;
   }
