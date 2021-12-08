@@ -88,6 +88,13 @@ class Message {
 
     return messageRow[0];
   }
+
+  static async readAll(chatRoomId, userId) {
+    const [messageIds, _] = await db.execute(`SELECT id FROM messages WHERE chatRoomId='${chatRoomId}';`);
+    for (const message of messageIds) {
+      await db.execute(`CALL messageStatusUpdate(${message.id}, '${userId}');`);
+    }
+  }
 }
 
 module.exports = Message;

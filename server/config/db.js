@@ -8,6 +8,7 @@ const pool = mysql.createPool({
   user: env.DB_USER,
   database: env.DB_DATABASE,
   password: env.DB_PASSWORD,
+  port: env.DB_PORT || 3306,
   dateStrings: "date", // For date formatting
 });
 
@@ -80,9 +81,9 @@ const procSql = `
   DROP PROCEDURE IF EXISTS messageStatusUpdate;
   DROP PROCEDURE IF EXISTS userStatusUpdate;
   DROP PROCEDURE IF EXISTS deleteExpired;
-  CREATE PROCEDURE messageStatusUpdate (IN messageId int)
+  CREATE PROCEDURE messageStatusUpdate (IN messageId int, IN userId varchar(20))
   BEGIN
-  UPDATE messages SET readStatus = 1 WHERE id = messageId;
+  UPDATE messages SET readStatus = 1 WHERE id = messageId AND userId = toId;
   END;
   CREATE PROCEDURE userStatusUpdate (IN id varchar(20), IN status int)
   BEGIN
