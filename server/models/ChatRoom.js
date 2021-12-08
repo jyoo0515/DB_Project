@@ -13,7 +13,7 @@ class ChatRoom {
       SELECT secondId AS friendId, chatRoomId, lastOnline FROM chatRoomsView WHERE firstId='${userId}'
       UNION
       SELECT firstId AS friendId, chatRoomId, lastOnline FROM chatRoomsView WHERE secondId='${userId}'
-      ORDER BY lastOnline;
+      ORDER BY lastOnline DESC;
       `;
     const [chatRooms, _] = await db.execute(sql);
     const chatRoomDto = [];
