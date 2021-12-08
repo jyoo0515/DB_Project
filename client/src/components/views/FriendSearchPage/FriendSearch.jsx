@@ -97,9 +97,9 @@ export const FriendSearchPage = () => {
     <div>
       <div className="friendcontainer">
         <div>
-          <button className="ButtonStyle">
-            <Link to="/friends" className="LinkStyle">
-              go back
+          <button style={{ background: "none", border: "none", margin: "0" }}>
+            <Link to="/friends">
+              <img src="/leftArrow.png" width="40" height="40"></img>
             </Link>
           </button>
         </div>
