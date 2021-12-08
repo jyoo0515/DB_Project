@@ -76,9 +76,8 @@ export const FriendListPage = () => {
   };
 
   const RenderOnline = () => {
-    console.log(1);
     return online.map((user) => (
-      <div className="friend">
+      <div className="friend" key={user.userId}>
         <div>
           <div>{user.name}</div>
           <div style={{ height: "1vh" }}></div>
@@ -95,9 +94,8 @@ export const FriendListPage = () => {
   };
 
   const RenderOffline = () => {
-    console.log(2);
     return offline.map((user) => (
-      <div className="friend">
+      <div className="friend" key={user.userId}>
         <div>
           <div>{user.name}</div>
           <div style={{ height: "1vh" }}></div>
