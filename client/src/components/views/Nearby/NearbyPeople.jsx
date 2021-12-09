@@ -35,10 +35,10 @@ export const NearbyPeople = (props) => {
   );
 };
 
-function Friend1(props) {
+function Friend1({ props }) {
   const [myData, setMyData] = useState({});
   useEffect(() => {
-    apiClient.get(`/users/nearby/${props.props.match.params.locId}`).then((res) => setMyData(res));
+    apiClient.get(`/users/nearby/${props.match.params.locId}`).then((res) => setMyData(res));
   }, []);
   const result = [];
   for (const friend in myData.data) {
@@ -52,17 +52,17 @@ function Friend1(props) {
           <div style={{ color: "dimgray" }}>{friends.role}</div>
         </div>
         <div>{friends.statusMessage == "null" ? "상태메시지가 없습니다" : friends.statusMessage}</div>
-        <GetButton id={friends.userId} />
+        <GetButton id={friends.userId} props={props} />
       </div>
     );
   }
   return result;
 }
 
-function Friend2(props) {
+function Friend2({ props }) {
   const [myData, setMyData] = useState({});
   useEffect(() => {
-    apiClient.get(`/users/nearby/${props.props.match.params.locId}`).then((res) => setMyData(res));
+    apiClient.get(`/users/nearby/${props.match.params.locId}`).then((res) => setMyData(res));
   }, []);
   const result = [];
   for (const friend in myData.data) {
@@ -76,19 +76,23 @@ function Friend2(props) {
           <div style={{ color: "dimgray" }}>{friends.role}</div>
         </div>
         <div>{friends.statusMessage == "null" ? "상태메시지가 없습니다" : friends.statusMessage}</div>
-        <GetButton id={friends.userId} />
+        <GetButton id={friends.userId} props={props} />
       </div>
     );
   }
   return result;
 }
 
-function GetButton(id) {
+function GetButton({ id, props }) {
   const [myChat, setMyChat] = useState({});
   useEffect(() => {
-    apiClient.get(`/chats/${id.id}`).then((res) => setMyChat(res));
+    apiClient.get(`/chats/${id}`).then((res) => setMyChat(res));
   }, []);
   const onClick = (i) => {
+    props.history.push({
+      pathname: `/chats/${i}`,
+      state: { flag: 2 + Number(props.match.params.locId) },
+    });
     document.location.href = `/chats/${i}`;
   };
   return (

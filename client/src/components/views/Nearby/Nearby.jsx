@@ -13,7 +13,11 @@ export const Nearby = () => {
     <>
       <div style={{ height: "90vh" }}>
         {locs.map((loc, index) => {
-          return <Location onClick={() => onClick(index)}>{loc}</Location>;
+          return (
+            <Location key={index} onClick={() => onClick(index)}>
+              {loc}
+            </Location>
+          );
         })}
       </div>
       <NavBar />

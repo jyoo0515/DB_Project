@@ -36,11 +36,18 @@ export const HeadNav = ({ otherData, friendList, props }) => {
   return (
     <>
       <HeadImg id="returnToChatList">
-        <Img id="leftArrow" src="/leftArrow.png" onClick={() => props.history.goBack()} />
+        <Img
+          id="leftArrow"
+          src="/leftArrow.png"
+          onClick={() => {
+            if (props.location.state.flag === 0) document.location.href = "/friends";
+            else if (props.location.state.flag === 1) document.location.href = "/chats";
+            else document.location.href = `/nearby/people/${props.location.state.flag - 2}`;
+          }}
+        />
       </HeadImg>
       <HeadName>{otherData.name}</HeadName>
       <HeadImg id="changeFriendState" onClick={changeFriendState}>
-        {console.log(isFriend)}
         <Img id={isFriend ? "friendDelete" : "friendAdd"} src={isFriend ? "/friendDelete.png" : "/friendAdd.png"} />
       </HeadImg>
     </>

@@ -36,8 +36,6 @@ export const ChatRoomPage = (props) => {
       .catch((err) => console.log(err));
   }, []);
 
-  console.log(friendList);
-
   return (
     <ChatRoom>
       <HeadNav otherData={otherData} friendList={friendList} props={props} />
