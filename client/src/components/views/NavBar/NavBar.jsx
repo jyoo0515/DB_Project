@@ -3,23 +3,29 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const NavBar = () => {
+  const onClickMyFriends = () => {
+    window.location.replace("/friends");
+  };
+
+  const onClickChatList = () => {
+    window.location.replace("/chats");
+  };
+
+  const onClickNearBy = () => {
+    window.location.replace("/nearby");
+  };
+
   return (
     <>
       <Footer>
-        <Btn id="linkingToMyFriends">
-          <Link to="/friends">
-            <Img id="linkingToMyFriends" />
-          </Link>
+        <Btn id="linkingToMyFriends" onClick={onClickMyFriends}>
+          <Img id="linkingToMyFriends" />
         </Btn>
-        <Btn id="linkingToChatList">
-          <Link to="/chats">
-            <Img id="linkingToChatList" />
-          </Link>
+        <Btn id="linkingToChatList" onClick={onClickChatList}>
+          <Img id="linkingToChatList" />
         </Btn>
-        <Btn id="linkingToNearby">
-          <Link to="/nearby">
-            <Img id="linkingToNearby" />
-          </Link>
+        <Btn id="linkingToNearby" onClick={onClickNearBy}>
+          <Img id="linkingToNearby" />
         </Btn>
       </Footer>
     </>

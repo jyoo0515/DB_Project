@@ -3,7 +3,7 @@ import "./ChatList.css";
 import apiClient from "../../utils/axios";
 import { NavBar } from "../NavBar/NavBar";
 
-export const ChatList = () => {
+export const ChatList = (props) => {
   return (
     <div>
       <div className="container">
@@ -12,19 +12,23 @@ export const ChatList = () => {
       </div>
       <hr style={{ height: "5px", backgroundColor: "black" }}></hr>
       <div className="friends">
-        <Friend />
+        <Friend props={props} />
       </div>
       <NavBar />
     </div>
   );
 };
 
-function Friend() {
+function Friend({ props }) {
   const [myData, setMyData] = useState({});
   useEffect(() => {
     apiClient.get("/chats").then((res) => setMyData(res));
   }, []);
   const onClick = (i) => {
+    props.history.push({
+      pathname: `/chats/${i}`,
+      state: { flag: 1 },
+    });
     document.location.href = `/chats/${i}`;
   };
   const result = [];

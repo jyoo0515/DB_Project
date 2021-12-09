@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { NavBar } from "../NavBar/NavBar";
 import apiClient from "../../utils/axios";
 
-export const FriendListPage = () => {
+export const FriendListPage = (props) => {
   const [myinfo, setMyinfo] = useState({});
   const [online, setOnline] = useState([]);
   const [offline, setOffline] = useState([]);
@@ -50,6 +50,10 @@ export const FriendListPage = () => {
     apiClient
       .get(`chats/${otherId}`)
       .then((res) => {
+        props.history.push({
+          pathname: `/chats/${res.data.chatRoomId}`,
+          state: { flag: 0 },
+        });
         document.location.href = `/chats/${res.data.chatRoomId}`;
       })
       .catch((e) => {
