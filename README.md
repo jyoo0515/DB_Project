@@ -1,4 +1,13 @@
-# 시공〮간 복합 랑데부 기반 실시간 메시징 시스템
+# PreTalk
+
+## Description
+
+#### 시공〮간 복합 랑데부 기반 실시간 메시징 시스템
+
+## Deployed On
+
+- http://dbproject.duckdns.org:8300/
+- 연세대학교 서버에 배포되었기 때문에 교내 네트워크 혹은 VPN 사용 필수
 
 ## How To Develop
 
@@ -33,6 +42,7 @@ DB_USER=
 DB_PASSWORD=
 DB_DATABASE=
 DB_HOST=127.0.0.1
+DB_PORT=3306
 ACCESS_TOKEN_SECRET={random string}
 ```
 
@@ -57,16 +67,24 @@ $ npm run dev
 ├── client
 │   ├── public
 │   └── src
-│       └── components
-│           └── views
-│               ├── LandingPage
-│               ├── LoginPage
-│               ├── NavBar
-│               └── RegisterPage
+│       ├── components
+│       │   ├── utils
+│       │   └── views
+│       │       ├── ChatList
+│       │       ├── ChatRoomPage
+│       │       ├── EditPage
+│       │       ├── FriendListPage
+│       │       ├── FriendSearchPage
+│       │       ├── LandingPage
+│       │       ├── LoginPage
+│       │       ├── NavBar
+│       │       ├── Nearby
+│       │       ├── RegisterPage
+│       │       └── Socket
+│       └── hoc
 └── server
     ├── config
     ├── controllers
-    ├── database
     ├── middleware
     ├── models
     └── routes
