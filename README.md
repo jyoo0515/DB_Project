@@ -9,6 +9,9 @@
 - http://dbproject.duckdns.org:8300/
 - 연세대학교 서버에 배포되었기 때문에 교내 네트워크 혹은 VPN 사용 필수
 
+## ERD
+![image](https://user-images.githubusercontent.com/43549670/171771094-8f3e9834-ec28-43f8-93a8-1c9394232b3e.png)
+
 ## How To Develop
 
 ### Install Dependencies
